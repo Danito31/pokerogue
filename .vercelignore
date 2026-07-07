@@ -1,0 +1,9 @@
+node_modules
+dist
+.git
+assets
+test
+coverage
+.github
+scripts
+plugins/vite/**/*.test.ts
