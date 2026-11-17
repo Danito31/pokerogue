@@ -215,7 +215,7 @@ Il se passe quelque chose d'important **tous les 2 niveaux au plus** (3 au plus 
 
 ### 3.1 Formule
 
-Aujourd'hui : `stat = base × rôle × (1 + 0,1·g·(L−1)) × (1 + équipement + passifs)` — croissance **linéaire**, alors que les monstres croissent **exponentiellement** (`mkFoe` : PV ×1,20 et ATQ ×1,16 par étage). Résultat mesuré (§11.3) : à l'étage 30, il faut ~40 attaques de base pour tuer un monstre normal. Nouvelle formule, **multiplicative par bande** :
+Aujourd'hui : `stat = base × rôle × (1 + 0,1·g·(L−1)) × (1 + équipement + passifs)` — croissance **linéaire**, alors que les monstres croissent **exponentiellement** (`mkFoe` : PV ×1,20 et ATQ ×1,16 par étage). Résultat mesuré (§11.3) : à l'étage 28, il faut ~40 attaques de base pour tuer un monstre normal. Nouvelle formule, **multiplicative par bande** :
 
 ```
 stat = base(★) × rôle × spé × LVM[k][L] × tilt(g, L) × (1 + équipement + passifs) × voie/personnalité (inchangé)
@@ -288,7 +288,7 @@ La technique (bouton de compétence, 1 point, `doSkill` branche « role ») pren
 | epee | guerrier | **Entaille** | cible 220 % | `sk_tech_entaille` |
 | hache | guerrier | **Fendoir** | cible 240 %, +10 rupture ; VIT −3 jusqu'au tour suivant | `sk_tech_fendoir` |
 | (mains nues) | guerrier | **Coup de poing** | cible 180 % | `sk_tech_poing` |
-| bouclier | gardien | **Rempart** | provoque 2 tours, bouclier 200 % DEF + 10 % PV | `sk_tech_rempart` |
+| bouclier | gardien | **Bouclier levé** (l'actuel « Rempart », renommé pour ne pas se confondre avec la spécialisation) | provoque 2 tours, bouclier 200 % DEF + 10 % PV | `sk_tech_bouclier` |
 | dagues | assassin | **Estoc** | cible 260 %, critique assuré sur un ennemi brisé | `sk_tech_estoc` |
 | arc | archer | **Volée** | 3 flèches de 90 % sur des cibles au hasard | `sk_tech_volee` |
 | baton | sorcier | **Déflagration** | tous 110 % | `sk_tech_deflagration` |
@@ -386,7 +386,7 @@ Le tirage est **déterministe** (graine) : recharger ne change rien ; seul l'éq
 
 Exemples :
 - **Jeanne** (Altruiste ; Loyal, Courageux ; épée, armure de cuir, Sacré) : Chevalier 3+1+1+1 (+ épée 4) = **10**, Épéiste 4, Berserker 0 → Chevalier ≈ 86 %.
-- Un **Impulsif Colérique** qui porte une hache : Berserker 4+3+1 = 8 → ≈ 97 %. S'il prend une épée au niv. 19 : Épéiste 4, Berserker 4 (personnalité + trait), Chevalier 4 → incertain, la fiche l'annonce.
+- Un **Impulsif Colérique** qui porte une hache : Berserker 4+3+1 = 8, Chevalier 4 (la hache est aussi une arme de chevalier) → Berserker ≈ 80 %. S'il prend une épée au niv. 19 : Épéiste 4, Berserker 4 (personnalité + trait), Chevalier 4 → incertain, la fiche l'annonce.
 
 ### 4.5 Arme et spécialisation après le niv. 20
 
@@ -702,8 +702,8 @@ Avec ~25 compétences à niv. 60, le combat limite les **actives utilisables** :
 | 16 | Premier sang | *Moi d'abord* (signature Égoïste) |
 | 18 | Tête la première (signature Impulsif) | Œil de lynx |
 | 20 | Berserker : *Fendoir sanglant* | Berserker : *Fendoir sanglant* |
-| 22 | Furie (V) | Soif de sang (V) |
-| 24 | Brasier | Coup de chance |
+| 22 | Furie (V) | Frappe puissante (V) |
+| 24 | Brasier | Soif de sang |
 | 26 | Tourbillon (V, inspiré) | Écrasement sismique (V) |
 | 28 | Fougue | Chasseur de trésors |
 | 30 | Runiste de sang (Lame) | Chirurgien de guerre (Lame) |
@@ -760,7 +760,7 @@ Les compétences existantes gardent **id, nom, effet et rareté** (`SKILLS`) ; l
 | `aura` | Aura bienveillante | P | début de combat : équipe ATQ +5 % | commune | Enchanteur, Troubadour · Porte-étendard · Altruiste | halo doré concentrique en trois anneaux |
 | `miroir` | Miroir empathique | P | à chacun de ses tours : soigne 8 % un allié sous 40 %, sinon +15 d'énergie à l'allié qui en a le moins | épique | Prêtre, Enchanteur · Altruiste (Empathique) | miroir ovale doré reflétant un cœur |
 | `chef` | Chef de file | P | début : +1 point de compétence, VIT équipe +4 | rare | Chevalier, Chantre · Tacticien · Ambitieux | bannière triangulaire plantée, pointe dorée |
-| `hymne2` ✚ | Refrain tenace | P | les bonus d'équipe qu'il lance durent 1 tour de plus | rare | Chantre, Troubadour · Conteur | trois notes de musique dorées en spirale |
+| `refrain` ✚ | Refrain tenace | P | les bonus d'équipe qu'il lance durent 1 tour de plus | rare | Chantre, Troubadour · Conteur | trois notes de musique dorées en spirale |
 
 #### Soin — `#5fe07a` (vert)
 
@@ -932,3 +932,703 @@ Les **compétences de sous-classe** (12) sont décrites §4.3, les **ultimes** �
 Plafonds globaux (déjà en partie dans `deal`) : réduction de dégâts 80 %, esquive 30 %, critique 75 %, recul d'ordre ≤ 1 tour complet par action, aucune immunité totale plus de 1 tour sauf divinités (bornées).
 
 ---
+
+## 9. Index des personnalités (codex)
+
+### 9.1 Fonctionnement
+
+Écran **Codex › Personnalités** : 9 entrées. Une entrée est **verrouillée** (silhouette, « ??? », indice) tant que le joueur n'a jamais possédé de personnage de cette personnalité. Elle se **révèle par morceaux** :
+
+| Morceau | Se révèle quand… |
+|---|---|
+| Description, voie, âme, familles favorisées | on possède (ou a possédé) un personnage de cette personnalité |
+| Chaque sous-trait | un personnage possédé l'a |
+| Signature | elle apparaît dans un nœud **révélé** d'un arbre (ou est apprise) |
+| Chaque spécialisation favorisée | un personnage de cette personnalité l'obtient au niv. 20 (sinon : silhouette d'emblème) |
+| Chaque forme de voie (sous-classe niv. 30) | un personnage de la voie l'obtient |
+| Chaque tendance de relation | l'état correspondant (ami, rival, hostile, harcèlement, respect) a été observé entre cette personnalité et l'autre |
+| Combinaisons (bible §6.1) | un personnage possédé la déclenche (`combosOf`) |
+
+Stockage : `G.codex = {Altruiste:{own:1, subs:['Loyal'], sig:0, spec:['chevalier'], voie:['etendard'], rel:{Égoïste:'harcele'}, combo:['Loyal']}, …}`, mis à jour dans `mk`, `doEvo`, au palier 20/30, et dans `relAfter`. Un personnage mort reste compté (le codex se souvient). Récompense : chaque entrée **complète à 100 %** donne 5 fragments de parchemin et 1 tome ★2 (une fois).
+
+### 9.2 Entrées
+
+#### Altruiste — voie du Cœur
+- **Description** : « Il se met entre le danger et les autres sans y penser. On le trouve toujours au chevet d'un blessé. » Gentil ; peut être **harcelé** par les égoïstes.
+- **Âme** : *Âme dévouée* (soins et boucliers +20 %).
+- **Familles favorisées** : soutien +6, soin +5, protection +5, défense +1.
+- **Sous-traits** : Protecteur, Compatissant, Dévoué, Généreux, Loyal, Empathique.
+- **Signature** : *Main tendue*. Fortement favorisées : Égide, Cœur sacrificiel, Promesse inviolable, Don absolu, Miroir empathique, Dernier souffle, Rappel des étoiles.
+- **Combinaisons** : + Loyal → protection durable ; + Empathique → soin et soutien ; + Impulsif → sacrifice immédiat ; + Calculateur → protection stratégique ; + Ambitieux → chef protecteur.
+- **Spécialisations favorisées** : Chevalier, Paladin, Rôdeur, Prêtre, Druide, Enchanteur.
+- **Formes de voie** : Héraut de l'aube, Ange de campagne, Runiste gardien, Purificateur, Démineur, Receleur généreux, Herboriste, Garde-forestier, Ami des bêtes, Bouclier juré, Conteur des veillées, Capitaine protecteur.
+- **Métiers probables** : apothicaire, cuisinier, fermier, éleveur.
+- **Relations** : ami facile des Altruistes et Opportunistes (+0,6), des Curieux et Gourmands (+0,5) ; **harcelé par les Égoïstes** (−1,2 : −10 % de moral si le harceleur est dans l'équipe).
+
+#### Ambitieux — voie de la Lame
+- **Description** : « Le sommet de la Tour n'est pas un rêve, c'est un rendez-vous. » Compétitif, rivalités fréquentes.
+- **Âme** : *Âme conquérante* (ATQ +10 %). **Familles** : dégâts +6, célérité +2, soutien +1, chance +1.
+- **Sous-traits** : Compétitif, Orgueilleux, Déterminé (Opportuniste existe comme personnalité à part).
+- **Signature** : *Vers la couronne*. Favorisées : Frappe puissante, Soif de gloire, Chef de file, Cri de ralliement, Frappe météore.
+- **Combinaisons** : + Impulsif → attaques agressives ; + Altruiste → chef protecteur.
+- **Spécialisations** : Épéiste, Berserker, Vengeur, Duelliste, Archer de tempête, Élémentaliste, Hémomancien, Chantre de guerre.
+- **Formes de voie** (Lame) : Seigneur de guerre, Chirurgien de guerre, Runiste de sang, Inquisiteur, Artificier, Pillard, Grenadier, Chasseur de primes, Maître de meute, Rempart vengeur, Conteur de batailles, Commandant de choc.
+- **Métiers** : marchand, forgeron, entraîneur, architecte.
+- **Relations** : **rival** des autres Ambitieux (−0,2, état « rival » : +2 % de moral et « piqué au vif ») ; bon avec Opportunistes (+0,5) ; froid avec les Égoïstes (−0,6).
+
+#### Calculateur — voie de l'Esprit
+- **Description** : « Chaque pas est un calcul. Il a déjà lu vos faiblesses — et les siennes. » Froid, respecté, peu d'amitiés.
+- **Âme** : *Âme lucide* (critique +12 %). **Familles** : contrôle +6, dégâts +2, chance +2, découverte +1.
+- **Sous-traits** : Stratège, Prudent, Manipulateur, Méthodique.
+- **Signature** : *Échiquier*. Favorisées : Analyse, Point faible, Coup étourdissant, Maître du temps, Entrave.
+- **Combinaisons** : + Altruiste → protection stratégique ; + Stoïque → défense tactique ; + Curieux → recherche et invention.
+- **Spécialisations** : Épéiste, Rempart, Lame de l'ombre, Empoisonneur, Tireur d'élite, Arcaniste, Chronomancien, Occultiste, Prêtre, Enchanteur.
+- **Formes de voie** (Esprit) : Maréchal, Apothicaire de terrain, Grand runiste, Sceau-mage, Maître des pièges, Prince des voleurs, Transmutateur, Vigie, Chimériste, Garde tacticienne, Maître des légendes, Grand stratège.
+- **Métiers** : architecte, marchand, bibliothécaire, alchimiste.
+- **Relations** : **respect** facile (état « respect » dès +15) ; tensions avec les Impulsifs (−0,4) ; bon avec Opportunistes (+0,4), Stoïques et Curieux (+0,3).
+
+#### Impulsif — voie de la Lame
+- **Description** : « Réfléchir ? Plus tard ! » Réactions instinctives, conflits rapides, courage réel.
+- **Âme** : *Âme ardente* (VIT +8, DEF −10 %). **Familles** : célérité +6, dégâts +4.
+- **Sous-traits** : Téméraire, Colérique, Spontané, Courageux.
+- **Signature** : *Tête la première*. Favorisées : Élan, Double frappe, Assaut éclair, Premier sang, Furie, Fougue, Tout ou rien.
+- **Combinaisons** : + Ambitieux → attaques agressives ; + Altruiste → sacrifice immédiat.
+- **Spécialisations** : Berserker, Vengeur, Duelliste, Archer de tempête, Élémentaliste, Hémomancien, Chantre de guerre.
+- **Formes de voie** : celles de la Lame (voir Ambitieux).
+- **Métiers** : chasseur, mineur, entraîneur.
+- **Relations** : conflits avec Calculateurs (−0,4), Impulsifs (−0,3), Égoïstes (−0,7) ; s'entend avec Opportunistes (+0,5), Curieux et Gourmands (+0,3).
+
+#### Stoïque — voie du Cœur
+- **Description** : « … Je tiendrai. » Neutre, stable, rarement en conflit. **Rythme lent mais sûr** (moins de nœuds, mieux rangés).
+- **Âme** : *Âme de roc* (PV et DEF +12 %). **Familles** : défense +6, protection +3, soin +1.
+- **Sous-traits** : Patient, Froid, Résistant, Discipliné.
+- **Signature** : *Roc immuable*. Favorisées : Peau de pierre, Vigueur, Inébranlable, Forteresse, Refus de mourir.
+- **Combinaisons** : + Calculateur → défense tactique.
+- **Spécialisations** : Épéiste, Chevalier, Paladin, Rempart, Tireur d'élite, Chronomancien, Prêtre, Enchanteur.
+- **Formes de voie** : celles du Cœur (voir Altruiste).
+- **Métiers** : mineur, forgeron, fermier, entraîneur.
+- **Relations** : ne descend **jamais sous −20** ; respect facile ; légèrement positif avec tous sauf Égoïstes (−0,2).
+- **Particularité d'arbre** : *Patience récompensée* (§7.3).
+
+#### Curieux — voie de l'Esprit
+- **Description** : « Chaque étage est un monde entier ! » Apprécié, lie facilement amitié. **Rythme rapide** (3 nœuds de plus).
+- **Âme** : *Âme chercheuse* (rupture +30 %). **Familles** : découverte +6, contrôle +2, chance +1, cuisine +1.
+- **Sous-traits** : Chercheur, Explorateur, Inventif, Observateur.
+- **Signature** : *Eurêka !*. Favorisées : Érudit, Flair d'explorateur, Étincelle d'invention, Étude des monstres, Alchimie, Cartographie mentale.
+- **Combinaisons** : + Calculateur → recherche et invention ; + Gourmand → cuisine expérimentale ; + Opportuniste → chasseur de trésors.
+- **Spécialisations** : Éclaireur, Empoisonneur, Rôdeur, Arcaniste, Druide, Troubadour.
+- **Formes de voie** : celles de l'Esprit (voir Calculateur).
+- **Métiers** : cartographe, bibliothécaire, alchimiste, cueilleur.
+- **Relations** : ami des Curieux, Gourmands, Opportunistes (+0,6) et Altruistes (+0,5).
+- **Particularité d'arbre** : *Éclair de génie* (§7.3).
+
+#### Gourmand — voie du Cœur
+- **Description** : « Ce soir, c'est moi qui cuisine. » Convivial ; le moral de la table, c'est lui.
+- **Âme** : *Âme gourmande* (5 % PV par tour). **Familles** : cuisine +6, soin +2, défense +1.
+- **Sous-traits** : Gourmet, Glouton, Cuisinier, Épicurien.
+- **Signature** : *Goûteur*. Favorisées : En-cas partagé, Festin, Ragoût fortifiant, Épices de feu, Banquet légendaire.
+- **Combinaisons** : + Curieux → cuisine expérimentale.
+- **Spécialisations** : Chevalier, Rempart, Empoisonneur, Rôdeur, Druide, Troubadour.
+- **Formes de voie** : celles du Cœur.
+- **Métiers** : cuisinier (très probable), fermier, éleveur.
+- **Relations** : **meilleurs amis entre Gourmands** (+0,8) ; +0,6 avec Curieux et Opportunistes ; froid avec Égoïstes (−0,5).
+
+#### Égoïste — voie de la Lame
+- **Description** : « Moi d'abord. Vous, ensuite… peut-être. » Puissant mais **isolé** ; harcèle les altruistes.
+- **Âme** : *Âme solitaire* (dégâts des compétences +15 %). **Familles** : dégâts +7, célérité +2, contrôle +1.
+- **Sous-traits** : Vaniteux, Avare, Cynique, Solitaire.
+- **Signature** : *Moi d'abord*. Favorisées : Force brute, Soif de sang, Main leste, Coup de grâce, Maléfice.
+- **Combinaisons** : + Opportuniste → profiteur sans scrupules.
+- **Spécialisations** : Berserker, Vengeur, Lame de l'ombre, Tireur d'élite, Élémentaliste, Occultiste, Hémomancien, Chantre de guerre.
+- **Formes de voie** : celles de la Lame.
+- **Métiers** : marchand, chasseur, alchimiste.
+- **Relations** : négatif avec presque tous (Altruiste −1,2, Égoïste −0,8, Impulsif −0,7) ; seul l'Opportuniste le tolère (+0,1). Isolé : −8 % en groupe de 3+, 12 % d'ignorer un ordre.
+
+#### Opportuniste — voie de l'Esprit
+- **Description** : « Une porte fermée ? Il y a toujours une fenêtre. » Chanceux, **apprécié de tous**.
+- **Âme** : *Âme filoute* (critique +6 %, or +10 %). **Familles** : chance +7, dégâts +2, célérité +1.
+- **Sous-traits** : Rusé, Chanceux, Charmeur, Débrouillard.
+- **Signature** : *Aubaine*. Favorisées : Bonne fortune, Œil de lynx, Coup de chance, Tout ou rien, Trèfle, Chasseur de trésors.
+- **Combinaisons** : + Égoïste → profiteur sans scrupules ; + Curieux → chasseur de trésors.
+- **Spécialisations** : Éclaireur, Archer de tempête, Occultiste, Troubadour.
+- **Formes de voie** : celles de l'Esprit.
+- **Métiers** : marchand (très probable), cueilleur, cartographe.
+- **Relations** : positif avec tous (+0,3 à +0,6), ne descend pas sous −10 (sauf avec un Égoïste).
+
+---
+
+## 10. Interface (mobile 390 px d'abord)
+
+Contraintes communes : largeur utile 358 px (marges 16 px), cibles tactiles ≥ 44 px, texte 13–15 px, aucun défilement horizontal, feuilles du bas (« bottom sheets ») pour les détails, animations désactivées avec `prefers-reduced-motion` (fondu seulement). Icônes 32×32 affichées à ×1 (32 px) dans les listes et ×2 (64 px, `image-rendering: pixelated`) dans les détails.
+
+### 10.1 Fiche personnage : onglets
+
+La fiche actuelle (`openSheet`, une seule colonne) devient une fiche à **5 onglets** collés en haut sous l'en-tête (portrait, nom, étoiles, chaîne de classe) :
+
+| Onglet | Contenu |
+|---|---|
+| **Profil** | stats, personnalité, sous-traits, combinaisons, barre d'exp. + **réserve d'exp.**, éveil d'étoile, choix en attente (pastilles rouges) |
+| **Arbre** | frise 1 → 60 (§10.2) |
+| **Compétences** | technique, ultime, compétences apprises (niveau, étude, évolution — interface actuelle), 4 emplacements « préparées » avec épingle |
+| **Métier** | métier, rang, points, poste, effets actuels et au rang suivant, évolution à 45 |
+| **Relations** | panneau actuel |
+
+L'onglet ouvert est mémorisé (`localStorage`, avec repli silencieux). En-tête : `Guerrier › Berserker › Fléau rouge` + badge de sous-classe (emblème 24 px + pastille de voie) + icône de métier.
+
+### 10.2 Onglet « Arbre » : frise verticale
+
+```
+┌──────────────────────────────────────┐
+│ Niv. 27 / 30  ▓▓▓▓▓▓▓░░  Réserve 0   │  ← barre fixe
+│ [Tout] [Actives] [Passives] [Paliers]│  ← filtres (puces)
+├──────────────────────────────────────┤
+│ 20 ═[ms_20]═ SPÉCIALISATION : BERSERKER ══ │ bannière 48 px
+│ 22 ●─[▣] Furie            active · rare │ débloqué
+│ 24 ●─[▣] Brasier      active · p.commune│
+│ 25 ◆─ Maîtrise de technique (+15 %)     │ petit palier
+│ 26 ●─[▣] Tourbillon ✦inspiré            │
+│ 28 ◎─[▣] Fougue        dans 1 niveau    │ PROCHAIN (pulse)
+│ 30 ═[ms_30]═ SOUS-CLASSE AMÉLIORÉE : Runiste de sang ═│
+│ ┄┄┄┄┄┄ Plafond 3★ — éveil requis [Voir l'éveil] ┄┄┄┄┄ │
+│ 32 ○─[?] (rouge) Dégâts · rare           │ bande suivante
+│ 34 ○─[?] (gris) Défense · épique         │
+│ 35 ═[ms_35]═ ULTIME : Rage écarlate ════ │ toujours visible
+│ 37 ·─[???]                               │ au-delà
+└──────────────────────────────────────┘
+```
+
+- Colonne niveau 28 px, ligne de vie 4 px (or = parcourue, gris = à venir), nœud 40×40 (icône 32 + cadre de rareté 4 px aux couleurs `RARC`), texte à droite (nom, puces « active/passive », famille, effet en 1 ligne, « dans N niv. »).
+- **États** : débloqué (couleur pleine, coche 10 px) · prochain (halo pulsé `ui_node_next`, 1,2 s) · révélé (désaturé à 60 %, cadenas `ui_node_lock`) · pressenti (cadre pointillé + mention « si Berserker » / « selon la sous-classe ») · mystère (`ui_node_mystery` teinté de la couleur de famille + cadre de rareté) · inconnu (silhouette grise « ??? ») · en sommeil (croissant gris, nœuds V hors harmonie).
+- **Bannières** des 9 paliers (badge `ms_<niv>` 48 px, titre, sous-titre) toujours visibles, y compris au-delà du plafond, pour donner l'envie.
+- Ouverture : défilement automatique sur le prochain nœud. Toucher un nœud → feuille du bas : icône ×2, nom, rareté, famille, effet à la puissance actuelle, niveau de déblocage, origine (« Nœud V · Berserker », « inspiré », « nœud d'étoile »).
+- Nœuds d'étoile : petite étoile dorée accrochée au nœud.
+
+### 10.3 Choix de la sous-classe (niv. 10)
+
+Plein écran (modal), titre « Niv. 10 — Choisissez une voie de soutien », portrait animé à gauche du titre. **3 cartes empilées** (hauteur ~120 px chacune) : emblème `cl_<sub>` 48 px, nom, compétence du niv. 10 (icône + 2 lignes), « **Au niv. 30 : Seigneur de guerre** » avec la pastille de voie, famille favorisée (puce colorée), étoile « conseillé ». Toucher une carte la sélectionne (bordure dorée) ; bouton **Confirmer** en deux temps (motif `evArm` existant). Bouton secondaire « Plus tard » (choix en attente, pastille rouge). Le combat n'est jamais bloqué.
+
+### 10.4 Révélation de spécialisation (niv. 20) et cinématiques d'éveil (40, 50, 60)
+
+Réutilise `evoReveal` (rayons de couleur, flash, lignes de gains) avec un emblème au lieu des étoiles.
+
+| Moment | Séquence (durées à vitesse ×1) |
+|---|---|
+| **Niv. 15** | toast « Vocation pressentie : Berserker (72 %) » + bannière du niv. 20 mise à jour |
+| **Niv. 20** | 0–0,5 s rayons couleur de rôle ; 0,5–1,2 s emblème `cl_<spé>` qui tombe et s'imprime ; 1,2 s+ : nom, nouvelle technique (icône ×2, avant → après), mods |
+| **Niv. 40** (Éveil) | avant la cinématique : 2 cartes si passerelle possible (« Éveil : Fléau rouge » / « Passerelle : Vengeur — nécessite un bouclier »), confirmation en deux temps. Puis 0–0,6 s assombrissement + rayons de l'élément ; 0,6–1,4 s le sprite s'élève, silhouette blanche ; 1,4–2,2 s emblème + cadre `fr_eveil` qui claque (secousse 5 px) ; ensuite lignes : forme, technique éveillée, ultime +25 %, stats avant → après |
+| **Niv. 50** (Apogée) | même structure, cadre `fr_apogee`, double vague de rayons, étincelles argentées |
+| **Niv. 60** (Divinité) | 3,5 s : le fond devient un ciel étoilé, particules dorées montantes, sprite avec aura dorée permanente, cadre `fr_divin`, nom divin en grandes capitales, ultime divin présenté (icône + nom) |
+
+Toucher pour passer après 1 s. Les annonces de palier hors combat apparaissent dans la fenêtre « Après le combat » (lignes `NEWSK`) avec un bouton « Voir » qui ouvre la cinématique.
+
+### 10.5 Métier (niv. 5)
+
+Feuille du bas : « Une vocation s'éveille ». 2 cartes côte à côte (171 px chacune) : icône `job_<id>` 32 px ×2, nom, effet village au rang I, bâtiment de poste ; la vocation naturelle porte le ruban « Vocation (+25 % exp. de métier) ». Bouton **Confirmer**.
+
+### 10.6 Codex
+
+Accès : bouton **Codex** de l'Auberge (et du menu). Grille **3 × 3** de cartes 114 × 128 px : `sk_ame_<pers>` ×2, nom, anneau de progression (%). Carte verrouillée : silhouette, « ??? », indice (« Recrutez quelqu'un qui ne pense qu'à lui »). Fiche d'entrée (défilement vertical) : en-tête (emblème, nom, puce de voie, description, %), puis sections repliables : Familles (barres colorées `FAM`), Sous-traits (puces, inconnues en « ??? »), Signature et compétences favorisées (icônes 32), Spécialisations (grille d'emblèmes 48, silhouettes si non vues), Formes de voie, Combinaisons, Relations (liste « ↗ Ami facile : Curieux, Gourmand… » / « ↘ Conflits : … »), **Vos personnages** (portraits, toucher → fiche).
+
+### 10.7 Équipe et combat
+
+- Portrait d'équipe : emblème de spécialisation 16 px en bas à droite ; croissant gris si en sommeil ; pastille rouge si un choix attend.
+- Combat : bouton de technique avec l'icône `sk_tech_*` ; bouton d'ultime avec `sk_ult_*` et cadre de forme (`fr_eveil` / `fr_apogee` / `fr_divin`) ; ⇄ parcourt la technique et les 4 préparées.
+
+---
+
+## 11. Équilibrage et vérifications
+
+### 11.1 Échelle des monstres (code actuel, `mkFoe` / `KM`)
+
+```
+PV  = 130 × 1,20^(étage−1) × type.hp × KM[kind].hp     (norm 1 · élite 2,6 · mini 4,5 · boss 7,5)
+ATQ =  24 × 1,16^(étage−1) × type.atk × KM[kind].atk   (norm 1 · élite 1,3 · mini 1,5 · boss 1,7)
+DEF =  10 + 3 × étage
+dégâts = ATQ × mult × 100 / (100 + DEF)  (deal)
+```
+
+### 11.2 Hypothèses du banc d'essai
+
+Personnage « DPS » de rôle guerrier (ATQ ×1,1), étoiles = ⌈niv./10⌉, équipement du même rang (ATQ ×(1,15 + 0,10★), PV ×(1 + 0,05★), DEF ×(1 + 0,04★)), g = 1, aucun passif. Monstre normal, type moyen. **TTK** = attaques de base pour tuer le monstre ; **survie** = coups de monstre pour tomber. Cibles : TTK 2–5 (une technique à 220 % tue en 1–2), survie 15–35 (une équipe de 4 avec un soigneur tient un combat de groupe).
+
+### 11.3 Résultats (calculés)
+
+| Niv. | ★ | Étage attendu | PV monstre | ATQ monstre | ATQ perso | PV perso | DEF perso | **TTK nouveau** | TTK actuel | **Survie nouvelle** | Survie actuelle |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 1 | 1 | 1 | 130 | 24 | 51 | 326 | 24 | 2,9 | 2,9 | 17 | 17 |
+| 5 | 1 | 2 | 156 | 28 | 72 | 404 | 28 | 2,5 | 2,5 | 19 | 22 |
+| 10 | 1 | 4 | 225 | 37 | 110 | 531 | 33 | 2,5 | 2,8 | 19 | 24 |
+| 15 | 2 | 6 | 323 | 50 | 227 | 914 | 52 | 1,8 | 2,4 | 28 | 37 |
+| 20 | 2 | 9 | 559 | 79 | 354 | 1 207 | 62 | 2,2 | 3,7 | 25 | 32 |
+| 25 | 3 | 12 | 966 | 123 | 656 | 1 912 | 92 | 2,1 | 4,4 | 30 | 38 |
+| 30 | 3 | 15 | 1 669 | 192 | 957 | 2 423 | 107 | 2,7 | 7,0 | 26 | 30 |
+| 35 | 4 | 18 | 2 884 | 299 | 1 702 | 3 701 | 151 | 2,8 | 9,0 | 31 | 33 |
+| 40 | 4 | 21 | 4 984 | 467 | 2 674 | 4 918 | 182 | 3,2 | 14,7 | 30 | 26 |
+| 45 | 5 | 24 | 8 612 | 729 | 4 839 | 7 538 | 256 | 3,2 | 19,7 | 37 | 27 |
+| 50 | 5 | 28 | 17 858 | 1 320 | 8 177 | 10 495 | 317 | 4,2 | 39,9 | 33 | 17 |
+| 55 | 6 | 33 | 44 437 | 2 772 | 17 360 | 17 726 | 471 | 5,3 | ≈ 90 | 37 | ≈ 12 |
+| 60 | 6 | 38 | 110 573 | 5 823 | 48 951 | 34 817 | 739 | 5,1 | ≈ 180 | 50 | ≈ 8 |
+
+Lecture : **la courbe actuelle s'effondre après l'étage 20** (40 attaques pour un monstre normal à l'étage 28) ; la nouvelle garde un TTK de 2 à 5 jusqu'à l'étage 38, sans rendre les débuts plus faciles (niv. 1–10 identiques à ±10 %).
+
+### 11.4 L'écart monstrueux (même étage)
+
+| Étage | 5★ niv. 50 : TTK / survie | 6★ niv. 60 : TTK / survie | Rapport de dégâts |
+|---|---|---|---|
+| 28 | 4,2 / 33 | 0,7 / 221 (un coup) | ×6 |
+| 32 | 9,3 / 18 | 1,6 / 122 | ×6 |
+| 36 | 20,5 / 10 | 3,4 / 68 | ×6 |
+| 40 | 45 / 5,6 | 7,5 / 37 | ×6 |
+
+Un dieu fait **6 fois plus de dégâts** qu'un 5★ au maximum et encaisse **6 à 7 fois plus** de coups (PV ×3,3 et DEF ×2,3), avant même son passif et son ultime divins.
+
+### 11.5 Recommandation : adoucir la Tour au-delà de l'étage 40
+
+Sans changement, l'étage 50 demande 52 attaques à un dieu (PV ×1,20 par étage sans fin). Recommandation (à appliquer dans `mkFoe`) : au-delà de l'étage 40, **PV ×1,10 et ATQ ×1,08 par étage** (au lieu de 1,20 / 1,16). Effet : un 6★ niv. 60 garde un TTK de 13 à l'étage 45 et 22 à l'étage 50 (contenu de fin de jeu, Constellations utiles), un 5★ niv. 50 y devient impuissant (TTK 77–131) : la divinité reste l'objectif.
+
+```js
+const fScale=(f,a,b)=>Math.pow(a,Math.min(f,40)-1)*Math.pow(b,Math.max(0,f-40));
+// mhp: 130*fScale(f,1.2,1.10)*…   atk: 24*fScale(f,1.16,1.08)*…
+```
+
+### 11.6 Contrôles d'empilement
+
+| Risque | Garde-fou |
+|---|---|
+| Passifs d'ATQ cumulés (Force brute, âme, mods, sous-classe, chant) | les bonus de buff (`bf.atk`) prennent le max, pas la somme (règle actuelle `buffS`) ; passifs permanents additifs plafonnés à +60 % hors niveau |
+| Réduction de dégâts | `clamp(bfv(t,'dr'),0,.8)` existant + Citadelle/Égide incarnée comptées dans le même plafond |
+| Survie (`dp`) | une seule par arbre ; une fois par combat/expédition ; passifs divins bornés |
+| Points de compétence | plafond de la réserve inchangé (`setSP`) ; Voix d'or / Muse céleste ne dépassent pas ce plafond |
+| Énergie | +100 au plus par action ; Symphonie céleste exclut le lanceur |
+| Ordre des tours | un ennemi ne peut perdre plus d'un tour complet par action ; Arrêt du temps divin : 2 tours, boss 1 |
+| Vitesse d'exp. | Érudit + vocation + camp : ×2 au plus |
+
+### 11.7 Économie liée
+
+- Or : les coûts de compétence (`30 × niv. × (rareté + 1)`) et d'éveil restent ; les reconversions (300–500 × ★) restent marginales face aux ≈ 500 or/étage (étage 10) et 1 000 (étage 20).
+- Parchemins : inchangés (`EVOC`) ; ils deviennent l'unique verrou de progression, ce qui renforce leur valeur.
+
+---
+
+## 12. Liste des icônes (pipeline graphique)
+
+### 12.1 Consignes de rendu
+
+- **Style** : emblème d'effet en pixel-art gras, lisible à 32 px — arcs de slash, étoiles d'impact, flammes, éclats de glace, boucliers, auras, flèches, orbes (référence : les planches d'effets d'attaque envoyées par le créateur). Une forme principale, une couleur dominante, 2–3 tons (clair en haut à gauche, sombre en bas à droite, comme `bake`), **contour 1 px `#1d1430`** (`OLC`), fond transparent, pas de texte.
+- **Couleur dominante** = groupe de la table (couleur de famille `FAM` pour les compétences d'arbre, couleur de rôle pour les techniques et ultimes). Les ultimes ont une composition plus chargée (forme + onde/éclats en arrière-plan) et un liseré blanc 1 px interne.
+- **Tailles** : compétences `sk_*` et métiers `job_*` 32×32 ; emblèmes `cl_*`, cadres `fr_*` et badges `ms_*` 48×48 ; familles `fam_*` et pastilles de voie 16×16 ; interface de l'arbre selon la table.
+- **Sorties** : `assets/png/<clé>.png`, clés ajoutées à `assets/assets.js` / `manifest.json` comme les autres ; nouveau script suggéré `blender/icons.py` (groupé par couleur). Une icône absente est remplacée en jeu par une pastille de la couleur de famille avec l'initiale (repli procédural, comme `matSprite`).
+- Cadres de rareté des nœuds : dessinés en CSS (`RARC`), pas d'image.
+
+### 12.2 Décompte
+
+| Type | Préfixe | Nombre | Taille |
+|---|---|---|---|
+| Compétences d'arbre (59 actuelles + 18 nouvelles + 9 signatures) | `sk_<id>` | 86 | 32×32 |
+| Âmes | `sk_ame_*` | 9 | 32×32 |
+| Compétences de sous-classe | `sk_sub_*` | 12 | 32×32 |
+| Techniques d'arme | `sk_tech_*` | 10 | 32×32 |
+| Techniques de spécialisation | `sk_tech_<spé>` | 23 | 32×32 |
+| Ultimes d'apprenti + Jeanne | `sk_ult_<rôle>`, `sk_ult_commandant` | 8 | 32×32 |
+| Ultimes de spécialisation | `sk_ult_<spé>` | 23 | 32×32 |
+| **Sous-total compétences** | `sk_*` | **171** | |
+| Emblèmes de sous-classe | `cl_<sub>` | 12 | 48×48 |
+| Emblèmes de spécialisation | `cl_<spé>` | 23 | 48×48 |
+| Emblèmes divins | `cl_<spé>_divin` | 23 | 48×48 |
+| Pastilles de voie | `cl_voie_*` | 3 | 16×16 |
+| Cadres de forme | `fr_eveil`, `fr_apogee`, `fr_divin` | 3 | 48×48 |
+| Métiers + métiers évolués | `job_<id>`, `job_<id>_evo` | 28 | 32×32 |
+| Badges de palier | `ms_<niv>` | 9 | 48×48 |
+| Familles | `fam_<id>` | 10 | 16×16 |
+| Interface de l'arbre | `ui_node_*` | 3 | 12 / 32 / 40 |
+| **Total** | | **285** | |
+
+Les formes éveillées (40) et d'apogée (50) réutilisent l'emblème de spécialisation avec le cadre `fr_eveil` / `fr_apogee` ; les formes de voie (30) réutilisent l'emblème de sous-classe avec la pastille `cl_voie_*` ; les ultimes éveillés réutilisent leur icône avec le cadre de forme.
+
+### 12.3 Table complète
+
+| Groupe (couleur) | Clé | Taille | Visuel |
+|---|---|---|---|
+| Soutien `#ffcf4a` | `sk_cri` | 32×32 | bouche criant avec trois ondes dorées |
+| Soutien `#ffcf4a` | `sk_inspir` | 32×32 | étoile dorée jaillissant d'une tête stylisée |
+| Soutien `#ffcf4a` | `sk_donabs` | 32×32 | deux mains se passant un cœur lumineux |
+| Soutien `#ffcf4a` | `sk_aura` | 32×32 | halo doré concentrique en trois anneaux |
+| Soutien `#ffcf4a` | `sk_miroir` | 32×32 | miroir ovale doré reflétant un cœur |
+| Soutien `#ffcf4a` | `sk_chef` | 32×32 | bannière triangulaire plantée, pointe dorée |
+| Soutien `#ffcf4a` | `sk_refrain` | 32×32 | trois notes de musique dorées en spirale |
+| Soutien `#ffcf4a` | `sk_sub_etendard` | 32×32 | étendard doré planté, drapeau claquant (compétence de sous-classe) |
+| Soutien `#ffcf4a` | `sk_sub_conteur` | 32×32 | livre ouvert doré dont s'échappent des étoiles (compétence de sous-classe) |
+| Soutien `#ffcf4a` | `sk_sub_tacticien` | 32×32 | carte de bataille avec flèches et pion doré (compétence de sous-classe) |
+| Soin `#5fe07a` | `sk_premsoins` | 32×32 | croix verte avec un bandage enroulé |
+| Soin `#5fe07a` | `sk_rosee` | 32×32 | trois gouttes de rosée sur une feuille |
+| Soin `#5fe07a` | `sk_regen` | 32×32 | spirale verte ascendante avec un « + » |
+| Soin `#5fe07a` | `sk_bened` | 32×32 | mains jointes avec rayons verts et dorés |
+| Soin `#5fe07a` | `sk_souffle` | 32×32 | tourbillon vert qui emporte une feuille |
+| Soin `#5fe07a` | `sk_rappel` | 32×32 | étoile filante descendant sur une silhouette couchée |
+| Soin `#5fe07a` | `sk_vampir` | 32×32 | croc rouge et vert d'où perle une goutte |
+| Soin `#5fe07a` | `sk_phenix` | 32×32 | plume enflammée dorée et verte |
+| Soin `#5fe07a` | `sk_mainten` | 32×32 | main verte tendue vers une petite silhouette, éclats de lumière (signature Altruiste) |
+| Soin `#5fe07a` | `sk_sub_medic` | 32×32 | sacoche de médecin avec croix verte (compétence de sous-classe) |
+| Protection `#bfe8ff` | `sk_egide` | 32×32 | écu bleu ciel avec un éclat en étoile |
+| Protection `#bfe8ff` | `sk_murviv` | 32×32 | pan de mur bleuté avec un chevron de provocation |
+| Protection `#bfe8ff` | `sk_garde` | 32×32 | petit écu devant une silhouette |
+| Protection `#bfe8ff` | `sk_coeur` | 32×32 | cœur fendu abrité par un bouclier |
+| Protection `#bfe8ff` | `sk_promesse` | 32×32 | deux auriculaires liés par un ruban lumineux |
+| Protection `#bfe8ff` | `sk_dernier` | 32×32 | bougie presque éteinte derrière un bouclier |
+| Protection `#bfe8ff` | `sk_sentinel` | 32×32 | œil ouvert gravé au centre d'un écu |
+| Protection `#bfe8ff` | `sk_sub_exorciste` | 32×32 | talisman de papier et sceau doré sur fond bleu ciel (compétence de sous-classe) |
+| Protection `#bfe8ff` | `sk_sub_garde` | 32×32 | grand pavois bleu ciel devant une petite silhouette (compétence de sous-classe) |
+| Dégâts `#ff5a5a` | `sk_frappe` | 32×32 | étoile d'impact rouge avec onde de choc |
+| Dégâts `#ff5a5a` | `sk_tourb` | 32×32 | arc de lame rouge en cercle complet |
+| Dégâts `#ff5a5a` | `sk_grace` | 32×32 | dague plongeant vers un crâne |
+| Dégâts `#ff5a5a` | `sk_brute` | 32×32 | poing serré avec traits de force |
+| Dégâts `#ff5a5a` | `sk_gloire` | 32×32 | couronne de laurier rouge |
+| Dégâts `#ff5a5a` | `sk_meteore` | 32×32 | météore rouge-orangé en piqué |
+| Dégâts `#ff5a5a` | `sk_lame` | 32×32 | épée constellée d'étoiles, halo rouge |
+| Dégâts `#ff5a5a` | `sk_brasier` | 32×32 | flamme rouge-orangé en spirale |
+| Dégâts `#ff5a5a` | `sk_chaine` | 32×32 | éclair violet en zigzag ramifié |
+| Dégâts `#ff5a5a` | `sk_rayon` | 32×32 | rayon doré vertical sur une cible |
+| Dégâts `#ff5a5a` | `sk_nova` | 32×32 | orbe rose qui explose en anneau |
+| Dégâts `#ff5a5a` | `sk_ecrase` | 32×32 | marteau frappant le sol, fissures rayonnantes |
+| Dégâts `#ff5a5a` | `sk_couronne` | 32×32 | couronne rouge au-dessus de marches montantes (signature Ambitieux) |
+| Dégâts `#ff5a5a` | `sk_moidabord` | 32×32 | main rouge qui attire une pièce vers soi (signature Égoïste) |
+| Contrôle `#c58bff` | `sk_entrave` | 32×32 | chaînes violettes en boucle |
+| Contrôle `#c58bff` | `sk_pointf` | 32×32 | cible fissurée en son centre |
+| Contrôle `#c58bff` | `sk_intim` | 32×32 | masque grimaçant violet |
+| Contrôle `#c58bff` | `sk_etourd` | 32×32 | marteau entouré de petites étoiles qui tournent |
+| Contrôle `#c58bff` | `sk_analyse` | 32×32 | loupe sur un hexagone de faiblesse |
+| Contrôle `#c58bff` | `sk_temps` | 32×32 | sablier violet fissuré |
+| Contrôle `#c58bff` | `sk_lancegl` | 32×32 | éclat de glace pointu, bleu-violet |
+| Contrôle `#c58bff` | `sk_ronces` | 32×32 | lianes épineuses vertes et violettes en cercle |
+| Contrôle `#c58bff` | `sk_toxine` | 32×32 | goutte verte marquée d'un crâne |
+| Contrôle `#c58bff` | `sk_malefice` | 32×32 | œil violet entouré de runes sombres |
+| Contrôle `#c58bff` | `sk_echiquier` | 32×32 | pièce de cavalier violette sur damier (signature Calculateur) |
+| Contrôle `#c58bff` | `sk_sub_runiste` | 32×32 | pierre gravée d'une rune violette lumineuse (compétence de sous-classe) |
+| Contrôle `#c58bff` | `sk_sub_saboteur` | 32×32 | piège à mâchoires refermé, dents violettes (compétence de sous-classe) |
+| Contrôle `#c58bff` | `sk_sub_pisteur` | 32×32 | empreinte de patte dans une cible violette (compétence de sous-classe) |
+| Défense `#a9a6b8` | `sk_peau` | 32×32 | bras couvert d'écailles de pierre |
+| Défense `#a9a6b8` | `sk_vigueur` | 32×32 | cœur gris musclé avec un « + » |
+| Défense `#a9a6b8` | `sk_riposte` | 32×32 | deux épées croisées avec flèche de retour |
+| Défense `#a9a6b8` | `sk_inebr` | 32×32 | pied ancré dans un rocher |
+| Défense `#a9a6b8` | `sk_forter` | 32×32 | tour de château grise crénelée |
+| Défense `#a9a6b8` | `sk_refus` | 32×32 | crâne fissuré d'où sort une flamme |
+| Défense `#a9a6b8` | `sk_epines` | 32×32 | carapace grise hérissée de pointes |
+| Défense `#a9a6b8` | `sk_roc` | 32×32 | rocher gris fendu d'une ligne de lumière, impact qui rebondit (signature Stoïque) |
+| Chance et butin `#4de0c0` | `sk_fortune` | 32×32 | pièce turquoise brillante |
+| Chance et butin `#4de0c0` | `sk_lynx` | 32×32 | œil félin à pupille fendue |
+| Chance et butin `#4de0c0` | `sk_coupch` | 32×32 | dé en vol montrant un 6 |
+| Chance et butin `#4de0c0` | `sk_toutrien` | 32×32 | pièce à deux faces (étoile / crâne) |
+| Chance et butin `#4de0c0` | `sk_trefle` | 32×32 | trèfle turquoise à quatre feuilles |
+| Chance et butin `#4de0c0` | `sk_leste` | 32×32 | main gantée saisissant un éclat |
+| Chance et butin `#4de0c0` | `sk_tresor` | 32×32 | coffre ouvert d'où jaillit un éclat |
+| Chance et butin `#4de0c0` | `sk_aubaine` | 32×32 | fer à cheval turquoise frappant une cible fissurée (signature Opportuniste) |
+| Chance et butin `#4de0c0` | `sk_sub_contreb` | 32×32 | bourse ouverte d'où tombent des pièces turquoise (compétence de sous-classe) |
+| Découverte `#6fd3ff` | `sk_erudit` | 32×32 | livre ouvert cyan avec une étoile |
+| Découverte `#6fd3ff` | `sk_flair` | 32×32 | boussole à aiguille scintillante |
+| Découverte `#6fd3ff` | `sk_invent` | 32×32 | engrenage cyan qui crache une étincelle |
+| Découverte `#6fd3ff` | `sk_etude` | 32×32 | bestiaire ouvert avec une griffure |
+| Découverte `#6fd3ff` | `sk_alchim` | 32×32 | fiole cyan qui bouillonne |
+| Découverte `#6fd3ff` | `sk_carto` | 32×32 | parchemin de carte avec une croix cyan |
+| Découverte `#6fd3ff` | `sk_eureka` | 32×32 | ampoule cyan avec un point d'exclamation (signature Curieux) |
+| Découverte `#6fd3ff` | `sk_sub_alchi` | 32×32 | fiole ronde lancée, liquide cyan qui gicle (compétence de sous-classe) |
+| Cuisine `#e8945a` | `sk_encas` | 32×32 | sandwich croustillant |
+| Cuisine `#e8945a` | `sk_festin` | 32×32 | gigot doré |
+| Cuisine `#e8945a` | `sk_ragout` | 32×32 | marmite fumante |
+| Cuisine `#e8945a` | `sk_epices` | 32×32 | piment enflammé |
+| Cuisine `#e8945a` | `sk_banquet` | 32×32 | cloche de service dorée soulevée, vapeur |
+| Cuisine `#e8945a` | `sk_gouter` | 32×32 | langue/cuillère dorée au-dessus d'une marmite (signature Gourmand) |
+| Célérité `#ff9a3a` | `sk_elan` | 32×32 | botte ailée orange |
+| Célérité `#ff9a3a` | `sk_double` | 32×32 | deux traits de slash parallèles |
+| Célérité `#ff9a3a` | `sk_assaut` | 32×32 | éclair orange en forme de flèche |
+| Célérité `#ff9a3a` | `sk_premier` | 32×32 | goutte rouge et chevron orange |
+| Célérité `#ff9a3a` | `sk_furie` | 32×32 | quatre griffures orange |
+| Célérité `#ff9a3a` | `sk_fougue` | 32×32 | flamme orange en chevron double |
+| Célérité `#ff9a3a` | `sk_voile` | 32×32 | cape violette qui se dissout en fumée orange |
+| Célérité `#ff9a3a` | `sk_hate` | 32×32 | horloge à ailes orange |
+| Célérité `#ff9a3a` | `sk_foncer` | 32×32 | tête casquée chargeant avec traînée orange (signature Impulsif) |
+| Célérité `#ff9a3a` | `sk_sub_dompteur` | 32×32 | tête de loup orange de profil (compétence de sous-classe) |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_altruiste` | 32×32 | cœur doré entouré de deux mains ouvertes |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_ambitieux` | 32×32 | couronne rouge sur une épée dressée |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_calculateur` | 32×32 | œil violet inscrit dans un losange de cible |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_impulsif` | 32×32 | flamme orange en forme d'éclair |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_stoique` | 32×32 | montagne grise avec un halo calme |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_curieux` | 32×32 | loupe cyan sur une étoile |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_gourmand` | 32×32 | bol fumant ambré avec une cuillère |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_egoiste` | 32×32 | silhouette sombre auréolée de rouge, dos tourné |
+| Âmes (couleur de la voie : Cœur vert, Lame rouge, Esprit cyan) | `sk_ame_opportuniste` | 32×32 | pièce turquoise lancée avec un clin d'œil |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_tech_entaille` | 32×32 | arc de slash blanc-bleu en croissant, traînée nette (référence : planches d'effets d'attaque) |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_tech_fendoir` | 32×32 | hache qui s'abat, arc épais vertical et éclats |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_tech_poing` | 32×32 | poing ganté avec étoile d'impact jaune |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_tech_epeiste` | 32×32 | deux arcs de slash bleu acier en X |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_tech_berserker` | 32×32 | hache rouge avec arc de sang |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_tech_chevalier` | 32×32 | lance et écu doré en charge |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_ult_guerrier` | 32×32 | Déferlante : grand arc de lame bleu qui balaie trois silhouettes |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_ult_commandant` | 32×32 | Ordre du commandant (Jeanne) : épée levée devant un étendard sacré doré |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_ult_epeiste` | 32×32 | Mille entailles : six arcs de slash entrecroisés en rosace |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_ult_berserker` | 32×32 | Rage écarlate : silhouette hurlante dans une aura rouge en flammes |
+| Guerrier — acier #b9c4d8 / bleu #3558b8 | `sk_ult_chevalier` | 32×32 | Serment d'acier : épée plantée dans un écu, rayons dorés |
+| Gardien — bleu ciel #bfe8ff / or | `sk_tech_bouclier` | 32×32 | écu levé avec chevron de provocation et petit bouclier lumineux |
+| Gardien — bleu ciel #bfe8ff / or | `sk_tech_paladin` | 32×32 | écu doré rayonnant d'une croix |
+| Gardien — bleu ciel #bfe8ff / or | `sk_tech_rempart` | 32×32 | mur d'acier riveté bleu-gris |
+| Gardien — bleu ciel #bfe8ff / or | `sk_tech_vengeur` | 32×32 | bouclier à pointes avec éclair |
+| Gardien — bleu ciel #bfe8ff / or | `sk_ult_gardien` | 32×32 | Bastion : dôme de boucliers hexagonaux bleu ciel |
+| Gardien — bleu ciel #bfe8ff / or | `sk_ult_paladin` | 32×32 | Jugement radieux : marteau sacré descendant dans un rayon |
+| Gardien — bleu ciel #bfe8ff / or | `sk_ult_rempart` | 32×32 | Forteresse vivante : silhouette fusionnée avec une muraille |
+| Gardien — bleu ciel #bfe8ff / or | `sk_ult_vengeur` | 32×32 | Représailles : bouclier qui renvoie un éclair rouge en ricochet |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_tech_estoc` | 32×32 | pointe de dague perçante, trait fin et étincelle rouge |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_tech_lameombre` | 32×32 | dague violette sortant d'une ombre |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_tech_eclaireur` | 32×32 | dague orange avec traînée de vitesse |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_tech_duelliste` | 32×32 | gant jeté entre deux rapières |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_tech_empoisonneur` | 32×32 | dague dégoulinant de venin vert |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_ult_assassin` | 32×32 | Exécution : croix de deux slashs rouges sur fond noir |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_ult_lameombre` | 32×32 | Danse des ombres : trois dagues autour d'un croissant de lune violet |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_ult_eclaireur` | 32×32 | Embuscade parfaite : œil orange au centre de flèches convergentes |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_ult_duelliste` | 32×32 | Duel à mort : deux rapières croisées dans un cercle d'arène |
+| Assassin — nuit #34304a / rouge #c0392b | `sk_ult_empoisonneur` | 32×32 | Nuée toxique : nuage vert avec crânes qui tourbillonnent |
+| Archer — vert #3f8f52 / bois | `sk_tech_volee` | 32×32 | trois flèches parallèles en vol, traînées vertes |
+| Archer — vert #3f8f52 / bois | `sk_tech_tireur` | 32×32 | flèche dans un viseur en croix |
+| Archer — vert #3f8f52 / bois | `sk_tech_rodeur` | 32×32 | flèche entourée de ronces vertes |
+| Archer — vert #3f8f52 / bois | `sk_tech_tempete` | 32×32 | éventail de cinq flèches électriques |
+| Archer — vert #3f8f52 / bois | `sk_ult_archer` | 32×32 | Pluie de flèches : flèches tombant en pluie oblique |
+| Archer — vert #3f8f52 / bois | `sk_ult_tireur` | 32×32 | Tir du jugement : flèche unique perçant un viseur, onde blanche |
+| Archer — vert #3f8f52 / bois | `sk_ult_rodeur` | 32×32 | Colère sylvestre : tête de cerf faite de ronces, feuilles en éclat |
+| Archer — vert #3f8f52 / bois | `sk_ult_tempete` | 32×32 | Ouragan de flèches : spirale de flèches et d'éclairs |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_tech_deflagration` | 32×32 | explosion ronde violette à huit pointes |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_tech_glyphe` | 32×32 | cercle runique rose au sol avec glyphe central |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_tech_elementaliste` | 32×32 | orbe multicolore à quatre quartiers qui éclate |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_tech_arcaniste` | 32×32 | quatre losanges roses en éventail |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_tech_chrono` | 32×32 | cadran d'horloge tordu en spirale |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_tech_occultiste` | 32×32 | crâne violet entouré d'un cercle runique |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_ult_sorcier` | 32×32 | Cataclysme : météore violet et onde de choc |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_ult_elementaliste` | 32×32 | Cataclysme primordial : quatre orbes élémentaires en croix qui fusionnent |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_ult_arcaniste` | 32×32 | Singularité : trou noir rose avec anneau d'accrétion |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_ult_chrono` | 32×32 | Arrêt du temps : horloge figée, aiguilles brisées, éclats violets |
+| Sorcier — violet #6a48b8 / rose arcane | `sk_ult_occultiste` | 32×32 | Pacte des abysses : main squelettique sortant d'un cercle violet |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_tech_soin` | 32×32 | croix verte lumineuse sur une goutte |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_tech_pretre` | 32×32 | colonne de lumière dorée sur une croix verte |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_tech_druide` | 32×32 | bourgeon vert qui s'ouvre |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_tech_hemo` | 32×32 | goutte rouge reliée à une croix verte |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_ult_soigneur` | 32×32 | Renouveau : fleur verte qui éclot en anneau de lumière |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_ult_pretre` | 32×32 | Miracle : ailes de lumière autour d'une croix verte |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_ult_druide` | 32×32 | Floraison : grand arbre stylisé en fleurs, pétales |
+| Soigneur — turquoise #3fb0a0 / vert | `sk_ult_hemo` | 32×32 | Marée écarlate : vague de sang en croissant avec goutte centrale |
+| Soutien — doré #ffcf4a / rouge | `sk_tech_ralliement` | 32×32 | luth doré émettant une onde et un chevron vers le haut |
+| Soutien — doré #ffcf4a / rouge | `sk_tech_troubadour` | 32×32 | luth doré avec notes turquoise |
+| Soutien — doré #ffcf4a / rouge | `sk_tech_chantre` | 32×32 | cor de guerre rouge soufflant des ondes |
+| Soutien — doré #ffcf4a / rouge | `sk_tech_enchanteur` | 32×32 | baguette dessinant un sceau rose sur une épée |
+| Soutien — doré #ffcf4a / rouge | `sk_ult_soutien` | 32×32 | Hymne : partition dorée en éventail avec étoiles |
+| Soutien — doré #ffcf4a / rouge | `sk_ult_troubadour` | 32×32 | Grand final : luth flamboyant, notes en feu d'artifice |
+| Soutien — doré #ffcf4a / rouge | `sk_ult_chantre` | 32×32 | Hymne des conquérants : cor de guerre et bannière rouge, ondes |
+| Soutien — doré #ffcf4a / rouge | `sk_ult_enchanteur` | 32×32 | Grand charme : sceau rose à étoile à huit branches |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_etendard` | 48×48 | étendard doré croisé sur un écu |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_medic` | 48×48 | brassard blanc à croix verte |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_runiste` | 48×48 | marteau de runiste et rune violette |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_exorciste` | 48×48 | chapelet et sceau sacré |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_saboteur` | 48×48 | bombe ronde à mèche allumée |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_contreb` | 48×48 | masque de voleur sur une bourse |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_alchi` | 48×48 | alambic et deux fioles |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_pisteur` | 48×48 | tête de faucon et flèche |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_dompteur` | 48×48 | collier clouté et patte |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_garde` | 48×48 | pavois et épée en garde |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_conteur` | 48×48 | plume et parchemin déroulé |
+| Emblèmes de sous-classe (cadre rond doré, fond couleur de la famille favorisée) | `cl_tacticien` | 48×48 | pion d'échecs doré sur carte |
+| Emblèmes de spécialisation — Guerrier — acier #b9c4d8 / bleu #3558b8 | `cl_epeiste` | 48×48 | épée droite verticale entre deux arcs de slash |
+| Emblèmes de spécialisation — Guerrier — acier #b9c4d8 / bleu #3558b8 | `cl_berserker` | 48×48 | hache double ensanglantée, crocs |
+| Emblèmes de spécialisation — Guerrier — acier #b9c4d8 / bleu #3558b8 | `cl_chevalier` | 48×48 | heaume à plumet et épée |
+| Emblèmes de spécialisation — Gardien — bleu ciel #bfe8ff / or | `cl_paladin` | 48×48 | écu à soleil doré et marteau |
+| Emblèmes de spécialisation — Gardien — bleu ciel #bfe8ff / or | `cl_rempart` | 48×48 | tour crénelée devant un écu |
+| Emblèmes de spécialisation — Gardien — bleu ciel #bfe8ff / or | `cl_vengeur` | 48×48 | écu à pointes et éclair |
+| Emblèmes de spécialisation — Assassin — nuit #34304a / rouge #c0392b | `cl_lameombre` | 48×48 | dague dans un croissant de lune |
+| Emblèmes de spécialisation — Assassin — nuit #34304a / rouge #c0392b | `cl_eclaireur` | 48×48 | boussole et dague ailée |
+| Emblèmes de spécialisation — Assassin — nuit #34304a / rouge #c0392b | `cl_duelliste` | 48×48 | rapière et gant de défi |
+| Emblèmes de spécialisation — Assassin — nuit #34304a / rouge #c0392b | `cl_empoisonneur` | 48×48 | dague et fiole verte |
+| Emblèmes de spécialisation — Archer — vert #3f8f52 / bois | `cl_tireur` | 48×48 | arc long et viseur |
+| Emblèmes de spécialisation — Archer — vert #3f8f52 / bois | `cl_rodeur` | 48×48 | arc et feuille de chêne |
+| Emblèmes de spécialisation — Archer — vert #3f8f52 / bois | `cl_tempete` | 48×48 | arc chargé d'éclairs |
+| Emblèmes de spécialisation — Sorcier — violet #6a48b8 / rose arcane | `cl_elementaliste` | 48×48 | bâton à quatre orbes élémentaires |
+| Emblèmes de spécialisation — Sorcier — violet #6a48b8 / rose arcane | `cl_arcaniste` | 48×48 | grimoire ouvert et losange rose |
+| Emblèmes de spécialisation — Sorcier — violet #6a48b8 / rose arcane | `cl_chrono` | 48×48 | sablier ailé |
+| Emblèmes de spécialisation — Sorcier — violet #6a48b8 / rose arcane | `cl_occultiste` | 48×48 | crâne et grimoire violet |
+| Emblèmes de spécialisation — Soigneur — turquoise #3fb0a0 / vert | `cl_pretre` | 48×48 | sceptre et auréole |
+| Emblèmes de spécialisation — Soigneur — turquoise #3fb0a0 / vert | `cl_druide` | 48×48 | bâton noueux fleuri |
+| Emblèmes de spécialisation — Soigneur — turquoise #3fb0a0 / vert | `cl_hemo` | 48×48 | calice de sang |
+| Emblèmes de spécialisation — Soutien — doré #ffcf4a / rouge | `cl_troubadour` | 48×48 | luth et plume au chapeau |
+| Emblèmes de spécialisation — Soutien — doré #ffcf4a / rouge | `cl_chantre` | 48×48 | cor de guerre et étendard |
+| Emblèmes de spécialisation — Soutien — doré #ffcf4a / rouge | `cl_enchanteur` | 48×48 | baguette et sceau étoilé |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_epeiste_divin` | 48×48 | Souverain des Lames : couronne d'épées en éventail |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_berserker_divin` | 48×48 | Titan du Carnage : masque de titan rugissant dans les flammes |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_chevalier_divin` | 48×48 | Seigneur-Soleil : heaume solaire rayonnant |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_paladin_divin` | 48×48 | Égide incarnée : écu vivant aux ailes d'or |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_rempart_divin` | 48×48 | Montagne éternelle : montagne couronnée d'un écu |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_vengeur_divin` | 48×48 | Dieu des Représailles : écu épineux et balance |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_lameombre_divin` | 48×48 | Nuit souveraine : lune noire et étoiles en dagues |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_eclaireur_divin` | 48×48 | Messager des Étoiles : sandale ailée et comète |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_duelliste_divin` | 48×48 | Champion éternel : laurier d'or et rapières croisées |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_empoisonneur_divin` | 48×48 | Fléau primordial : serpent ouroboros vert |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_tireur_divin` | 48×48 | L'Étoile filante : flèche-comète |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_rodeur_divin` | 48×48 | Cœur de la Forêt-Monde : arbre-monde dans un cercle |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_tempete_divin` | 48×48 | Souverain des Tempêtes : œil de cyclone et éclairs |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_elementaliste_divin` | 48×48 | Dieu des Éléments : quatre éléments en roue |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_arcaniste_divin` | 48×48 | Source infinie : symbole de l'infini rose |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_chrono_divin` | 48×48 | Éternité : sablier dans un anneau d'étoiles |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_occultiste_divin` | 48×48 | Néant : disque noir cerné de violet |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_pretre_divin` | 48×48 | Aube incarnée : soleil levant ailé |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_druide_divin` | 48×48 | Mère-Forêt : visage féminin en feuillage |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_hemo_divin` | 48×48 | Dieu-Sang : cœur couronné |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_troubadour_divin` | 48×48 | Muse céleste : lyre étoilée |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_chantre_divin` | 48×48 | Voix de la Guerre : bouche-cor flamboyante |
+| Emblèmes divins (or #ffd75a, aura blanche, étoiles) | `cl_enchanteur_divin` | 48×48 | Harmonie : rosace parfaite à huit pétales |
+| Pastilles de voie | `cl_voie_coeur` | 16×16 | cœur vert #5fe07a (pastille de coin) |
+| Pastilles de voie | `cl_voie_lame` | 16×16 | lame rouge #ff5a5a (pastille de coin) |
+| Pastilles de voie | `cl_voie_esprit` | 16×16 | œil cyan #6fd3ff (pastille de coin) |
+| Cadres de forme (centre transparent) | `fr_eveil` | 48×48 | cadre rond argenté avec 4 gemmes |
+| Cadres de forme (centre transparent) | `fr_apogee` | 48×48 | cadre doré avec ailes stylisées |
+| Cadres de forme (centre transparent) | `fr_divin` | 48×48 | cadre d'or rayonnant, couronne d'étoiles, centre transparent |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_cuisinier` | 32×32 | toque et louche |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_architecte` | 32×32 | équerre et compas |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_chasseur` | 32×32 | arc court et trophée de bois de cerf |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_cueilleur` | 32×32 | panier d'herbes |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_entraineur` | 32×32 | mannequin d'entraînement |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_fermier` | 32×32 | fourche et gerbe de blé |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_forgeron` | 32×32 | marteau sur enclume |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_eleveur` | 32×32 | tête de vache et cloche |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_mineur` | 32×32 | pioche et pépite |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_alchimiste` | 32×32 | fiole et creuset |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_marchand` | 32×32 | balance et pièce |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_apothicaire` | 32×32 | mortier et pilon |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_cartographe` | 32×32 | carte roulée et boussole |
+| Métiers (bois / cuir, accent de la couleur du bâtiment) | `job_bibliothecaire` | 32×32 | pile de livres et lunettes |
+| Métiers évolués (même base + liseré doré) | `job_cuisinier_evo` | 32×32 | Chef étoilé : toque ornée d'une étoile dorée |
+| Métiers évolués (même base + liseré doré) | `job_architecte_evo` | 32×32 | Maître bâtisseur : équerre dorée sur un plan de tour |
+| Métiers évolués (même base + liseré doré) | `job_chasseur_evo` | 32×32 | Traqueur légendaire : tête de loup argenté |
+| Métiers évolués (même base + liseré doré) | `job_cueilleur_evo` | 32×32 | Herboriste sylvain : panier fleuri luisant |
+| Métiers évolués (même base + liseré doré) | `job_entraineur_evo` | 32×32 | Maître d'armes : râtelier d'armes doré |
+| Métiers évolués (même base + liseré doré) | `job_fermier_evo` | 32×32 | Seigneur des moissons : gerbe dorée couronnée |
+| Métiers évolués (même base + liseré doré) | `job_forgeron_evo` | 32×32 | Forgeron des étoiles : enclume étoilée, étincelles bleues |
+| Métiers évolués (même base + liseré doré) | `job_eleveur_evo` | 32×32 | Maître des bêtes : selle et fer à cheval dorés |
+| Métiers évolués (même base + liseré doré) | `job_mineur_evo` | 32×32 | Mineur des profondeurs : lanterne et cristal violet |
+| Métiers évolués (même base + liseré doré) | `job_alchimiste_evo` | 32×32 | Grand alchimiste : pierre philosophale rouge |
+| Métiers évolués (même base + liseré doré) | `job_marchand_evo` | 32×32 | Prince marchand : coffre doré débordant |
+| Métiers évolués (même base + liseré doré) | `job_apothicaire_evo` | 32×32 | Grand apothicaire : caducée vert |
+| Métiers évolués (même base + liseré doré) | `job_cartographe_evo` | 32×32 | Arpenteur des étoiles : astrolabe doré |
+| Métiers évolués (même base + liseré doré) | `job_bibliothecaire_evo` | 32×32 | Archiviste : grand tome à fermoir étoilé |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_5` | 48×48 | outil croisé (marteau + plume) sur médaillon bronze — Métier |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_10` | 48×48 | deux écus liés — Sous-classe |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_20` | 48×48 | arme verticale dans un blason — Spécialisation |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_30` | 48×48 | blason à trois pastilles de voie — Sous-classe améliorée |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_35` | 48×48 | éclair d'énergie dans un cercle — Ultime |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_40` | 48×48 | œil qui s'ouvre, rayons argentés — Éveil |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_45` | 48×48 | enclume dorée et étoile — Évolution du métier |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_50` | 48×48 | aile d'or sur médaillon — Apogée |
+| Badges de palier (médaillon numéroté, bronze 5–30, argent 35–45, or 50, or étoilé 60) | `ms_60` | 48×48 | couronne d'étoiles sur soleil — Divinité |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_soutien` | 16×16 | bannière |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_soin` | 16×16 | croix |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_protection` | 16×16 | écu |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_degats` | 16×16 | épée |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_controle` | 16×16 | chaîne |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_defense` | 16×16 | rocher |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_chance` | 16×16 | trèfle |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_decouverte` | 16×16 | loupe |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_cuisine` | 16×16 | bol |
+| Familles (pictogramme blanc sur pastille de la couleur FAM) | `fam_celerite` | 16×16 | aile |
+| Interface de l'arbre | `ui_node_lock` | 12×12 | petit cadenas gris |
+| Interface de l'arbre | `ui_node_mystery` | 32×32 | « ? » blanc sur disque neutre (teinté en jeu) |
+| Interface de l'arbre | `ui_node_next` | 40×40 | anneau lumineux doré (halo du prochain nœud) |
+
+---
+
+## 13. Implémentation et migration
+
+### 13.1 Nouvelles données (bloc `PROGRESSION` dans `index.html`, après `SKILLS`)
+
+```js
+const VOIE={Altruiste:'coeur',Stoïque:'coeur',Gourmand:'coeur',Ambitieux:'lame',Impulsif:'lame',Égoïste:'lame',Calculateur:'esprit',Curieux:'esprit',Opportuniste:'esprit'};
+const voieOf=c=>VOIE[c.pers]||'coeur';
+const WTECH={epee:'tech_entaille',hache:'tech_fendoir',bouclier:'tech_bouclier',dagues:'tech_estoc',arc:'tech_volee',baton:'tech_deflagration',grimoire:'tech_glyphe',sceptre:'tech_soin',luth:'tech_ralliement',_:'tech_poing'};
+const SUBCL={etendard:{n:'Porte-étendard',f:'soutien',sk:'sub_etendard',v:{coeur:'Héraut de l’aube',lame:'Seigneur de guerre',esprit:'Maréchal'}}, /* … 12 entrées, §4.3 */};
+const ROLE_SUBS={guerrier:['etendard','medic','runiste'],gardien:['medic','exorciste','etendard'],assassin:['saboteur','contreb','alchi'],archer:['pisteur','dompteur','saboteur'],sorcier:['runiste','exorciste','alchi'],soigneur:['garde','conteur','exorciste'],soutien:['conteur','tacticien','dompteur']};
+const SPECS={berserker:{n:'Berserker',r:'guerrier',w:['hache'],t:[],p:['Impulsif','Égoïste','Ambitieux'],s:['Colérique','Téméraire','Orgueilleux'],m:[],e:['feu'],
+  mods:{atk:.08,def:-.08},f:['degats','celerite'],tech:'tech_berserker',ult:'ult_berserker',aw:['Fléau rouge','Avatar de la Rage','Titan du Carnage'],pass:['vengeur']}, /* … 23 entrées, §4.4 */};
+const JOBS={forgeron:{n:'Forgeron',post:['forge'],evo:'Forgeron des étoiles'}, /* … 14 entrées, §6.1 */};
+const JRANK=[0,100,300,700,1500,3000,6000],JRANKN=['Apprenti','Novice','Travailleur','Confirmé','Expert','Maître','Grand maître'],JRLV=[5,10,20,30,40,45,50];
+// + SLOTS, BANDW, bandOf, treeRng (§7.2) ; XPB (§1.2) ; RB, K, BUMP, LVM (§3.1)
+```
+
+Les nouvelles compétences (✚, signatures, âmes, sous-classes) s'ajoutent à `SKILLS` avec le même format (`n,f,a,r,cd,d,run,ai`, `dp` pour la survie) et deux champs : `tg` (spécialisations/sous-classes qui les marquent) et `sig` (personnalité de signature). Les âmes et compétences de sous-classe ont `fx:1` (exclues des tirages). Techniques et ultimes vont dans `TECHS` / `ULTS` (`{n, d, run(u,P), ic}`), appelés par `doSkill` / `doUlt` à la place des branches par rôle.
+
+### 13.2 Nouveaux champs de personnage
+
+| Champ | Contenu | Défaut |
+|---|---|---|
+| `c.cls` | `{sub:null, spec:null, aw:0, pend:{}}` — `aw` 0 / 1 (éveil) / 2 (apogée) / 3 (divin) ; `pend` = choix en attente (`job`, `sub`, `aw`) | créé par `initProg(c)` |
+| `c.job` | `{id:null, pm:0, voc:null, post:null}` | idem |
+| `c.tree` | `{v:1, fix:{}, ins:[], got:[], star:{}}` (`star` : nœuds d'étoile par niveau) | idem |
+| `c.xpBank` | réserve d'expérience | 0 |
+| `c.deck` | ids des actives épinglées (max 4) | `[]` |
+| `G.codex` | §9.1 | `{}` |
+
+### 13.3 Fonctions à modifier
+
+| Fonction | Changement |
+|---|---|
+| `cap(c)` | `10*c.st` |
+| `need(c)` | §1.2 |
+| `stats(c)` | remplacer `(1+.1*g.X*L)` par `LVM[X][c.lv]*tilt(g.X,c.lv)` ; ajouter `SPECS[spec].mods` si en harmonie ; VIT/crit des paliers 40/60 ; Constellations ✦ |
+| `gain(c,x)` | au plafond : 50 % vers `c.xpBank` (plafond §1.4) ; à chaque niveau : `treeUnlock(c,L)` (remplace `learnRoll` au multiple de `ms`) puis `milestone(c,L)` |
+| `milestone(c,L)` *(nouvelle)* | 5 → `pend.job` + 2 vocations ; 10 → `pend.sub` ; 15 → toast pressentiment ; 20 → `cls.spec=specOf(c)`, fige les nœuds V ; 25/55 → maîtrise ; 30 → forme de voie ; 35 → ultime ; 40 → `pend.aw` (choix passerelle) ; 45 → évolution du métier ; 50 → `aw=2` ; 60 → `aw=3` (si 6★). Chaque palier pousse une ligne dans `NEWSK` et une cinématique en file (`PROGQ`) jouée hors combat |
+| `kit(c)` | renvoie `{sk, ul, tid, uid, stage}` : technique = `WTECH[type d'arme]` → `SPECS[spec].tech` si niv. ≥ 20 et en harmonie ; ultime = `ROLES.ul` → `SPECS[spec].ult` si niv. ≥ 35 et en harmonie ; `stage` = 0…3 pour les multiplicateurs §5.1. Les surcharges `KITS_PERS`/`KITS_SUB`/`c.kit`/`c.sig` restent prioritaires (Jeanne) |
+| `doSkill` / `doUlt` | si `TECHS[tid]` / `ULTS[uid]` existe, l'appeler ; sinon branche par rôle actuelle (repli) |
+| `doEvo(id)` | supprimer `drawSkill` d'office → nœud d'étoile ; révéler et figer les nœuds ≤ nouveau plafond ; verser `xpBank` via `gain` ; à 6★ niv. 60 : `tr++` = Constellation (plus de +5 niveaux) |
+| `evoNeed`, fiche | textes « niv. max » mis à jour ; onglets §10.1 |
+| `initPers(c)` | n'appelle plus `learnRoll` en boucle ; appelle `initProg(c)` |
+| `learnRoll`, `drawSkill` | conservés pour les tirages hors arbre (sacrifice, récompenses) ; `drawSkill` exclut `fx`, applique `sig` |
+| `upRole(c)` | inchangé ; ajoute `c.harm = !c.cls.spec || SPECS[c.cls.spec].r==c.role` |
+| `mkFoe(d)` | option §11.5 (`fScale`) au-delà de l'étage 40 |
+| `train`, Camp | Entraîneur (§6.1) |
+| Village (tick 8 s) | `+1 pm` par tranche de 10 s pour les personnages en poste |
+
+### 13.4 Mécanismes de combat à ajouter
+
+| Mécanisme | Représentation | Utilisé par |
+|---|---|---|
+| Poison / brûlure (dégâts sur la durée) | `u.dot=[{k:'psn',v,t,n}]`, appliqué au début du tour de la cible, cumul `n` ≤ 3 (5 Maître des venins) | Empoisonneur, Toxine, Brasier, Grenadier |
+| Soin sur la durée | `u.hot=[{v,t}]` au début du tour | Druide, Héraut de l'aube, Floraison |
+| Marque | `t.mark={by,v,t}` → `deal` multiplie par `1+v` | Pisteur, Défi, Malédiction, Maléfice |
+| Furtivité | `u.stealth=t` → `tgt()` côté ennemi l'ignore tant qu'un autre allié est debout | Lame de l'ombre, Voile d'ombre, Danse des ombres |
+| Renvoi de dégâts | `u.thorn=v` → après `hurt`, renvoie `d×v` à l'attaquant | Vengeur, Peau d'épines |
+| Saut de tour | `t.skip=n` → `foeTurn` consomme et passe | Arrêt du temps |
+| Interposition | dans `deal`, si `t.ally` et un garde éligible : redirige vers le garde (dégâts ×0,7) | Garde du corps, Rempart (ultime), Cœur sacrificiel (existe déjà en partie) |
+| Familier | `u.pet={pow,el}` → coup à la fin de chaque tour du maître | Dompteur, Gardien des bois |
+| Vol de vie | `u.ls=v` → `heal(u, d×v)` après `deal` | Berserker, Soif de sang, Hémomancien |
+
+### 13.5 Migration (`migrate()`, clé `tdE6`)
+
+```js
+function migrateProg(c){initProg(c);const cp=10*c.st;
+ if(c.lv>cp){let x=c.xp;for(let L=cp;L<c.lv;L++)x+=need({lv:L});c.xpBank=(c.xpBank||0)+x;c.lv=cp;c.xp=0}
+ c.skills.forEach(s=>s.src=s.src||'acquis');
+ if(c.lv>=5&&!c.job.id)c.cls.pend.job=1;if(c.lv>=10&&!c.cls.sub)c.cls.pend.sub=1;
+ if(c.lv>=20&&!c.cls.spec)c.cls.spec=specOf(c);if(c.lv>=40&&!c.cls.aw)c.cls.pend.aw=1;if(c.lv>=50)c.cls.aw=Math.max(c.cls.aw,2);
+ revealTree(c);for(let L=1;L<=c.lv;L++)treeUnlock(c,L,1)}   // silencieux, puis une annonce groupée
+```
+
+Avant toute migration : copie `tdE5_bak`. En cas d'erreur, la sauvegarde d'origine reste intacte (même filet que le `try/catch` actuel).
+
+### 13.6 Ordre de réalisation conseillé
+
+1. **Socle** : `cap`, `need`, réserve d'exp., `LVM`/`stats`, migration (jouable seul, corrige déjà l'échelle).
+2. **Arbre** : `SLOTS`, `treeOf`, `treeUnlock`, nouvelles compétences, onglet Arbre.
+3. **Classes** : techniques d'arme, sous-classes + écran de choix, spécialisations + révélation, harmonie.
+4. **Ultimes et éveils** : `TECHS`/`ULTS`, paliers 35/40/50/60, cinématiques, passerelles, Constellations.
+5. **Métiers** : attribution, postes, rangs, effets, évolution.
+6. **Codex**.
+7. **Icônes** (en parallèle dès l'étape 2 : la table §12.3 est complète).
+
+### 13.7 Vérifications de recette
+
+- Un 1★ neuf : nœuds 3, 6, 8 visibles et nommés ; 12–18 en « ? » colorés ; bannières 5/10/20… visibles ; au niv. 10, choix de sous-classe ; plafond bloquant ; l'expérience gagnée au plafond remplit la réserve et se libère à l'éveil 2★.
+- Deux personnages de même rôle, même étoile, personnalités différentes : arbres différents ; même graine + mêmes entrées → même arbre (rechargement).
+- Changer d'arme entre les niv. 15 et 19 change le pronostic de spécialisation ; après le niv. 20, une arme d'un autre rôle met la spécialisation en sommeil sans perte, la remettre la réveille.
+- Jeanne (sauvegarde existante 3★ niv. > 30) : niv. 30, réserve > 0, Chevalier, choix de métier et de sous-classe en attente, *Ordre du commandant* conservé.
+- Étage 28 avec un 5★ niv. 50 : un monstre normal tombe en 4–5 attaques de base (§11.3).
+- Mobile 390 px : aucune barre de défilement horizontale dans la fiche, la frise, le choix de sous-classe et le codex.
