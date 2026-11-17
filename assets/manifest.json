@@ -46,7 +46,7 @@
    "col": "#d8b838"
   }
  },
- "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), fx_<nom> (feuilles horizontales), portail, bateau, bateau_ui.",
+ "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales), portail, bateau, bateau_ui.",
  "assets": {
   "bateau": {
    "file": "png/bateau.png",
@@ -1098,6 +1098,210 @@
    "h": 24,
    "kind": "item"
   },
+  "mat_bois": {
+   "file": "png/mat_bois.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_cristal": {
+   "file": "png/mat_cristal.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_croc": {
+   "file": "png/mat_croc.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_cuir": {
+   "file": "png/mat_cuir.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_arcane": {
+   "file": "png/mat_essence_arcane.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_feu": {
+   "file": "png/mat_essence_feu.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_foudre": {
+   "file": "png/mat_essence_foudre.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_glace": {
+   "file": "png/mat_essence_glace.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_nature": {
+   "file": "png/mat_essence_nature.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_ombre": {
+   "file": "png/mat_essence_ombre.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_essence_sacre": {
+   "file": "png/mat_essence_sacre.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_lingot": {
+   "file": "png/mat_lingot.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_minerai": {
+   "file": "png/mat_minerai.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_mithril": {
+   "file": "png/mat_mithril.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_noyau": {
+   "file": "png/mat_noyau.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_parchemin_1": {
+   "file": "png/mat_parchemin_1.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_parchemin_2": {
+   "file": "png/mat_parchemin_2.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_parchemin_3": {
+   "file": "png/mat_parchemin_3.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_parchemin_4": {
+   "file": "png/mat_parchemin_4.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_parchemin_5": {
+   "file": "png/mat_parchemin_5.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_parchemin_6": {
+   "file": "png/mat_parchemin_6.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_pierre_1": {
+   "file": "png/mat_pierre_1.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_pierre_2": {
+   "file": "png/mat_pierre_2.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_pierre_3": {
+   "file": "png/mat_pierre_3.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_pierre_4": {
+   "file": "png/mat_pierre_4.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_pierre_5": {
+   "file": "png/mat_pierre_5.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_pierre_6": {
+   "file": "png/mat_pierre_6.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_poussiere": {
+   "file": "png/mat_poussiere.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_tissu": {
+   "file": "png/mat_tissu.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_tome_1": {
+   "file": "png/mat_tome_1.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_tome_2": {
+   "file": "png/mat_tome_2.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_tome_3": {
+   "file": "png/mat_tome_3.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_tome_4": {
+   "file": "png/mat_tome_4.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
+  "mat_tome_5": {
+   "file": "png/mat_tome_5.png",
+   "w": 24,
+   "h": 24,
+   "kind": "material"
+  },
   "plot_empty": {
    "file": "png/plot_empty.png",
    "w": 54,
@@ -1168,6 +1372,18 @@
    "file": "png/ui_divider.png",
    "w": 64,
    "h": 8,
+   "kind": "ui"
+  },
+  "ui_enclume": {
+   "file": "png/ui_enclume.png",
+   "w": 32,
+   "h": 32,
+   "kind": "ui"
+  },
+  "ui_evolution": {
+   "file": "png/ui_evolution.png",
+   "w": 32,
+   "h": 32,
    "kind": "ui"
   },
   "ui_panel": {

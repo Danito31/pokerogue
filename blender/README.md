@@ -21,6 +21,7 @@ dans `new Image().src` ; fonctionne en `file://`).
 | `common.py` | scène, caméra orthographique, éclairage, matériaux « toon », rendu 2 passes, pixelisation + contour |
 | `buildings.py` | 11 bâtiments × 3 niveaux (carte 54×58 + illustration 160×120) + terrain vide |
 | `items.py` | 22 icônes d'équipement 24×24 |
+| `materials.py` | icônes de craft/évolution 24×24 (`mat_parchemin_1..6`, `mat_tome_1..5`, `mat_pierre_1..6`, matériaux, `mat_essence_<élément>`) + `ui_enclume`, `ui_evolution` 32×32 |
 | `ui.py` | icônes de ressources 16×16, étoiles, cadre 9-slice, boutons, ornements |
 | `fx.py` | effets d'attaque animés (feuilles de sprites) |
 | `extras.py` | portail de la tour, bateau montgolfier |
