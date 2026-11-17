@@ -221,7 +221,8 @@ i.pd{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(
 .stab{position:sticky;top:44px;z-index:1;background:var(--panel);padding:4px 0;margin:4px 0 6px}.stab button{flex:1 1 auto;min-height:40px;padding:4px 8px;font-size:14px}
 .pend{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:3px solid var(--red);padding:6px 8px;margin:6px 0}.pend b{color:var(--red);width:100%}
 .rdyb{display:inline-block;background:var(--teal);color:#14302a;font-size:11px;border:2px solid #000;padding:0 5px}
-.tbar{display:flex;align-items:center;gap:8px;font-size:13px;position:sticky;top:92px;z-index:1;background:var(--panel);padding:4px 0}.tfil{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}.tfil button{font-size:13px;padding:5px 10px;min-height:36px}
+.tbar{display:flex;align-items:center;gap:8px;font-size:13px;padding:4px 0}.tsh{display:none}.tms .vch img{width:14px;height:14px;margin:0}
+#pin .bd .scard,#pin .bd .jcard{display:flex;align-items:flex-start;background:var(--panel2);color:var(--text)}#pin .bd .jcard{align-items:center}#pin .bd .scard>img.em{width:48px;height:48px}#pin .bd .jcard>img{width:64px;height:64px}.tfil{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 8px}.tfil button{font-size:13px;padding:5px 10px;min-height:36px}
 .tl2{position:relative;padding-left:2px}.tl2:before{content:'';position:absolute;left:31px;top:0;bottom:0;width:4px;background:#4a4660}
 .tlv{width:24px;flex:none;text-align:right;font-size:12px;color:var(--mut)}
 .tn,.tms,.tsm{position:relative;display:flex;align-items:center;gap:8px;margin:4px 0;min-height:44px}
@@ -254,7 +255,7 @@ i.pd{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(
 #evo.divin .et{font-size:44px;color:#fff3b0}
 .bsi{width:20px;height:20px;image-rendering:pixelated;vertical-align:-4px;margin-right:4px}
 #cut .cui{position:relative;width:64px;height:64px;flex:none}#cut .cui img{width:64px;height:64px;animation:none}#cut .cui .cuf{position:absolute;inset:-8px;width:80px;height:80px}
-@media (max-width:560px){.jcards{grid-template-columns:1fr 1fr}.cdxg{gap:6px}.cdxc{min-height:118px;padding:6px 2px}.rng{width:64px;height:64px}.rng img{width:52px;height:52px}.stab button{font-size:12px;padding:4px 5px}.tdet{margin-left:0}.tbar{top:88px}#evo.divin .et{font-size:32px}}
+@media (max-width:560px){.skr .gr{flex-basis:180px}.jcards{grid-template-columns:1fr 1fr}.cdxg{gap:6px}.cdxc{min-height:118px;padding:6px 2px}.rng{width:64px;height:64px}.rng img{width:52px;height:52px}.stab button{font-size:12px;padding:4px 5px}.tdet{margin-left:0}.stab{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.stab button{padding:4px 2px;font-size:12px;min-width:0}.tlg{display:none}.tsh{display:inline}#evo.divin .et{font-size:32px}}
 @media (prefers-reduced-motion:reduce){.tn.nx .tf,#evo .esky{animation:none}}
 </style>
 <div id="stage">
@@ -301,7 +302,7 @@ const KITS_PERS={},KITS_SUB={};
 function kit(c){const R=ROLES[c.role]||ROLES.guerrier,C=c.cls||{},sp=C.spec&&SPECS[C.spec],hm=harmOf(c),wt=c.eq&&c.eq.arme?c.eq.arme.t:(c.mage?'grimoire':'_');
  let tid=WTECH[wt]||'tech_poing',sk=TECHN[tid],uid='role',stage=0,ul=R.ul,ulM=1,uk=ROLE_ULK[c.role];
  if(sp&&c.lv>=20&&hm){tid='tech_'+C.spec;sk=[sp.tn,sp.td]}
- if(sp&&c.lv>=35&&hm){uid=C.spec;stage=awOf(c);uk='sk_ult_'+C.spec;ul=[stage>=3?sp.un[1]:sp.un[0],sp.ud[0]+(stage?' · '+sp.ud.slice(1,stage+1).join(' · '):'')]}else if(sp&&c.lv>=35)ulM=1.2;
+ if(sp&&c.lv>=35&&hm){uid=C.spec;stage=awOf(c);uk='sk_ult_'+C.spec;ul=[stage>=3?sp.un[1]:sp.un[0],stage>=3?sp.ud[3]+' (divin)':sp.ud[0]+(stage?' · '+sp.ud.slice(1,stage+1).join(' · '):'')]}else if(sp&&c.lv>=35)ulM=1.2;
  const o=Object.assign({sk,ul,tid,uid,stage,ulM,uk},KITS_PERS[c.pers]&&KITS_PERS[c.pers][c.role]||{},KITS_SUB[c.sub]&&KITS_SUB[c.sub][c.role]||{},c.kit||{});
  if(c.sig){o.uk='sk_ult_commandant';if(c.lv>=35){o.uid='jeanne';o.stage=awOf(c);o.ul=[o.stage>=3?'Ordre de l’Aube':'Ordre du commandant','Cible (320 %), équipe ATQ +25 % et bouclier 12 %.']}else{o.uid='role';o.ul=['Ordre du commandant','Cible (280 %), équipe ATQ +25 %.']}}return o}
 const PERS={Altruiste:'Soins et boucliers +20 %',Ambitieux:'ATQ +10 %',Calculateur:'Critique +12 %',Impulsif:'Vitesse +8, DEF −10 %',Stoïque:'PV et DEF +12 %',Curieux:'Rupture de ténacité +30 %',Gourmand:'Récupère 5 % de PV à chaque tour',Égoïste:'Dégâts des compétences +15 % · s’isole des autres',Opportuniste:'Critique +6 %, or +10 % · apprécié de tous'};
@@ -1359,7 +1360,7 @@ function awConfirm(id){const c=G.chars.find(x=>x.id==id);if(!c||!AWSEL)return;if
  if(AWSEL!=c.cls.spec){const w=pasW(c,AWSEL);if(!w.ok)return;if(w.it)equip(c.id,w.it.id);c.cls.spec=AWSEL;['42'].forEach(L=>{if(!c.tree.got.includes(L)){delete c.tree.fix[L];c.tree.ins=c.tree.ins.filter(x=>x!=L)}});revealTree(c);codexSpec(c)}
  delete c.cls.pend.aw;c.cls.aw=Math.max(1,c.cls.aw||0,c.lv>=50?2:0,c.lv>=60&&c.st>=6?3:0);upRole(c);save();closePanel();progReveal(c,'aw1',s0,k0)}
 /* ---------- cinématiques (réutilise evoReveal : rayons, flash, lignes de gains) ---------- */
-function progReveal(c,kind,s0,k0){const S=c.cls.spec&&SPECS[c.cls.spec],K=kit(c),s1=stats(c),st=s0?`PV ${s0.hp} → <b class="g">${s1.hp}</b> · ATQ ${s0.atk} → <b class="g">${s1.atk}</b> · DEF ${s0.def} → <b class="g">${s1.def}</b>`:'';
+function progReveal(c,kind,s0,k0){const S=c.cls.spec&&SPECS[c.cls.spec],K=kit(c),s1=stats(c),st=s0?`PV ${s0.hp} → <b class="g">${s1.hp}</b> · ATQ ${s0.atk} → <b class="g">${s1.atk}</b> · VIT ${s0.spd} → <b class="g">${s1.spd}</b> · Crit. ${Math.round(s0.crit*100)} % → <b class="g">${Math.round(s1.crit*100)} %</b>`:'';
  if(kind=='spec'){const wt=WTECH[c.eq&&c.eq.arme?c.eq.arme.t:'_']||'tech_poing',md=Object.keys(S.mods).map(k=>({atk:'ATQ',def:'DEF',hp:'PV',crit:'critique',spd:'VIT',heal:'soins'}[k]+' '+(S.mods[k]>0?'+':'−')+(k=='spd'?Math.abs(S.mods[k]):Math.round(Math.abs(S.mods[k])*100)+' %'))).join(', ');
   return evoReveal({img:specIco(c.cls.spec),col:ROLEC[S.r],title:'SPÉCIALISATION !',name:`${c.name} · ${S.n}`,from:0,to:0,small:1,lines:[`<span class="evt"><img src="${pIco('sk_'+wt,'#888',TECHN[wt][0])}" alt="">${TECHN[wt][0]} → <img src="${pIco('sk_tech_'+c.cls.spec,ROLEC[S.r],S.tn)}" alt=""><b class="g">${S.tn}</b></span>`,S.td,`Bonus de niveau ×1,06${md?' · '+md:''}`,`Familles favorisées des nœuds V : ${S.f.map(f=>FAM[f].n.toLowerCase()).join(', ')}`,harmOf(c)?'':'<span class="w">Arme d’une autre classe : spécialisation en sommeil.</span>']})}
  if(kind=='ult')return evoReveal({img:pIco(K.uk,ROLEC[c.role],K.ul[0]),col:ELEMS[c.elem].c,title:'NOUVEL ULTIME',name:`${c.name} · ${K.ul[0]}`,from:0,to:0,small:1,lines:[K.ul[1],'Cinématique d’ultime, coût 100 d’énergie.']});
@@ -1370,8 +1371,8 @@ let SHTAB=(()=>{try{return localStorage.getItem('tdE_shtab')||'profil'}catch(e){
 function setST(k,id){SHTAB=k;TSEL=null;try{localStorage.setItem('tdE_shtab',k)}catch(e){}rp();$('#pin').scrollTop=0;if(k=='arbre')setTimeout(()=>{const n=document.querySelector('.tl2 .nx');if(n)n.scrollIntoView({block:'center'})},30)}
 function sheetHead(c){const s=stats(c),C=c.cls||{};return`<div class="shd"><img class="sp" src="${cs(c).url}" alt=""><div class="gr"><b>${c.name}</b> ${stars(c.st)}${c.tr?`<span class="trk">✦${c.tr}</span>`:''}${pendBadge(c)}<div class="cch">${clsChain(c)}${C.sub&&c.lv>=10?` <span class="sbd" title="${SUBCL[C.sub].n}"><img src="${subIco(C.sub)}" alt="">${c.lv>=30?SUBCL[C.sub].v[voieOf(c)][0]:SUBCL[C.sub].n}</span>`:''}${c.job&&c.job.id?` <img class="jic" src="${pIco('job_'+c.job.id+(c.lv>=45?'_evo':''),'#e8945a',JOBS[c.job.id][0])}" title="${JOBS[c.job.id][0]}" alt="">`:''}</div><div class="m">niv. ${c.lv}/${cap(c)} · ${c.race}${c.mage?' · Mage '+c.mage:''} · ${elc(c.elem)}${c.inj?' · <b class="w">blessé</b>':''}</div><div class="m">PV ${s.hp} · ATQ ${s.atk} · DEF ${s.def} · VIT ${s.spd} · Crit. ${Math.round(s.crit*100)} %</div></div></div>`}
 function openSheet(id){openPanel(()=>{const c=G.chars.find(x=>x.id==id);if(!c)return['Fiche','<p>Personnage introuvable.</p>'];if(!c.cls)initProg(c);
- const T=[['profil','Profil'],['arbre','Arbre'],['comp','Compétences'],['metier','Métier'],['rel','Relations']];
- let h=`<p><button class="alt" onclick="openTeam()">← Équipe</button> <button class="alt" onclick="openCodex()">Codex</button></p>${sheetHead(c)}<div class="tabs stab">${T.map(([k,n])=>`<button class="${SHTAB==k?'on':'alt'}" onclick="setST('${k}',${c.id})">${n}${k=='profil'&&pendOf(c).length?' <i class="pd"></i>':''}</button>`).join('')}</div>`;
+ const T=[['profil','Profil'],['arbre','Arbre'],['comp','Compétences','Compét.'],['metier','Métier'],['rel','Relations','Liens']];
+ let h=`<p><button class="alt" onclick="openTeam()">← Équipe</button> <button class="alt" onclick="openCodex()">Codex</button></p>${sheetHead(c)}<div class="tabs stab">${T.map(([k,n,sn])=>`<button class="${SHTAB==k?'on':'alt'}" onclick="setST('${k}',${c.id})">${sn?`<span class="tlg">${n}</span><span class="tsh">${sn}</span>`:n}${k=='profil'&&pendOf(c).length?' <i class="pd"></i>':''}</button>`).join('')}</div>`;
  h+=SHTAB=='arbre'?treeHTML(c):SHTAB=='comp'?compHTML(c):SHTAB=='metier'?jobHTML(c):SHTAB=='rel'?relHTML(c):profHTML(c);
  return[`Fiche · ${c.name}`,h]})}
 function profHTML(c){const g=c.gr||GR0,fp=famPct(c).slice(0,4),cb=combosOf(c),C=c.cls,P=pendOf(c);let h='';
@@ -1410,7 +1411,7 @@ function treeHTML(c){const cp=cap(c),N=treeOf(c),nx=N.find(n=>!n.got&&n.L<=cp),h
   const ic=st=='mys'?`<span class="tmy" style="background:${FAM[S.f].c}">${aSrc('ui_node_mystery')?`<img src="${aSrc('ui_node_mystery')}" alt="">`:'?'}</span>`:st=='unk'?'<span class="tun">???</span>':`<img class="ti" src="${skIco(n.id)}" alt="">`;
   const name=st=='mys'?`<b style="color:${FAM[S.f].c}">${FAM[S.f].n}</b> <span class="m">· ${RARN[r].toLowerCase()}</span>`:st=='unk'?'<span class="m">???</span>':`<b style="color:${RARC[r]}">${S.n}</b>`;
   const tags=st=='mys'||st=='unk'?'':`<span class="tg">${S.a?'active':'passive'}</span>${n.ins?'<span class="tg ins">✦ inspiré</span>':''}${n.star?'<span class="tg st2">★ nœud d’étoile</span>':''}${n.k!='G'?`<span class="tg">Nœud ${n.k}</span>`:''}${n.pres?`<span class="tg pr">${n.k=='S'?'selon la sous-classe':'si '+SPECS[specGuess(c)].n}</span>`:''}${sleep?'<span class="tg slp">☾ en sommeil</span>':''}`;
-  const when=n.got?'<span class="g">✓</span>':st=='rev'||st=='nx'?`<span class="m">dans ${n.L-c.lv} niv.</span>`:'';
+  const when=n.got?'<span class="g">✓</span>':st=='rev'||st=='nx'?`<span class="m">${n.L>c.lv?'dans '+(n.L-c.lv)+' niv.':'à débloquer'}</span>`:'';
   h+=`<div class="tn ${st}${n.pres?' pres':''}${sel?' sel':''}" onclick="TSEL=TSEL=='${n.key}'?null:'${n.key}';rp()">${lv}<span class="tf" style="--rc:${st=='unk'?'#4a4660':RARC[r]}">${ic}${n.star?'<i class="tst">★</i>':''}${st=='rev'&&aSrc('ui_node_lock')?`<img class="tlk" src="${aSrc('ui_node_lock')}" alt="">`:''}${st=='nx'&&aSrc('ui_node_next')?`<img class="tnx" src="${aSrc('ui_node_next')}" alt="">`:''}</span><div class="tt">${name} ${when}<div>${tags}</div>${st=='got'||st=='nx'||st=='rev'?`<div class="m td">${S.d(1+.4*(n.ins?1:0))}</div>`:''}</div></div>`;
   if(sel&&st!='unk')h+=nodeDet(c,n,st)}
  return h+'</div>'}
