@@ -254,13 +254,66 @@ def rope():
     Sp(0.17, (1.6, -0.9, 0), '#b88c50', (1, 1, 1), 6, 4) if False else None
 
 
+def cape():
+    # cape a capuche : drape bordeaux, capuche pointue, fermoir dore
+    Pl([(-0.55, 1.1), (0.55, 1.1), (0.95, 0.3), (1.15, -1.3), (0.0, -1.0), (-1.15, -1.3), (-0.95, 0.3)], 0.3, '#7a2a5a')
+    Pl([(-0.3, -0.2), (0.3, -0.2), (0.45, -1.0), (0.0, -0.8), (-0.45, -1.0)], 0.34, '#a8407a')
+    Pl([(-0.6, 1.0), (0.0, 1.75), (0.6, 1.0), (0.0, 0.3)], 0.42, '#5a1a40')
+    Pl([(-0.25, 1.0), (0.0, 1.3), (0.25, 1.0), (0.0, 0.6)], 0.46, DARK)
+    Pl([(-1.15, -1.3), (1.15, -1.3), (1.1, -1.05), (-1.1, -1.05)], 0.34, GOLDM)
+    Sp(0.2, (0, -0.25, 0.28), GOLDM)
+
+
+def compass():
+    add(cyl(1.15, 0.3, (0, 0, -0.15), GOLDM, 20, rot=(90, 0, 0), bevel=0.03))
+    add(cyl(0.95, 0.34, (0, -0.02, -0.15), CREAM, 20, rot=(90, 0, 0)))
+    add(torus(1.05, 0.1, (0, -0.2, -0.15), GOLDM, 20, 5, (90, 0, 0)))
+    add(cyl(0.28, 0.2, (0, 0, 1.0), GOLDM, 8, rot=(90, 0, 0)))
+    add(torus(0.3, 0.08, (0, 0, 1.4), GOLDM, 10, 5, (90, 0, 0)))
+    Pl([(-0.26, -0.15), (0, 0.95), (0.26, -0.15)], 0.16, RED, at=(0, -0.3, -0.15))
+    Pl([(-0.26, -0.15), (0, -1.25), (0.26, -0.15)], 0.16, '#4a6ab8', at=(0, -0.3, 0.0))
+    for a in (0, 90, 180, 270):
+        r_ = math.radians(a)
+        Bx((0.12, 0.1, 0.2), (math.sin(r_) * 0.82, -0.25, math.cos(r_) * 0.82 - 0.15), '#3a2c4a', center=True)
+    Sp(0.14, (0, -0.4, -0.15), GOLDM)
+    G['o'].rotation_euler = (0, math.radians(-20), 0)
+
+
+def armor_c():
+    # gilet de cuir : bretelles, lacet central, rivets, ceinture sombre
+    Pl([(-0.75, 1.2), (-0.3, 1.3), (0, 0.95), (0.3, 1.3), (0.75, 1.2), (0.95, 0.4), (0.7, -0.2), (0.7, -1.25), (-0.7, -1.25), (-0.7, -0.2), (-0.95, 0.4)], 0.3, '#8a5a3a')
+    Pl([(-0.3, 1.3), (0, 0.95), (0.3, 1.3), (0.55, 1.25), (0.15, 0.6), (-0.15, 0.6), (-0.55, 1.25)], 0.36, '#c98f5a')
+    Pl([(-0.7, -0.45), (0.7, -0.45), (0.7, -0.8), (-0.7, -0.8)], 0.36, '#4a2c20')
+    Bx((0.34, 0.4, 0.3), (0, 0, -0.62), GOLDM, center=True)
+    for z in (0.3, -0.05):
+        Pl([(-0.3, z + 0.12), (0.3, z + 0.12), (0.3, z), (-0.3, z)], 0.38, CREAM)
+    for x in (-0.55, 0.55):
+        for z in (0.8, 0.2):
+            Sp(0.1, (x, -0.2, z), GOLDM)
+    Pl([(-0.05, 0.55), (0.05, 0.55), (0.05, -0.4), (-0.05, -0.4)], 0.4, '#4a2c20')
+
+
+def hourglass():
+    SAND = '#ffcf4a'
+    for z in (-1.55, 1.55):
+        cyl(0.95, 0.22, (0, 0, z - 0.1), WOOD, 8, bevel=0.02)
+    for a in (45, 135, 225, 315):
+        r_ = math.radians(a)
+        cyl(0.09, 3.0, (math.cos(r_) * 0.78, math.sin(r_) * 0.78, -1.4), WOOD_D, 6)
+    cyl(0.78, 1.45, (0, 0, 0.05), '#cfe6f0', 12, r2=0.1)
+    cyl(0.78, 1.45, (0, 0, -1.5), '#cfe6f0', 12, r2=0.1, rot=(180, 0, 0)).location.z = -0.05
+    emis(cyl(0.6, 0.95, (0, 0, -1.45), SAND, 10, r2=0.5), SAND)
+    emis(cyl(0.45, 0.8, (0, 0, 0.25), SAND, 10, r2=0.05), SAND)
+    emis(cyl(0.05, 0.4, (0, 0, -0.3), SAND, 6), SAND)
+
 ITEMS = {  # cle: (fonction, rotation_roll_Y, az, el, ss)
     'epee': (sword, 45), 'hache': (axe, 40), 'lance': (spear, 45), 'bouclier': (shield, 0), 'dagues': (daggers, 0),
     'arc': (bow, 35), 'arbalete': (crossbow, 30), 'baton': (staff, 40), 'grimoire': (grimoire, 0),
     'sceptre': (sceptre, 40), 'relique': (relic, 0), 'luth': (lute, 40), 'etendard': (banner, 0),
     'armure_legere': (armor_l, 0), 'armure_lourde': (armor_h, 0), 'robe': (robe, 0),
     'potion_soin': (potion_h, 0), 'potion_energie': (potion_e, 0), 'torche': (torch, 35),
-    'pioche': (pickaxe, 40), 'cle': (key, 45), 'rope': (rope, 0), 'corde': (rope, 0)}
+    'pioche': (pickaxe, 40), 'armure_cuir': (armor_c, 0), 'cape': (cape, 0), 'potion': (potion_h, 0),
+    'elixir': (potion_e, 0), 'boussole': (compass, 0), 'sablier': (hourglass, 0), 'cle': (key, 45), 'rope': (rope, 0), 'corde': (rope, 0)}
 
 
 def build(k):

@@ -57,7 +57,7 @@ def star(on=True, key_='ui_star'):
 
 
 def panel():
-    box((6, 6, 0.12), (0, 0, 0), CREAM)
+    box((6, 6, 0.12), (0, 0, 0), CREAM)  # (rendu a plat : pas d'ombrage, cadre symetrique)
     box((5.4, 5.4, 0.12), (0, 0, 0.12), '#14122a')
     box((5.0, 5.0, 0.12), (0, 0, 0.24), PANEL)
     box((4.5, 4.5, 0.06), (0, 0, 0.36), PANEL2)
@@ -65,7 +65,7 @@ def panel():
     for sx in (-1, 1):
         for sy in (-1, 1):
             sph(0.42, (sx * 2.55, sy * 2.55, 0.35), GOLDM, 8, 6)
-    add_render('ui_panel', 48, 48, mode='fit', az=0, el=89, margin=0, ss=6, outline=False, t_light=0.9)
+    add_render('ui_panel', 48, 48, mode='fit', az=0, el=90, margin=0, ss=6, outline=False, t_dark=-1.0, t_light=9.0)
 
 
 def corner():

@@ -8,6 +8,7 @@ BLD_COL.update({'hdv': '#4a6ab8', 'chasse': '#6a7a3a', 'biblio': '#8a5ac8', 'lab
 BLD_NAMES = ['auberge', 'ferme', 'camp', 'inf', 'forge', 'hdv', 'chasse', 'biblio', 'labo', 'entrepot', 'marche']
 AZ, EL = 20, 30
 PPUS, UPPU = {1: 0.086, 2: 0.118, 3: 0.152}, {1: 0.060, 2: 0.068, 3: 0.082}
+PPU_K = {('hdv', 3): 0.168, ('forge', 3): 0.158, ('labo', 3): 0.158, ('biblio', 2): 0.124, ('hdv', 2): 0.124}
 WIN = '#ffe08a'
 GRASS, GRASS_D, DIRT = '#58a650', '#458c40', '#8a6a4a'
 RED = '#ff5a5a'
@@ -526,6 +527,196 @@ F3 = dict(auberge=f3_auberge, ferme=f3_ferme, camp=f3_camp, inf=f3_inf, forge=f3
           chasse=f3_chasse, biblio=f3_biblio, labo=f3_labo, entrepot=f3_entrepot, marche=f3_marche)
 
 
+# ------------------------------------------------------------------ silhouettes renforcees (lisibilite 54x58)
+ROOF = {'forge': '#34304c', 'hdv': '#5f8cf0'}      # toits plus contrastes
+EM_GREEN, EM_FIRE, EM_GOLD = '#7dffa8', '#ff8a3a', '#ffd84a'
+
+
+def em(o, col):
+    o.data.materials.clear(); o.data.materials.append(mat(col, 1))
+    return o
+
+
+def smoke(x, y, z, n=3, s=0.28, cols=('#f0ecfa', '#cfcae2'), emit=None):
+    for i in range(n):
+        c = emit or cols[i % 2]
+        o = sph(s * (1 + 0.28 * i), (x + 0.1 * i * (1 if i % 2 else -1), y, z + i * s * 1.45), c, 7, 5)
+        if emit:
+            em(o, emit)
+
+
+def antlers(x, y, z, s=1.0):
+    box((0.55 * s, 0.3 * s, 0.34 * s), (x, y, z), CREAM, bevel=0.02)
+    for sg in (-1, 1):
+        rod3((x + sg * 0.15 * s, y, z + 0.2 * s), (x + sg * 0.55 * s, y, z + 0.85 * s), 0.1 * s, CREAM)
+        rod3((x + sg * 0.55 * s, y, z + 0.85 * s), (x + sg * 0.95 * s, y, z + 1.65 * s), 0.09 * s, CREAM)
+        rod3((x + sg * 0.5 * s, y, z + 0.8 * s), (x + sg * 1.15 * s, y, z + 1.0 * s), 0.08 * s, CREAM)
+        rod3((x + sg * 0.75 * s, y, z + 1.25 * s), (x + sg * 0.4 * s, y, z + 1.7 * s), 0.07 * s, CREAM)
+
+
+def hide(x, y, z, w=0.7, h=0.9, col='#d9955a'):
+    poly([(-w / 2, 0), (w / 2, 0), (w * 0.55, -h * 0.55), (w * 0.3, -h), (-w * 0.3, -h), (-w * 0.55, -h * 0.55)], 0.08, (x, y, z + h), col)
+
+
+def awning(x0, y, z, n, step, cols, d=0.9, tilt=-28):
+    for i in range(n):
+        box((step, d, 0.1), (x0 + i * step, y, z), cols[i % 2], (tilt, 0, 0))
+        box((step, 0.08, 0.22), (x0 + i * step, y - d * 0.5 - 0.02, z - 0.32), cols[i % 2])
+
+
+def bunting(x0, y, z, n, step):
+    cs = ['#d8352a', CREAM, '#ffcf4a', '#4a6ab8']
+    box((n * step, 0.05, 0.06), (x0 + n * step / 2 - step / 2, y, z), WOOD_D)
+    for i in range(n):
+        poly([(-step * 0.45, 0), (step * 0.45, 0), (0, -step * 0.9)], 0.06, (x0 + i * step, y - 0.03, z), cs[i % 4])
+
+
+def cross_roof(x, y, z, s=1.0):
+    box((0.46 * s, 0.26, 1.5 * s), (x, y, z), CREAM, bevel=0.02); box((1.2 * s, 0.26, 0.46 * s), (x, y, z + 0.6 * s), CREAM, bevel=0.02)
+    box((0.26 * s, 0.3, 1.3 * s), (x, y, z + 0.05), RED); box((1.0 * s, 0.3, 0.26 * s), (x, y, z + 0.7 * s), RED)
+
+
+def silo(x, y, h=3.6, r=0.8, z=0):
+    cyl(r, h, (x, y, z), '#e0d8b8', 12, bevel=0.02)
+    for q in (0.35, 0.7):
+        cyl(r * 1.04, 0.12, (x, y, z + h * q), STONE_D, 12)
+    cyl(r * 1.1, h * 0.28, (x, y, z + h), '#c0453a', 12, r2=0.0)
+    box((0.4, 0.1, 0.8), (x, y - r, z + 0.0), WOOD_D)
+
+
+def field(x0, y, n, rows=2, dy=0.34, step=0.42):
+    for r in range(rows):
+        box((n * step + 0.2, 0.28, 0.12), (x0 + n * step / 2, y - r * dy, 0), DIRT)
+        for j in range(n):
+            cyl(0.13, 0.5, (x0 + 0.2 + j * step, y - r * dy, 0.1), '#8ae65a', 5, r2=0.0)
+
+
+def books(x, y, n=5, w=0.9, z=0):
+    cs = ['#c0453a', '#4a6ab8', '#5a9a3a', GOLDM, '#8a5ac8', '#ff7ad9']
+    for i in range(n):
+        box((w * (1 - 0.06 * (i % 3)), 0.42, 0.2), (x + 0.05 * (i % 2), y, z + i * 0.21), cs[i % 6], bevel=0.015)
+
+
+def X1(k, C):
+    if k == 'forge':
+        chimney(-2.0, 0.2, 0, 2.4, 0.7, '#4a4660'); em(cyl(0.3, 0.16, (-2.0, 0.2, 2.5), EM_FIRE, 8), EM_FIRE)
+        smoke(-2.0, 0.2, 2.9, 3, 0.26)
+    elif k == 'ferme':
+        silo(-2.0, 0.9, 2.2, 0.5)
+    elif k == 'chasse':
+        antlers(-0.2, 0.2, 2.0, 0.9)
+    elif k == 'biblio':
+        books(-1.95, -1.1, 5, 0.8)
+    elif k == 'labo':
+        em(sph(0.55, (-1.9, 0.8, 0.6), EM_GREEN, 10, 8), EM_GREEN); cyl(0.2, 0.7, (-1.9, 0.8, 1.0), '#d0f0ff', 8)
+    elif k == 'entrepot':
+        crate(1.7, 0.6, 0.8); crate(1.7, 0.6, 0.6, z=0.8)
+    elif k == 'hdv':
+        flag(1.5, 0.4, 3.6, GOLDM, w=1.2, hh=0.8)
+    elif k == 'marche':
+        bunting(-1.5, -1.45, 1.75, 6, 0.55)
+    elif k == 'inf':
+        cross_roof(-0.2, 0.2, 2.0, 0.8)
+    elif k == 'auberge':
+        smoke(0.7, 0.3, 2.1, 3, 0.25)
+
+
+def X2(k, d):
+    D, wh, rh, C, W = d['D'], d['wh'], d['rh'], d['C'], d['W']
+    rz = wh + rh
+    if k == 'forge':
+        smoke(-1.0, 0.3, 4.9, 3, 0.28)
+        em(box((0.8, 0.12, 0.5), (1.5, -2.14, 0.15), EM_FIRE), EM_FIRE); em(box((0.45, 0.14, 0.28), (1.5, -2.16, 0.22), '#ffe27a'), '#ffe27a')
+        em(box((1.5, 0.12, 0.9), (0, -D / 2 - 0.0, 0.3), EM_FIRE), EM_FIRE) if False else None
+        em(box((0.7, 0.16, 0.5), (-1.55, -D / 2 - 0.05, 0.5), '#ffe27a'), '#ffe27a')
+    elif k == 'hdv':
+        box((W + 0.9, 0.16, 0.16), (0, -D / 2 - 0.32, wh), GOLDM); box((W + 1.0, 0.16, 0.16), (0, 0, rz + 0.04), GOLDM)
+        for sx in (-1, 1):
+            box((0.16, D + 0.6, 0.16), (sx * (W / 2 + 0.32), 0, wh), GOLDM)
+        zt = wh + rh * 0.6
+        cyl(0.62, 0.1, (0, -0.68, zt + 0.7), GOLDM, 14, rot=(90, 0, 0))
+        box((1.3, 0.1, 0.1), (0, -D / 2 - 0.05, 1.8), GOLDM)
+    elif k == 'ferme':
+        silo(-2.8, 0.2, 3.8, 0.8)
+        field(-1.0, -2.05, 7, 2)
+        cyl(0.07, 0.9, (2.5, -1.9, 0), WOOD_D, 6); box((0.9, 0.08, 0.08), (2.5, -1.9, 0.7), WOOD_D); sph(0.18, (2.5, -1.9, 1.05), '#e8c860', 6, 4)
+    elif k == 'chasse':
+        antlers(0, -0.3, rz - 0.1, 1.3)
+        for i in range(3):
+            hide(-3.0 + i * 0.0, -1.6 + i * 0.0, 0, 0.1, 0.1) if False else None
+        for i in range(3):
+            hide(2.0 + i * 0.5, -1.55, 0.2, 0.55, 0.95)
+    elif k == 'biblio':
+        zb = wh + rh * 0.45
+        cyl(0.8, 1.9, (-1.2, 0.5, zb), '#b9b5cc', 10, bevel=0.02)
+        cyl(0.95, 0.15, (-1.2, 0.5, zb + 1.9), STONE_D, 10)
+        cyl(1.0, 1.5, (-1.2, 0.5, zb + 2.05), C, 10, r2=0.0)
+        em(box((0.34, 0.12, 0.6), (-1.2, -0.27, zb + 0.8), WIN), WIN)
+        poly(star_pts(5, 0.3, 0.13), 0.1, (-1.2, 0.5, zb + 3.8), GOLDM)
+        books(-2.5, -1.7, 6, 1.0)
+    elif k == 'labo':
+        em(sph(0.8, (1.2, 0.1, rz - 0.15), EM_GREEN, 12, 8), EM_GREEN)
+        cyl(0.26, 0.8, (1.2, 0.1, rz + 0.55), '#d0f0ff', 8); cyl(0.3, 0.14, (1.2, 0.1, rz + 1.3), WOOD, 8)
+        smoke(-1.2, 0.3, 4.0, 3, 0.2, emit=EM_GREEN)
+    elif k == 'marche':
+        bunting(-1.9, -D / 2 - 0.38, wh - 0.05, 8, 0.55)
+        crate(-2.9, -1.9, 0.9); crate(-2.2, -2.0, 0.7)
+    elif k == 'entrepot':
+        crate(-2.9, -1.9, 0.95); crate(-2.0, -2.05, 0.75); crate(-2.6, -1.9, 0.7, z=0.95); crate(2.9, -1.9, 0.8)
+        for z in (0.4, 1.0):
+            box((1.8, 0.14, 0.12), (0, -D / 2 - 0.03, 0.2 + z), '#4a4660')
+    elif k == 'inf':
+        cross_roof(0, 0, rz - 0.1, 0.9)
+    elif k == 'auberge':
+        smoke(1.1, 0.4, 3.5, 3, 0.26)
+        box((0.9, 0.12, 0.7), (-1.9, -1.78, 0.8), GOLDM)
+    elif k == 'camp':
+        flag(0, 0, 1.6, d['C'], z=rz, w=1.3, hh=0.8)
+
+
+def X3(k, d):
+    D, wh, rh, C, W = d['D'], d['wh'], d['rh'], d['C'], d['W']
+    rz = wh + rh
+    if k == 'forge':
+        smoke(-1.3, 0.5, 6.6, 2, 0.28); smoke(1.2, 0.6, 5.8, 2, 0.24)
+        em(box((1.1, 0.12, 0.55), (2.9, -2.64, 0.15), EM_FIRE), EM_FIRE); em(box((0.6, 0.14, 0.3), (2.9, -2.66, 0.22), '#ffe27a'), '#ffe27a')
+        em(box((0.9, 0.16, 0.7), (-2.2, -D / 2 - 0.06, 0.5), '#ffe27a'), '#ffe27a')
+    elif k == 'hdv':
+        zz = wh + rh * 0.6
+        box((W + 0.9, 0.18, 0.18), (0, -D / 2 - 0.4, wh), GOLDM); box((W + 0.9, 0.2, 0.2), (0, 0, rz + 0.1), GOLDM)
+        cyl(0.72, 0.1, (0, -0.98, zz + 1.4), GOLDM, 14, rot=(90, 0, 0))
+        cyl(1.65, 0.14, (0, 0.4, zz + 2.9), GOLDM, 10)
+    elif k == 'ferme':
+        field(-1.7, -2.5, 8, 3)
+        for i in range(2):
+            sph(0.45, (-3.2 + i * 0.5, -2.7, 0.35), '#e8c860', 8, 6, (1.2, 1, 0.9))
+    elif k == 'chasse':
+        antlers(0, -0.4, rz + 0.0, 1.6)
+        for i in range(3):
+            hide(-3.6 + i * 0.55, -2.35, 0.3, 0.6, 1.0)
+    elif k == 'biblio':
+        books(-3.3, -2.6, 7, 1.1); books(3.2, -2.6, 5, 1.0)
+    elif k == 'labo':
+        em(sph(0.9, (-3.4, -1.6, 0.9), EM_GREEN, 12, 8), EM_GREEN); cyl(0.3, 0.9, (-3.4, -1.6, 1.7), '#d0f0ff', 8)
+        smoke(1.5, 0.4, 5.9, 3, 0.24, emit=EM_GREEN)
+    elif k == 'marche':
+        bunting(-2.3, -D / 2 - 0.45, wh - 0.05, 8, 0.66)
+    elif k == 'entrepot':
+        for z in (0.6, 1.5):
+            box((1.6, 0.14, 0.14), (0, -D / 2 - 0.5, 0.3 + z), '#4a4660')
+    elif k == 'inf':
+        pass
+    elif k == 'auberge':
+        smoke(1.3, 0.5, 5.1, 3, 0.28); smoke(-1.5, 0.5, 4.9, 2, 0.24)
+
+
+_old1, _old2, _old3 = dict(F1), dict(F2), dict(F3)
+for _k in BLD_NAMES:
+    F1[_k] = (lambda C, _k=_k: (_old1[_k](C), X1(_k, C)))
+    F2[_k] = (lambda d, _k=_k: (_old2[_k](d), X2(_k, d)))
+    F3[_k] = (lambda d, _k=_k: (_old3[_k](d), X3(_k, d)))
+
+
 # ------------------------------------------------------------------ decor illustration (collection ui_only)
 def ui_decor(k, lv):
     with use_coll('ui_only'):
@@ -544,10 +735,10 @@ def ui_decor(k, lv):
 
 def build(k, lv):
     reset_scene()
-    C = BLD_COL[k]
+    C = ROOF.get(k, BLD_COL[k])
     {1: lv1, 2: lv2, 3: lv3}[lv](k, C)
     ui_decor(k, lv)
-    add_render('bld_%s_%d' % (k, lv), 54, 58, mode='fixed', ppu=PPUS[lv], anchor=(27, 45), hide=['ui_only'], az=AZ, el=EL, t_light=0.90)
+    add_render('bld_%s_%d' % (k, lv), 54, 58, mode='fixed', ppu=PPU_K.get((k, lv), PPUS[lv]), anchor=(27, 45), hide=['ui_only'], az=AZ, el=EL, t_light=0.90)
     add_render('bldui_%s_%d' % (k, lv), 160, 120, mode='fixed', ppu=UPPU[lv], anchor=(80, 74), az=AZ, el=EL, ss=3, t_light=0.90)
     finish_model('bld_%s_%d' % (k, lv))
 

@@ -38,9 +38,9 @@ def bateau():
     reset_scene()
     RED, CRM = '#c0453a', CREAM
     stripe = [mat(RED), mat(CRM), mat('#4a6ab8'), mat(CRM)]
-    b = striped_sphere(2.5, (0, 0, 6.0), stripe, 8, (1, 1, 1.18), 16, 10)
-    cyl(1.3, 0.8, (0, 0, 3.15), RED, 10, r2=0.8, name='skirt')
-    cyl(0.9, 0.12, (0, 0, 3.1), GOLDM, 10)
+    b = striped_sphere(2.4, (0, 0, 7.3), stripe, 8, (1, 1, 1.15), 16, 10)
+    cyl(1.3, 0.9, (0, 0, 4.55), RED, 10, r2=0.8, name='skirt')
+    cyl(0.9, 0.12, (0, 0, 4.5), GOLDM, 10)
     # coque
     poly([(-2.6, 1.9), (-2.0, 1.1), (-1.6, 0.0), (1.6, 0.0), (2.2, 1.1), (3.0, 2.2), (2.3, 1.3), (-2.3, 1.3)][:0] or
          [(-2.7, 1.8), (2.7, 1.8), (3.1, 2.3), (2.3, 1.2), (1.6, 0.0), (-1.6, 0.0), (-2.2, 1.2)], 1.5, (0, 0, 0), WOOD, (0, 0, 0), 0.03, 'hull')
@@ -54,10 +54,16 @@ def bateau():
     box((5.2, 0.1, 0.12), (0, 0.7, 2.45), WOOD_D)
     for x in (-1.5, 0.0, 1.5):
         o = sph(0.3, (x, -0.78, 0.95), TEAL_E, 8, 5, (1, 0.3, 1)); o.data.materials.clear(); o.data.materials.append(mat(TEAL_E, 1))
-    # mat + voile + fanion
-    cyl(0.09, 3.2, (-0.5, 0, 1.8), WOOD_D, 6)
-    poly([(0, 0), (1.5, 0.2), (0, 2.2)], 0.06, (-0.4, 0, 2.2), CRM, (0, 0, 0), 0, 'sail')
-    poly([(0, 0), (0.9, -0.2), (0, -0.5)], 0.05, (-0.5, 0, 4.7), GOLDM, (0, 0, 0), 0, 'flag')
+    # deux mats avec grandes voiles + vergues, fanions (devant le ballon)
+    for mx, sc_ in ((-1.7, '#e8d4a0'), (1.7, '#e8d4a0')):
+        cyl(0.12, 4.4, (mx, -0.3, 1.8), WOOD_D, 6)
+        box((2.8, 0.14, 0.14), (mx, -0.3, 5.3), WOOD_D)
+        box((2.8, 0.14, 0.14), (mx, -0.3, 2.55), WOOD_D)
+        poly([(-1.25, 0), (1.25, 0), (1.45, 1.4), (1.25, 2.6), (-1.25, 2.6), (-1.05, 1.4)], 0.08, (mx, -0.45, 2.7), sc_, (0, 0, 0), 0, 'sail')
+        poly([(-1.2, 0.0), (1.2, 0.0), (1.28, 0.45), (-1.28, 0.45)], 0.1, (mx, -0.5, 4.9), RED, (0, 0, 0), 0, 'sailband')
+        poly(star_pts(5, 0.5, 0.22), 0.1, (mx, -0.52, 3.7), GOLDM, (0, 0, 0), 0, 'emblem').data.materials[0] = mat(GOLDM, 1)
+        poly([(0, 0), (1.0, -0.2), (0, -0.5)], 0.06, (mx + 0.05, -0.3, 6.2), GOLDM, (0, 0, 0), 0, 'flag')
+        sph(0.15, (mx, -0.3, 6.25), GOLDM, 6, 4)
     # ailes magiques
     for s_ in (-1, 1):
         poly([(0, 0), (0.7, 0.6), (2.2, 0.9), (1.6, 0.1), (2.0, -0.5), (0.8, -0.3)], 0.1, (0.0, s_ * 0.95, 1.4), '#ffe27a' if False else GOLDM, (0, 0, 0), 0.0, 'wing').rotation_euler = (math.radians(s_ * 80), 0, math.radians(0))
@@ -65,15 +71,15 @@ def bateau():
     g = empty('prop', (3.1, 0, 1.3))
     cyl(0.14, 0.4, (0, 0, 0), STONE_D, 6, rot=(0, 90, 0)).parent = g
     for a in (0, 120, 240):
-        bl = box((0.1, 0.18, 0.9), (0.2, 0, 0), '#b8fff0', (a, 0, 0), 0.0)
+        bl = box((0.1, 0.18, 0.6), (0.2, 0, 0), '#b8fff0', (a, 0, 0), 0.0)
         bl.data.materials.clear(); bl.data.materials.append(mat(TEAL_L, 1)); bl.parent = g
     # cordes + brûleur
     for sx in (-1, 1):
         for sy in (-1, 1):
-            rod3((sx * 1.9, sy * 0.6, 2.1), (sx * 0.95, sy * 0.35, 3.3), 0.045, WOOD_D)
-    f = cyl(0.3, 0.6, (0, 0, 2.55), FIRE, 6, r2=0.0); f.data.materials.clear(); f.data.materials.append(mat(FIRE, 1))
+            rod3((sx * 2.5, sy * 0.6, 1.9), (sx * 1.0, sy * 0.35, 4.6), 0.07, WOOD_D)
+    f = cyl(0.4, 0.9, (0, 0, 3.4), FIRE, 6, r2=0.0); f.data.materials.clear(); f.data.materials.append(mat(FIRE, 1))
     lantern(2.2, -0.7, 2.5, 0.2)
-    for i, (x, z, s) in enumerate([(-3.6, 5.5, .5), (3.7, 7.5, .6), (-3.2, 2.0, .4), (3.6, 3.2, .4)]):
+    for i, (x, z, s) in enumerate([(-3.8, 7.5, .5), (3.9, 8.5, .6), (-3.6, 2.6, .4), (3.7, 3.4, .4)]):
         p = poly(star_pts(4, 1, 0.22), 0.1, (x, -1.2, z), mat(GOLDM if i % 2 else '#ff7ad9', 1), (0, 0, 0), 0)
         p.scale = (s, s, s)
     with use_coll('ui_only'):

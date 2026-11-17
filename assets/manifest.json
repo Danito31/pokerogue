@@ -942,6 +942,12 @@
    "h": 24,
    "kind": "item"
   },
+  "item_armure_cuir": {
+   "file": "png/item_armure_cuir.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
   "item_armure_legere": {
    "file": "png/item_armure_legere.png",
    "w": 24,
@@ -966,6 +972,18 @@
    "h": 24,
    "kind": "item"
   },
+  "item_boussole": {
+   "file": "png/item_boussole.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_cape": {
+   "file": "png/item_cape.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
   "item_cle": {
    "file": "png/item_cle.png",
    "w": 24,
@@ -980,6 +998,12 @@
   },
   "item_dagues": {
    "file": "png/item_dagues.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_elixir": {
+   "file": "png/item_elixir.png",
    "w": 24,
    "h": 24,
    "kind": "item"
@@ -1026,6 +1050,12 @@
    "h": 24,
    "kind": "item"
   },
+  "item_potion": {
+   "file": "png/item_potion.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
   "item_potion_energie": {
    "file": "png/item_potion_energie.png",
    "w": 24,
@@ -1046,6 +1076,12 @@
   },
   "item_robe": {
    "file": "png/item_robe.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_sablier": {
+   "file": "png/item_sablier.png",
    "w": 24,
    "h": 24,
    "kind": "item"

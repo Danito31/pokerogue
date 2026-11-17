@@ -174,16 +174,23 @@ def fx_stab(N=8):
 def fx_arrow(N=8, count=1):
     P = PALS['archer']
     g = empty('arrow', (-2.2, 0, 0))
-    cyl(0.07, 2.0, (-1.0, 0, 0), E(P[4]), 6, rot=(0, 90, 0)).parent = g
-    cyl(0.2, 0.55, (1.0, 0, 0), E(P[5]), 6, r2=0.0, rot=(0, 90, 0)).parent = g
-    for s_ in (1, -1):
-        poly([(-1.0, 0), (-1.4, 0.35 * s_), (-0.7, 0.04 * s_)], 0.06, (0, 0, 0), E(P[1])).parent = g
-    d = diamond(2.4, 0.12, (-3.6, 0, 0), E(P[3]), 0)
+    cyl(0.17, 2.2, (-1.2, 0, 0), E('#ffffff'), 6, rot=(0, 90, 0)).parent = g          # hampe epaisse
+    cyl(0.07, 2.2, (-1.2, 0, 0.1), E(P[2]), 6, rot=(0, 90, 0)).parent = g
+    cyl(0.5, 1.0, (0.9, 0, 0), E(P[5]), 6, r2=0.0, rot=(0, 90, 0)).parent = g       # pointe
+    cyl(0.3, 0.7, (1.0, 0, 0.0), E('#ffffff'), 6, r2=0.0, rot=(0, 90, 0)).parent = g
+    for s_ in (1, -1):                                                                # empennage vif
+        poly([(-1.2, 0), (-1.9, 0.6 * s_), (-0.9, 0.5 * s_), (-0.6, 0.0)], 0.1, (0, 0, 0), E(P[1])).parent = g
+    d = diamond(3.2, 0.3, (-4.4, 0, 0), E(P[3]), 0)                                  # traine
     d.parent = g
+    d2 = diamond(2.2, 0.5, (-3.2, 0, 0), E(P[2]), 0, 0.08)
+    d2.parent = g
     track(g, [(0, dict(loc=(-2.4, 0, 0), rot=(0, 0, 0), scl=1.0)), (4, dict(loc=(0.55, 0, 0), rot=(0, 0, 0), scl=1.0)), (5, dict(loc=(0.65, 0, 0), rot=(0, 0, 0), scl=0.0))], N)
-    ray_burst(8, 0.15, 1.0, 0.22, E(P[2]), 5, 7, N, 0, 25, (0.65, 0, 0))
-    ring(0.7, 0.08, E(P[3]), 5, 7, N, 0.3, 1.2, at=(0.65, 0, 0))
-    sparks(5, 0.3, 1.5, 0.2, E(P[1]), 5, 7, N, 7, (0.65, 0, 0))
+    ray_burst(8, 0.2, 1.5, 0.34, E('#ffffff'), 4, 7, N, 0, 25, (0.65, 0, 0))
+    ray_burst(8, 0.2, 1.2, 0.3, E(P[1]), 5, 7, N, 22, 25, (0.65, 0, 0))
+    ring(0.8, 0.14, E(P[3]), 4, 7, N, 0.3, 1.3, at=(0.65, 0, 0))
+    st = poly(star_pts(4, 1.5, 0.4), 0.12, (0.65, 0, 0), E('#ffffff'), (0, 0, 0), 0, 'flash')
+    track(st, [(4, dict(loc=(0.65, 0, 0), rot=(0, 0, 0), scl=0.5)), (5, dict(loc=(0.65, 0, 0), rot=(0, 20, 0), scl=1.1)), (7, dict(loc=(0.65, 0, 0), rot=(0, 45, 0), scl=0.3))], N)
+    sparks(6, 0.4, 1.6, 0.34, E(P[2]), 5, 7, N, 7, (0.65, 0, 0))
     return P
 
 
@@ -379,11 +386,11 @@ def ult_guerrier(N=10):
 
 def ult_gardien(N=10):
     P = PALS['gardien']
-    bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=3, radius=2.6)
+    bm = bmesh.new(); bmesh.ops.create_icosphere(bm, subdivisions=2, radius=2.6)
     me = bpy.data.meshes.new('dome'); bm.to_mesh(me); bm.free()
     o = bpy.data.objects.new('dome', me); (S['coll'] or bpy.context.scene.collection).objects.link(o)
     me.materials.append(E(P[1]))
-    o.modifiers.new('wire', 'WIREFRAME').thickness = 0.13
+    o.modifiers.new('wire', 'WIREFRAME').thickness = 0.2
     track(o, [(0, dict(loc=(0, 0, 0), rot=(0, 0, 0), scl=0.3)), (3, dict(loc=(0, 0, 0), rot=(0, 30, 0), scl=1.05)), (8, dict(loc=(0, 0, 0), rot=(0, 90, 0), scl=1.0)), (9, dict(loc=(0, 0, 0), rot=(0, 110, 0), scl=1.25))], N)
     for i, s_ in enumerate((1.0, 0.8)):
         ring(2.7 * s_, 0.14, E(P[2] if i == 0 else P[4]), 1, 9, N, 0.4, 1.1)
@@ -423,9 +430,9 @@ def ult_archer(N=10):
         x = -3.2 + i * 0.64 + rg.uniform(-.2, .2)
         t0 = int(i * 0.4)
         g = empty('arr', (x + 1.2, 0, 4.2))
-        cyl(0.12, 1.6, (0, 0, 0), E(P[4]), 6, rot=(0, 0, 0)).parent = g
-        cyl(0.3, 0.6, (0, 0, 0), E(P[5]), 6, r2=0.0, rot=(180, 0, 0)).parent = g
-        poly([(0, 1.5), (0.3, 1.9), (0.04, 1.2)], 0.06, (0, 0, 0), E(P[1])).parent = g
+        cyl(0.2, 1.8, (0, 0, 0), E(P[4]), 6, rot=(0, 0, 0)).parent = g
+        cyl(0.46, 0.8, (0, 0, 0), E(P[5]), 6, r2=0.0, rot=(180, 0, 0)).parent = g
+        poly([(0, 1.7), (0.5, 2.3), (0.08, 1.2)], 0.08, (0, 0, 0), E(P[1])).parent = g
         g.rotation_euler = (0, math.radians(-18), 0)
         gy = -2.3 + rg.uniform(-.3, .5)
         track(g, [(t0, dict(loc=(x + 1.2, 0, 4.2), rot=(0, -18, 0), scl=1.0)), (t0 + 4, dict(loc=(x, 0, gy + 0.8), rot=(0, -18, 0), scl=1.0)), (t0 + 5, dict(loc=(x, 0, gy + 0.8), rot=(0, -18, 0), scl=0.0))], N)
@@ -516,7 +523,7 @@ def build(name):
     sc = bpy.context.scene
     sc.frame_start, sc.frame_end = 0, N - 1
     P = fn(N)
-    cam = (0, 20, 4.6 if fs == 48 else 6.4, (0, 0, 0))
+    cam = (0, 20, 4.6 if fs == 48 else 8.4, (0, 0, 0))
     spec = dict(key='fx_' + name, n=N, fw=fs, fh=fs, cam=list(cam[:3]), ss=4 if fs == 48 else 3, palette=P)
     sc['px_fx'] = json.dumps(spec)
     out = render_fx(spec)
