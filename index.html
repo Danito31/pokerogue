@@ -1807,7 +1807,7 @@ async function apprUlt(u,m){const r=u.c.role,E=ELEMS[u.elem].c,J=u.c.sig,UK='fx_
  else if(r=='gardien'){await cast(u,'#bfe8ff');await uAt(allies());allies().forEach(a=>addSh(a,(u.def*1.4+u.mhp*.06)*m,u));await sleep(260)}
  else if(r=='soigneur'){await cast(u,'#5fe07a');await uAt(allies());allies().forEach(a=>heal(a,(u.atk*1.2+a.mhp*.06)*m,u));await sleep(260)}
  else if(r=='soutien'){await cast(u,'#ffcf4a');await uAt(allies());allies().forEach(a=>{bfT(u,a,'atk',.3*m,2);fl(a,'ATQ +'+pc(.3*m),'buf')});setSP(2);await sleep(260)}}
-async function foeTurn(e){e.turns++;if(e.skip>0){e.skip--;say(e.n+' est figé dans le temps');fl(e,'FIGÉ','deb');await sleep(320);return}const M=e.sealed>0?(e.sealed--,[]):e.mech;
+async function foeTurn(e){e.turns++;if(e.skip>0){e.skip--;if(!e.skip)e.skipImm=1;say(e.n+' est figé dans le temps');fl(e,'FIGÉ','deb');await sleep(320);return}e.skipImm=0;const M=e.sealed>0?(e.sealed--,[]):e.mech;
  if(e.d.ord){say(e.n+' pulse d’une lueur menaçante');await sleep(300);return}
  if(e.type=='cristal'){const b=B.E.find(x=>x.alive&&x.mech.includes('cristaux'));if(b&&b.hp<b.mhp){say(e.n+' nourrit '+b.n);heal(b,b.mhp*.06)}await sleep(320);return}
  if(e.morphP){e.morphP=0;e.morphed=1;e.atk*=1.4;e.spd+=20;e.weak=newWeak(e.d,3);say(e.n+' change de forme !');B.shake=6;flashT('MÉTAMORPHOSE');const p=fpos(e);spark(p[0],p[1]+20,ELEMS[e.elem].c,30,90);await sleep(700);drawTI();return}
@@ -1909,7 +1909,7 @@ const ULTS={
  tempete:async(u,s,M)=>{const n=s>=3?6:s>=1?4:3;await cast(u);for(let i=0;i<n;i++){foes().forEach(e=>{deal(u,e,.9*M*(s>=3?1.3:1),8,{crit2:s>=2})});await wave(u,ELEMS[u.elem].c);await sleep(90)}},
  elementaliste:async(u,s,M)=>{await aoeS(u,2.6*M,25,{tb2:1,allwk:s>=3});if(s>=1)elemFx(u,foes(),2)},
  arcaniste:async(u,s,M)=>{await aoeS(u,2.2*M,20);foes().forEach(e=>{if(e.charging){e.charging=0;fl(e,'ANNULÉ','brk')}});allies().forEach(a=>{if(s>=3&&a==u)return;gainEn(a,s>=3?100:s>=1?35:25)});if(s>=2)setSP(2)},
- chrono:async(u,s,M)=>{await cast(u,'#c58bff');foes().forEach(e=>{const big=e.kind=='boss'||e.kind=='mini';e.skip=Math.max(e.skip||0,s>=3?(big?1:2):s>=2&&!big?2:1);fl(e,'TEMPS FIGÉ','deb')});allies().forEach(a=>gainEn(a,s>=3?50:s>=1?30:20));await sleep(300)},
+ chrono:async(u,s,M)=>{await cast(u,'#c58bff');foes().forEach(e=>{const big=e.kind=='boss'||e.kind=='mini';if(e.skipImm||e.skip){fl(e,'RÉSISTE','buf');return}e.skip=s>=3?(big?1:2):s>=2&&!big?2:1;fl(e,'TEMPS FIGÉ','deb')});allies().forEach(a=>gainEn(a,s>=3?50:s>=1?30:20));await sleep(300)},
  occultiste:async(u,s,M)=>{let sac=s>=3?0:s>=1?.15:.25;if(u.aw>=1)sac/=2;if(sac){u.hp=Math.max(1,u.hp-u.mhp*sac);fl(u,'PACTE','deb')}await aoeS(u,3*M,20,{el:'ombre'});foes().forEach(e=>e.bf.vul={v:s>=2?.3:.2,t:3})},
  pretre:async(u,s,M)=>{await cast(u,'#ffe27a');if(s>=3)B.A.filter(a=>!a.alive).forEach(a=>{a.alive=true;a.hp=Math.round(a.mhp*.4);a.av=1e4/a.spd;fl(a,'RELEVÉ !','brk')});else if(s>=2&&!B.miracle){const a=B.A.find(x=>!x.alive);if(a){B.miracle=1;a.alive=true;a.hp=Math.round(a.mhp*.25);a.av=1e4/a.spd;fl(a,'RELEVÉ !','brk')}}allies().forEach(a=>{heal(a,a.mhp*(s>=3?.6:.35)*Math.min(M,1.5),u);purge(a);addSh(a,a.mhp*(s>=1?.15:.1),u)});drawTL();await sleep(260)},
  druide:async(u,s,M)=>{await cast(u,'#5fe07a');allies().forEach(a=>{addHot(a,s>=3?.2:.1,s>=1?4:3,u);a.bf.def={v:Math.max(s>=3?.4:.2,bfv(a,'def')),t:3}});if(s>=2)foes().forEach(e=>{e.dot=e.dot||[];e.dot.push({k:'brl',v:Math.round(atkOf(u)*.6*M),t:3,by:u})});fl(u,'FLORAISON','heal');await sleep(260)},
