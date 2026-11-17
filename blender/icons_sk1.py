@@ -10,10 +10,10 @@ def I(k):
 @I('sk_cri')
 def _():
     p = P('soutien')
-    ellipse = ngon(-.5, 0, .38, .48, 16)
-    fill(ellipse, '#d04a5a', step=.03)
-    fill(ngon(-.46, -.05, .25, .36, 14), '#4a1830', False, nolayer=True, bv=0, th=.01)
-    fill(ngon(-.46, -.22, .17, .14, 10), '#ff8a9a', False, nolayer=True, bv=0, th=.01)
+    fill(ngon(-.52, 0, .4, .5, 16), '#e0506a', step=.03)
+    fill(ngon(-.46, -.02, .27, .38, 14), '#5a1830', False, nolayer=True, bv=0, th=.01)
+    fill(ngon(-.46, -.25, .18, .13, 10), '#ff8a9a', False, nolayer=True, bv=0, th=.01)
+    fill(rect(-.4, .26, .3, .07, 0), '#fff0f0', False, nolayer=True, bv=0, th=.01)
     for r_, w in ((.42, .17), (.7, .17), (.98, .15)):
         slash(-.2, 0, r_, -42, 42, w * 1.9, p, taper=.5)
 
@@ -21,9 +21,12 @@ def _():
 @I('sk_inspir')
 def _():
     p = P('soutien')
-    burst(0, .38, 5, .85, .38, p, rot=90)
-    person(0, -.62, .55, '#d8a060', head=SKIN)
-    sparks([(-.75, .75), (.78, .7)], p[2], .15)
+    burst(0, .42, 5, .9, .4, p, rot=90)
+    fill(ngon(0, -.35, .42, n=16), '#e0a070', step=.02)
+    fill([(-.75, -.95), (-.7, -.7), (-.45, -.55), (.45, -.55), (.7, -.7), (.75, -.95)], '#4a5a8a', step=.02)
+    fill(ngon(-.14, -.3, .06, n=6), DARK, nolayer=True, bv=0, th=.01)
+    fill(ngon(.14, -.3, .06, n=6), DARK, nolayer=True, bv=0, th=.01)
+    sparks([(-.78, .78), (.8, .7)], p[2], .15)
 
 
 @I('sk_donabs')
@@ -95,22 +98,21 @@ def _():
 
 @I('sk_sub_tacticien')
 def _():
-    fill(rect(0, 0, 1.75, 1.5), '#e8d9a8', step=.03)
-    fill(rect(0, 0, 1.55, 1.3), '#f2e8c4', step=.02)
-    arrow(-.65, -.45, .1, .3, '#c0392b', .35, .1)
-    arrow(.65, -.5, .2, -.1, '#4a6ab8', .32, .1)
-    fill(ngon(.25, .08, .2, n=12), GOLD, step=.02)
-    fill([(.05, -.3), (.45, -.3), (.35, -.1), (.15, -.1)], GOLD, step=.02)
-    fill(ngon(.25, .06, .13, n=10), shade(GOLD, .4), True, nolayer=True)
+    fill(rect(0, 0, 1.85, 1.6), '#e8d9a8', step=.03)
+    fill(rect(0, 0, 1.65, 1.4), '#f2e8c4', step=.02)
+    arrow(-.8, -.5, -.1, .35, '#c0392b', .32, .1)
+    fill(ngon(.45, .0, .22, n=12), GOLD, step=.02)
+    fill([(.22, -.35), (.68, -.35), (.58, -.1), (.32, -.1)], GOLD, step=.01)
+    fill(ngon(.38, .08, .08, n=6), '#fff0a0', True, nolayer=True)
 
 
 # ================================================================== SOIN (vert)
 @I('sk_premsoins')
 def _():
-    cross(0, 0, .82, F['soin'], t=.36)
-    fill(stroke([(-.75, -.5), (.75, .5)], .42), '#f2ead6', step=.03)
-    for t in (-.4, -.1, .2, .5):
-        fill(stroke([(t * 1.1 - .12, t * .74 + .22), (t * 1.1 + .12, t * .74 - .22)], .06), '#c9b890', nolayer=True, bv=0, th=.01)
+    cross(0, 0, .85, F['soin'], t=.4)
+    fill(stroke([(-.8, -.5), (.8, .5)], .3), '#f2ead6', step=.03)
+    for t in (-.45, -.1, .25):
+        fill(stroke([(t * 1.1 - .1, t * .74 + .17), (t * 1.1 + .1, t * .74 - .17)], .05), '#c9b890', nolayer=True, bv=0, th=.01)
 
 
 @I('sk_rosee')
@@ -123,20 +125,19 @@ def _():
 @I('sk_regen')
 def _():
     p = P('soin')
-    gstroke([(0.82 * (t / 20) ** .8 * math.cos(math.radians(t * 28 - 90)) * .95, -.85 + 1.7 * t / 20) for t in range(0, 21)], .28, p, fr=(1, .6, .28, 0))
-    cross(.45, .62, .27, '#e8fff0', True, t=.34)
-    cross(-.5, -.25, .16, '#bfffd0', True, t=.34)
+    gstroke([(.85 * (t / 20) ** .7 * math.cos(math.radians(t * 26 - 90)), -.85 + 1.5 * t / 20) for t in range(0, 21)], .36, p, fr=(1, .6, .28, 0))
+    cross(.5, .6, .34, '#e8fff0', True, t=.34)
+    cross(-.55, -.3, .2, '#bfffd0', True, t=.34)
 
 
 @I('sk_bened')
 def _():
     p = P('soin')
-    burst(0, .1, 10, .95, .5, p, rot=90)
-    fill([(-.3, -.8), (-.38, -.1), (-.1, .65), (0, .8), (.1, .65), (.38, -.1), (.3, -.8)], SKIN, step=.03)
-    fill([(0, .8), (0, -.8)], SKIN, bv=0, th=.01, nolayer=True) if False else None
-    fill(stroke([(0, .75), (0, -.5)], .05), '#b07a50', nolayer=True, bv=0, th=.01)
-    fill(rect(0, -.85, .8, .2), '#f2ead6', step=.02)
-    sparks([(-.7, .7), (.72, .62)], GOLD, .15)
+    burst(0, .35, 10, .95, .5, p, rot=90)
+    hand(-.38, -.42, .62, SKIN, fist=False, rot=-28)
+    with xf(0, 1, 0, 0, flip=True):
+        hand(-.38, -.42, .62, '#e0b080', fist=False, rot=-28)
+    sparks([(-.75, .7), (.78, .62)], GOLD, .15)
 
 
 @I('sk_souffle')
@@ -149,40 +150,40 @@ def _():
 
 @I('sk_rappel')
 def _():
-    p = P('gold' if False else '#ffe27a')
     fill(stroke([(.9, .95), (.1, .2)], .5, .05, lambda t: .05 + .45 * (1 - t) ** .3 * (1 - t)), '#ffe27a', True, step=.01)
-    fill(star(.1, .15, 5, .36, .17), '#fff6b0', True, step=.02)
-    fill(star(.1, .15, 5, .2, .09), WHITE, True, step=.02)
-    person(0, -.7, .5, '#2f9a5a', rot=90)
-    fill(ngon(-.55, -.75, .17), '#2f9a5a', step=.02)
+    fill(star(.1, .15, 5, .4, .18), '#fff6b0', True, step=.02)
+    fill(star(.1, .15, 5, .22, .09), WHITE, True, step=.02)
+    fill(ngon(-.6, -.62, .22, n=12), '#e0b080', step=.02)
+    fill(stroke([(-.35, -.7), (.8, -.7)], .42, .3), '#2f9a5a', step=.02)
+    fill(stroke([(.4, -.7), (.8, -.95)], .2), '#2f9a5a', step=.01)
     sparkle(-.6, .45, .2, '#a8f0b8')
 
 
 @I('sk_vampir')
 def _():
-    p = P('soin')
-    glow(ngon(0, .1, .85), (mix(p[0], '#101010', .2), p[1]), shrink=(1, .7), off=(0, .0), c0=(0, .1)) if False else None
-    fill([(-.8, .75), (.8, .75), (.65, .5), (.15, -.55), (0, -.8), (-.15, -.55), (-.65, .5)], '#f2ead6', step=.03)
-    fill([(-.45, .55), (.45, .55), (.1, -.35), (-.1, -.35)], '#c0453a', step=.02)
-    fill([(-.65, .75), (-.1, .75), (-.2, .45), (-.55, .55)], F['soin'], True, nolayer=True)
-    drop(0, -.62, .28, '#e83a4a')
+    fill(ngon(0, .05, .92, n=26), '#2f9a5a', step=.02)
+    fill(ngon(0, .05, .78, n=26), '#5fe07a', step=.02)
+    fill([(-.5, .6), (.5, .6), (.36, .1), (.12, -.55), (0, -.62), (-.12, -.55), (-.36, .1)], '#f8f0e0', step=.03)
+    fill([(-.38, .55), (-.12, .55), (-.14, .2), (-.3, .2)], WHITE, True, nolayer=True)
+    fill([(-.32, .6), (.32, .6), (.2, .28), (-.2, .28)], '#c0252a', step=.01)
+    drop(0, -.82, .25, '#e83a4a')
 
 
 @I('sk_phenix')
 def _():
-    p = P('#ffcf4a')
-    flame(.1, -.05, .85, pal('#ff8a3a'), lean=.5, hw=.5)
-    leaf(0, -.15, .85, 35, '#7fe07a', vein='#fff0a0', w=.38)
-    fill(stroke([(-.45, -.6), (.2, .1)], .06), '#2f9a5a', nolayer=True, bv=0, th=.01)
-    sparks([(-.65, .6)], GOLD, .15)
+    leaf(-.05, -.1, 1.0, 38, '#ffcf4a', vein='#fff6c0', w=.38)
+    leaf(-.02, -.1, .8, 38, '#5fe07a', vein='#c8ffd8', w=.24)
+    flame(.55, .6, .4, pal('#ff8a3a'), lean=.3)
+    flame(-.7, -.7, .3, pal('#ffcf4a'), lean=-.2)
+    sparks([(-.7, .65)], GOLD, .15)
 
 
 @I('sk_mainten')
 def _():
-    hand(-.35, -.2, .62, '#5fe07a', fist=False, rot=-75)
-    person(.6, -.35, .3, '#2f9a5a', head='#a8f0b8')
-    sparks([(.2, .5), (.62, .55), (-.3, .65)], '#e8fff0', .17)
-    sparkle(.25, .15, .13, GOLD)
+    hand(-.4, -.15, .85, '#5fe07a', fist=False, rot=-70)
+    person(.62, -.4, .45, '#2f9a5a', head='#a8f0b8')
+    sparks([(.2, .55), (.62, .45), (-.3, .8)], '#e8fff0', .17)
+    sparkle(.2, .08, .13, GOLD)
 
 
 @I('sk_sub_medic')
@@ -211,7 +212,8 @@ def _():
         for x in ((-.45, .3) if i % 2 == 0 else (-.1, .7, -.8)):
             fill(stroke([(x, z - .15), (x, z + .15)], .05), '#4a6a90', nolayer=True, bv=0, th=.01)
     fill([(-.95, .35), (.95, .35), (.95, .8), (.6, .8), (.6, .6), (.2, .6), (.2, .8), (-.2, .8), (-.2, .6), (-.6, .6), (-.6, .8), (-.95, .8)], wallc, step=.03)
-    fill([(-.5, .15), (0, .6), (.5, .15), (.5, -.1), (0, .35), (-.5, -.1)], '#ff5a5a', True, step=.02)
+    fill([(-.6, -.1), (0, .45), (.6, -.1), (.6, -.4), (0, .15), (-.6, -.4)], '#ff5a5a', True, step=.02)
+    fill([(-.45, -.1), (0, .32), (.45, -.1), (.45, -.2), (0, .2), (-.45, -.2)], '#ffb0a0', True, step=.02)
 
 
 @I('sk_garde')
@@ -231,18 +233,17 @@ def _():
 @I('sk_promesse')
 def _():
     p = P('protection')
-    gstroke([(-.9, -.55), (-.5, -.1), (0, -.25), (.5, -.1), (.9, -.55)], .22, p, fr=(1, .6, .3, 0))
-    fill(stroke(arcpath(-.2, .12, .42, -20, 200, 14), .2), SKIN, step=.03)
-    fill(stroke(arcpath(.2, .12, .42, -20, 200, 14)[::-1], .2), '#e0b080', step=.03)
-    fill(stroke([(-.62, -.3), (-.62, .1)], .2), SKIN, step=.02)
-    fill(stroke([(.62, -.3), (.62, .1)], .2), '#e0b080', step=.02)
-    sparkle(0, .75, .17, WHITE)
+    gstroke(arcpath(0, .1, .85, 195, 345, 14), .2, p, fr=(1, .6, .3, 0))
+    ring(-.3, .12, .34, .17, SKIN, rz=.4)
+    ring(.3, .12, .34, .17, '#e0b080', rz=.4)
+    sparkle(0, .85, .17, WHITE)
+    sparkle(.8, .4, .12, WHITE)
 
 
 @I('sk_dernier')
 def _():
-    candle(0, .1, .75, lit=True)
-    shield(0, -.5, .65, F['protection'])
+    candle(0, .45, .75, lit=True)
+    shield(0, -.5, .7, F['protection'])
 
 
 @I('sk_sentinel')
@@ -280,15 +281,15 @@ def _():
 @I('sk_tourb')
 def _():
     p = P('degats')
-    slash(0, 0, .72, 100, 450, .42, p, head=.8, taper=.4)
-    sparkle(.72, .62, .15, WHITE)
+    slash(0, 0, .72, 100, 450, .6, p, head=.8, taper=.4)
+    sparkle(.72, .62, .17, WHITE)
 
 
 @I('sk_grace')
 def _():
-    skull(0, -.55, .55, '#e8e0d8')
-    dagger(0, .2, .8, rot=180, col='#e0e6f2', hilt=WOOD_D)
-    burst(0, -.18, 6, .4, .15, P('degats'))
+    skull(0, -.6, .6, '#e8e0d8')
+    dagger(0, .3, .95, rot=180, col='#e0e6f2', hilt=WOOD_D)
+    burst(0, -.1, 6, .45, .15, P('degats'))
 
 
 @I('sk_brute')
@@ -302,14 +303,15 @@ def _():
 
 @I('sk_gloire')
 def _():
-    for sx in (-1, 1):
-        with xf(0, 1, 0, 0, flip=(sx < 0)):
-            fill(stroke(arcpath(0, 0, .68, 250, 380 - 20, 12), .1), '#a02a2a', step=.01)
-            for a, r in ((255, 1), (280, 1), (305, 1), (330, .95), (355, .8)):
-                x, z = .68 * math.cos(math.radians(a)), .68 * math.sin(math.radians(a))
-                with xf(a + 90 - 25, 1, x, z):
-                    leaf(.0, .22, .3, 0, '#ff5a5a' if int(a) % 2 else '#e03a3a', vein=None, w=.45)
-    fill(star(0, .75, 5, .26, .12), GOLD, step=.02)
+    fill(stroke(arcpath(0, 0, .66, 130, 410, 30), .1), '#a02a2a', step=.01)
+    for a in range(-60, 241, 22):
+        if 55 < a % 360 < 125:
+            continue
+        r = math.radians(a)
+        x, z = .68 * math.cos(r), .68 * math.sin(r)
+        leaf(x * 1.07, z * 1.07, .3, a - 20, '#ff5a5a', w=.5)
+        leaf(x * .93, z * .93, .26, a + 25, '#e03a3a', w=.5)
+    fill(star(0, .02, 5, .3, .13), GOLD, step=.02)
 
 
 @I('sk_meteore')
@@ -341,22 +343,22 @@ def _():
 @I('sk_chaine')
 def _():
     p = P('controle')
-    zig([(.3, .95), (-.2, .35), (.15, .25), (-.35, -.35), (.0, -.4), (-.2, -.95)], .3, p)
-    zig([(.0, .3), (.5, .05), (.3, -.1), (.8, -.45)], .2, p)
-    zig([(-.15, -.05), (-.6, .15), (-.75, .5)], .16, p)
-    sparkle(.8, -.45, .17)
+    bolt(-.15, .0, 1.0, p, rot=8)
+    bolt(.62, -.3, .45, p, rot=-25)
+    bolt(-.68, .45, .32, p, rot=25)
+    sparkle(.75, .6, .15)
 
 
 @I('sk_rayon')
 def _():
     p = P('#ffcf4a')
-    fill([(-.28, 1), (.28, 1), (.5, -.55), (-.5, -.55)], p[0], True, step=.012)
-    fill([(-.18, 1), (.18, 1), (.3, -.55), (-.3, -.55)], p[1], True, step=.012)
-    fill([(-.08, 1), (.08, 1), (.14, -.55), (-.14, -.55)], WHITE, True, step=.012)
+    for r_, c in ((.9, '#ff5a5a'), (.62, '#ffffff'), (.34, '#ff5a5a'), (.12, '#ffffff')):
+        fill(ngon(0, -.65, r_, r_ * .36, 22), c, step=.02)
+    fill([(-.26, 1), (.26, 1), (.36, -.65), (-.36, -.65)], p[0], True, step=.012)
+    fill([(-.17, 1), (.17, 1), (.24, -.65), (-.24, -.65)], p[1], True, step=.012)
+    fill([(-.07, 1), (.07, 1), (.1, -.65), (-.1, -.65)], WHITE, True, step=.012)
     lay(.05)
-    for r_, c in ((.85, '#5a3a3a'), (.55, '#ff5a5a'), (.25, '#ffffff')):
-        fill(ngon(0, -.6, r_, r_ * .35, 22), c, step=.02)
-    burst(0, -.6, 6, .5, .15, p)
+    burst(0, -.65, 6, .55, .15, p)
 
 
 @I('sk_nova')
@@ -392,10 +394,11 @@ def _():
 
 @I('sk_moidabord')
 def _():
-    hand(.0, -.2, .75, '#ff7a6a', fist=False, rot=15)
-    coin(-.5, .55, .32, GOLD)
-    fill(stroke(arcpath(-.2, .5, .6, 60, -40, 10), .07), '#ff9a8a', True, nolayer=True)
-    sparkle(.6, .65, .17)
+    hand(0, -.4, .8, '#ff7a6a', fist=False, rot=0)
+    coin(0, .62, .34, GOLD)
+    for x in (-.55, .55):
+        arrow(x, .85, x * .8, .2, '#ff9a8a', .28, .09, e=True)
+    sparkle(.75, .8, .15)
 
 
 # ================================================================== CONTROLE (violet)
@@ -429,10 +432,11 @@ def _():
 
 @I('sk_etourd')
 def _():
-    hammer(0, -.05, .75, rot=35)
+    hammer(0, -.05, .95, rot=35)
     for a in (40, 160, 280):
         r = math.radians(a)
-        fill(star(.78 * math.cos(r), .75 * math.sin(r) + .1, 5, .2, .09), '#ffe27a', True, step=.01)
+        fill(star(.78 * math.cos(r), .75 * math.sin(r) + .1, 5, .24, .1), '#ffe27a', True, step=.01)
+        fill(star(.78 * math.cos(r), .75 * math.sin(r) + .1, 5, .12, .05), WHITE, True, step=.01)
     lay(.04)
 
 
@@ -503,8 +507,17 @@ def _():
 
 @I('sk_sub_saboteur')
 def _():
-    trap(0, -.05, .95, '#6a6a8a', '#c58bff')
-    sparkle(.6, .6, .15, '#c58bff')
+    fill(rect(0, -.8, 1.9, .2), '#4a4a68', step=.03)
+    fill(rect(0, -.45, 1.9, .5), '#6a6a8a', step=.02)
+    for i in range(6):
+        x0 = -.95 + i * .317
+        fill([(x0, -.2), (x0 + .16, .35), (x0 + .317, -.2)], '#c58bff', step=.004)
+        fill([(x0 + .16, -.2), (x0 + .317, -.7 + .5), (x0 + .0, -.2)], '#a070f0', step=.003) if False else None
+    for i in range(5):
+        x0 = -.79 + i * .317
+        fill([(x0, -.2), (x0 + .16, -.75), (x0 + .317, -.2)], '#e6d8ff', step=.004)
+    fill(ngon(0, -.45, .2, n=10), DARK, nolayer=True, bv=0, th=.01)
+    sparkle(.7, .7, .15, '#c58bff')
 
 
 @I('sk_sub_pisteur')
@@ -517,11 +530,11 @@ def _():
 # ================================================================== DEFENSE (gris acier)
 @I('sk_peau')
 def _():
-    fill(stroke([(-.8, -.7), (-.2, -.1), (.5, .35), (.85, .7)], .62, .5), '#8a86a0', step=.03)
-    for (x, z) in ((-.35, -.35), (.0, 0), (.38, .35), (.65, .6), (-.05, -.4), (.3, -.05), (.6, .2)):
+    fill(stroke([(-.85, -.8), (-.35, -.2), (.2, .2), (.5, .45)], .62, .55), '#8a86a0', step=.03)
+    for (x, z) in ((-.6, -.55), (-.3, -.15), (.0, .0), (.28, .3), (-.1, -.45), (.22, -.05), (-.45, -.05)):
         fill(ngon(x, z, .17, .15, 8), '#c9c6d8', step=.005)
         fill(ngon(x - .04, z + .04, .06, n=5), WHITE, True, nolayer=True)
-    fill(ngon(.88, .75, .2, n=8), '#a9a6b8', step=.02)
+    hand(.6, .55, .5, '#e8e6f0', fist=True, rot=-30)
 
 
 @I('sk_vigueur')
@@ -541,10 +554,10 @@ def _():
 
 @I('sk_inebr')
 def _():
-    stone(0, -.55, .85, '#8a86a0')
-    boot(0, .15, .75, '#a9a6b8', sole='#5a5870', rot=0)
-    for dx in (-.7, .7):
-        fill(stroke([(dx, -.2), (dx * 1.1, -.5), (dx * .9, -.85)], .09, .03), DARK, nolayer=True, bv=0, th=.01)
+    stone(0, -.6, .85, '#6a6880')
+    boot(.0, .2, .85, '#d8944a', sole='#5a3a28', rot=0)
+    for dx in (-.72, .72):
+        fill(stroke([(dx, -.25), (dx * 1.1, -.55), (dx * .9, -.9)], .1, .03), '#c9c6d8', True, step=.005)
 
 
 @I('sk_forter')
@@ -616,9 +629,10 @@ def _():
 
 @I('sk_leste')
 def _():
-    crystal(.25, .45, .45, '#4de0c0')
-    hand(-.1, -.4, .72, '#2a9a86', fist=False, rot=-25, cuff='#1f6a5c')
-    sparkle(.7, .75, .14)
+    crystal(.2, .55, .42, '#4de0c0')
+    hand(-.05, -.45, .78, '#2a9a86', fist=True)
+    fill(rect(0, -.95, 1.0, .3), '#1f6a5c', step=.02)
+    sparkle(.75, .75, .14)
 
 
 @I('sk_tresor')
@@ -633,9 +647,9 @@ def _():
 @I('sk_aubaine')
 def _():
     for r_, c in ((.88, '#3a4a5a'), (.64, '#e8fff8'), (.4, '#3a4a5a'), (.17, '#e8fff8')):
-        fill(ngon(0, -.1, r_, r_ * .85), c, step=.02)
-    horseshoe(.15, .45, .68, '#4de0c0', rot=-20)
-    fill(stroke([(-.5, -.1), (-.3, -.3), (-.45, -.5)], .08), DARK, nolayer=True, bv=0, th=.01)
+        fill(ngon(0, -.45, r_, r_ * .6), c, step=.02)
+    horseshoe(.0, .3, .85, '#4de0c0', rot=-12)
+    sparkle(.75, .75, .15)
 
 
 @I('sk_sub_contreb')
@@ -715,10 +729,10 @@ def _():
 
 @I('sk_sub_alchi')
 def _():
-    flask(-.35, .3, .6, '#6fd3ff', e_liq=True, rot=-50)
-    for (x, z, r) in ((.15, -.1, .2), (.45, -.35, .26), (.2, -.62, .2), (.72, -.1, .14), (.62, -.7, .13)):
+    flask(-.4, .35, .7, '#6fd3ff', e_liq=True, rot=-55)
+    fill(stroke([(.0, .0), (.4, -.25)], .16), '#6fd3ff', True, step=.005)
+    for (x, z, r) in ((.5, -.3, .26), (.25, -.62, .2), (.8, -.05, .14), (.7, -.7, .16), (.05, -.2, .13)):
         drop(x, z, r * 1.4, '#6fd3ff', e=True, shine=False, rot=(x * 40))
-    fill(stroke([(.0, .05), (.4, -.3)], .14), '#6fd3ff', True, step=.005)
 
 
 # ================================================================== CUISINE (ambre)
@@ -774,21 +788,17 @@ def _():
 # ================================================================== CELERITE (orange)
 @I('sk_elan')
 def _():
-    boot(-.1, -.1, .8, '#d86a2a', sole='#7a3a1a')
-    for sx, k in ((1, 0), ):
-        with xf(10, .5, .35, .35):
-            wings(0, 0, 1, '#ffd0a0', mirror=False, rot=0)
+    boot(-.2, -.1, .8, '#d86a2a', sole='#7a3a1a')
+    wings(.2, .35, .75, '#ffd0a0', mirror=False, rot=-15)
     sparks([(-.8, .75)], '#ffd0a0', .14)
 
 
 @I('sk_double')
 def _():
     p = P('#ff9a3a')
-    slash(0, 0, 1.0, 55, 120, .24, p, taper=.4)
-    with xf(0, 1, .42, -.2):
-        slash(0, 0, 1.0, 55, 120, .24, p, taper=.4)
-    with xf(0, 1, -.42, .1):
-        slash(0, 0, 1.0, 55, 120, .24, p, taper=.4)
+    cut(-35, 1.9, .42, p, dx=-.12, dz=.42)
+    cut(-35, 1.9, .42, p, dx=.12, dz=-.38)
+    sparkle(.8, .75, .13)
 
 
 @I('sk_assaut')
@@ -834,12 +844,8 @@ def _():
 
 @I('sk_hate')
 def _():
-    p = pal('#ff9a3a')
-    with xf(0, .55, -.9, .05):
-        wings(0, 0, 1, '#ffb060', mirror=False, rot=100)
-    clock(.15, 0, .68, '#ff9a3a', face='#fff0d8')
-    with xf(0, .6, .95, .1):
-        wings(0, 0, 1, '#ffb060', mirror=False, rot=70) if False else None
+    wings(0, .1, 1.0, '#ffb060', mirror=True)
+    clock(0, -.05, .58, '#ff9a3a', face='#fff0d8')
 
 
 @I('sk_foncer')

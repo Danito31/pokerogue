@@ -46,7 +46,7 @@
    "col": "#d8b838"
   }
  },
- "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).",
+ "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), icones de progression (kind skill|class|job|badge|ui) : sk_<id|ame_*|sub_*|tech_*|ult_*> (32x32), cl_<sous-classe|spe|spe_divin> (48x48), cl_voie_* et fam_* (16x16), fr_* et ms_<niv> (48x48), job_<id>[_evo] (32x32), ui_node_lock/mystery/next (12/32/40), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).",
  "assets": {
   "bateau": {
    "file": "png/bateau.png",
@@ -720,6 +720,450 @@
    "col": "#d8b838",
    "name": "Marché"
   },
+  "cl_alchi": {
+   "file": "png/cl_alchi.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_arcaniste": {
+   "file": "png/cl_arcaniste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_arcaniste_divin": {
+   "file": "png/cl_arcaniste_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_berserker": {
+   "file": "png/cl_berserker.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_berserker_divin": {
+   "file": "png/cl_berserker_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_chantre": {
+   "file": "png/cl_chantre.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_chantre_divin": {
+   "file": "png/cl_chantre_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_chevalier": {
+   "file": "png/cl_chevalier.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_chevalier_divin": {
+   "file": "png/cl_chevalier_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_chrono": {
+   "file": "png/cl_chrono.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_chrono_divin": {
+   "file": "png/cl_chrono_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_conteur": {
+   "file": "png/cl_conteur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_contreb": {
+   "file": "png/cl_contreb.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_dompteur": {
+   "file": "png/cl_dompteur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_druide": {
+   "file": "png/cl_druide.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_druide_divin": {
+   "file": "png/cl_druide_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_duelliste": {
+   "file": "png/cl_duelliste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_duelliste_divin": {
+   "file": "png/cl_duelliste_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_eclaireur": {
+   "file": "png/cl_eclaireur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_eclaireur_divin": {
+   "file": "png/cl_eclaireur_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_elementaliste": {
+   "file": "png/cl_elementaliste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_elementaliste_divin": {
+   "file": "png/cl_elementaliste_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_empoisonneur": {
+   "file": "png/cl_empoisonneur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_empoisonneur_divin": {
+   "file": "png/cl_empoisonneur_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_enchanteur": {
+   "file": "png/cl_enchanteur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_enchanteur_divin": {
+   "file": "png/cl_enchanteur_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_epeiste": {
+   "file": "png/cl_epeiste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_epeiste_divin": {
+   "file": "png/cl_epeiste_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_etendard": {
+   "file": "png/cl_etendard.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_exorciste": {
+   "file": "png/cl_exorciste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_garde": {
+   "file": "png/cl_garde.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_hemo": {
+   "file": "png/cl_hemo.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_hemo_divin": {
+   "file": "png/cl_hemo_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_lameombre": {
+   "file": "png/cl_lameombre.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_lameombre_divin": {
+   "file": "png/cl_lameombre_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_medic": {
+   "file": "png/cl_medic.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_occultiste": {
+   "file": "png/cl_occultiste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_occultiste_divin": {
+   "file": "png/cl_occultiste_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_paladin": {
+   "file": "png/cl_paladin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_paladin_divin": {
+   "file": "png/cl_paladin_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_pisteur": {
+   "file": "png/cl_pisteur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_pretre": {
+   "file": "png/cl_pretre.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_pretre_divin": {
+   "file": "png/cl_pretre_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_rempart": {
+   "file": "png/cl_rempart.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_rempart_divin": {
+   "file": "png/cl_rempart_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_rodeur": {
+   "file": "png/cl_rodeur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_rodeur_divin": {
+   "file": "png/cl_rodeur_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_runiste": {
+   "file": "png/cl_runiste.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_saboteur": {
+   "file": "png/cl_saboteur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_tacticien": {
+   "file": "png/cl_tacticien.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_tempete": {
+   "file": "png/cl_tempete.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_tempete_divin": {
+   "file": "png/cl_tempete_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_tireur": {
+   "file": "png/cl_tireur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_tireur_divin": {
+   "file": "png/cl_tireur_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_troubadour": {
+   "file": "png/cl_troubadour.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_troubadour_divin": {
+   "file": "png/cl_troubadour_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_vengeur": {
+   "file": "png/cl_vengeur.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_vengeur_divin": {
+   "file": "png/cl_vengeur_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "class"
+  },
+  "cl_voie_coeur": {
+   "file": "png/cl_voie_coeur.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "cl_voie_esprit": {
+   "file": "png/cl_voie_esprit.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "cl_voie_lame": {
+   "file": "png/cl_voie_lame.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_celerite": {
+   "file": "png/fam_celerite.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_chance": {
+   "file": "png/fam_chance.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_controle": {
+   "file": "png/fam_controle.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_cuisine": {
+   "file": "png/fam_cuisine.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_decouverte": {
+   "file": "png/fam_decouverte.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_defense": {
+   "file": "png/fam_defense.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_degats": {
+   "file": "png/fam_degats.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_protection": {
+   "file": "png/fam_protection.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_soin": {
+   "file": "png/fam_soin.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fam_soutien": {
+   "file": "png/fam_soutien.png",
+   "w": 16,
+   "h": 16,
+   "kind": "badge"
+  },
+  "fr_apogee": {
+   "file": "png/fr_apogee.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "fr_divin": {
+   "file": "png/fr_divin.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "fr_eveil": {
+   "file": "png/fr_eveil.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
   "fx_arrow": {
    "file": "png/fx_arrow.png",
    "w": 384,
@@ -1151,6 +1595,174 @@
    "h": 24,
    "kind": "item"
   },
+  "job_alchimiste": {
+   "file": "png/job_alchimiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_alchimiste_evo": {
+   "file": "png/job_alchimiste_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_apothicaire": {
+   "file": "png/job_apothicaire.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_apothicaire_evo": {
+   "file": "png/job_apothicaire_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_architecte": {
+   "file": "png/job_architecte.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_architecte_evo": {
+   "file": "png/job_architecte_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_bibliothecaire": {
+   "file": "png/job_bibliothecaire.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_bibliothecaire_evo": {
+   "file": "png/job_bibliothecaire_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_cartographe": {
+   "file": "png/job_cartographe.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_cartographe_evo": {
+   "file": "png/job_cartographe_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_chasseur": {
+   "file": "png/job_chasseur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_chasseur_evo": {
+   "file": "png/job_chasseur_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_cueilleur": {
+   "file": "png/job_cueilleur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_cueilleur_evo": {
+   "file": "png/job_cueilleur_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_cuisinier": {
+   "file": "png/job_cuisinier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_cuisinier_evo": {
+   "file": "png/job_cuisinier_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_eleveur": {
+   "file": "png/job_eleveur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_eleveur_evo": {
+   "file": "png/job_eleveur_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_entraineur": {
+   "file": "png/job_entraineur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_entraineur_evo": {
+   "file": "png/job_entraineur_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_fermier": {
+   "file": "png/job_fermier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_fermier_evo": {
+   "file": "png/job_fermier_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_forgeron": {
+   "file": "png/job_forgeron.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_forgeron_evo": {
+   "file": "png/job_forgeron_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_marchand": {
+   "file": "png/job_marchand.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_marchand_evo": {
+   "file": "png/job_marchand_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_mineur": {
+   "file": "png/job_mineur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
+  "job_mineur_evo": {
+   "file": "png/job_mineur_evo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "job"
+  },
   "mat_bois": {
    "file": "png/mat_bois.png",
    "w": 24,
@@ -1355,6 +1967,60 @@
    "h": 24,
    "kind": "material"
   },
+  "ms_10": {
+   "file": "png/ms_10.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_20": {
+   "file": "png/ms_20.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_30": {
+   "file": "png/ms_30.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_35": {
+   "file": "png/ms_35.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_40": {
+   "file": "png/ms_40.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_45": {
+   "file": "png/ms_45.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_5": {
+   "file": "png/ms_5.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_50": {
+   "file": "png/ms_50.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
+  "ms_60": {
+   "file": "png/ms_60.png",
+   "w": 48,
+   "h": 48,
+   "kind": "badge"
+  },
   "plot_empty": {
    "file": "png/plot_empty.png",
    "w": 54,
@@ -1397,6 +2063,1032 @@
    "h": 16,
    "kind": "resource"
   },
+  "sk_alchim": {
+   "file": "png/sk_alchim.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_altruiste": {
+   "file": "png/sk_ame_altruiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_ambitieux": {
+   "file": "png/sk_ame_ambitieux.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_calculateur": {
+   "file": "png/sk_ame_calculateur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_curieux": {
+   "file": "png/sk_ame_curieux.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_egoiste": {
+   "file": "png/sk_ame_egoiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_gourmand": {
+   "file": "png/sk_ame_gourmand.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_impulsif": {
+   "file": "png/sk_ame_impulsif.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_opportuniste": {
+   "file": "png/sk_ame_opportuniste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_stoique": {
+   "file": "png/sk_ame_stoique.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_analyse": {
+   "file": "png/sk_analyse.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_assaut": {
+   "file": "png/sk_assaut.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_aubaine": {
+   "file": "png/sk_aubaine.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_aura": {
+   "file": "png/sk_aura.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_banquet": {
+   "file": "png/sk_banquet.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_bened": {
+   "file": "png/sk_bened.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_brasier": {
+   "file": "png/sk_brasier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_brute": {
+   "file": "png/sk_brute.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_carto": {
+   "file": "png/sk_carto.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_chaine": {
+   "file": "png/sk_chaine.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_chef": {
+   "file": "png/sk_chef.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_coeur": {
+   "file": "png/sk_coeur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_coupch": {
+   "file": "png/sk_coupch.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_couronne": {
+   "file": "png/sk_couronne.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_cri": {
+   "file": "png/sk_cri.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_dernier": {
+   "file": "png/sk_dernier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_donabs": {
+   "file": "png/sk_donabs.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_double": {
+   "file": "png/sk_double.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_echiquier": {
+   "file": "png/sk_echiquier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ecrase": {
+   "file": "png/sk_ecrase.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_egide": {
+   "file": "png/sk_egide.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_elan": {
+   "file": "png/sk_elan.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_encas": {
+   "file": "png/sk_encas.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_entrave": {
+   "file": "png/sk_entrave.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_epices": {
+   "file": "png/sk_epices.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_epines": {
+   "file": "png/sk_epines.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_erudit": {
+   "file": "png/sk_erudit.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_etourd": {
+   "file": "png/sk_etourd.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_etude": {
+   "file": "png/sk_etude.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_eureka": {
+   "file": "png/sk_eureka.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_festin": {
+   "file": "png/sk_festin.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_flair": {
+   "file": "png/sk_flair.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_foncer": {
+   "file": "png/sk_foncer.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_forter": {
+   "file": "png/sk_forter.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_fortune": {
+   "file": "png/sk_fortune.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_fougue": {
+   "file": "png/sk_fougue.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_frappe": {
+   "file": "png/sk_frappe.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_furie": {
+   "file": "png/sk_furie.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_garde": {
+   "file": "png/sk_garde.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_gloire": {
+   "file": "png/sk_gloire.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_gouter": {
+   "file": "png/sk_gouter.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_grace": {
+   "file": "png/sk_grace.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_hate": {
+   "file": "png/sk_hate.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_inebr": {
+   "file": "png/sk_inebr.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_inspir": {
+   "file": "png/sk_inspir.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_intim": {
+   "file": "png/sk_intim.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_invent": {
+   "file": "png/sk_invent.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_lame": {
+   "file": "png/sk_lame.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_lancegl": {
+   "file": "png/sk_lancegl.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_leste": {
+   "file": "png/sk_leste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_lynx": {
+   "file": "png/sk_lynx.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_mainten": {
+   "file": "png/sk_mainten.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_malefice": {
+   "file": "png/sk_malefice.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_meteore": {
+   "file": "png/sk_meteore.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_miroir": {
+   "file": "png/sk_miroir.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_moidabord": {
+   "file": "png/sk_moidabord.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_murviv": {
+   "file": "png/sk_murviv.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_nova": {
+   "file": "png/sk_nova.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_peau": {
+   "file": "png/sk_peau.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_phenix": {
+   "file": "png/sk_phenix.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_pointf": {
+   "file": "png/sk_pointf.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_premier": {
+   "file": "png/sk_premier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_premsoins": {
+   "file": "png/sk_premsoins.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_promesse": {
+   "file": "png/sk_promesse.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ragout": {
+   "file": "png/sk_ragout.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_rappel": {
+   "file": "png/sk_rappel.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_rayon": {
+   "file": "png/sk_rayon.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_refrain": {
+   "file": "png/sk_refrain.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_refus": {
+   "file": "png/sk_refus.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_regen": {
+   "file": "png/sk_regen.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_riposte": {
+   "file": "png/sk_riposte.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_roc": {
+   "file": "png/sk_roc.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ronces": {
+   "file": "png/sk_ronces.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_rosee": {
+   "file": "png/sk_rosee.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sentinel": {
+   "file": "png/sk_sentinel.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_souffle": {
+   "file": "png/sk_souffle.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_alchi": {
+   "file": "png/sk_sub_alchi.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_conteur": {
+   "file": "png/sk_sub_conteur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_contreb": {
+   "file": "png/sk_sub_contreb.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_dompteur": {
+   "file": "png/sk_sub_dompteur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_etendard": {
+   "file": "png/sk_sub_etendard.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_exorciste": {
+   "file": "png/sk_sub_exorciste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_garde": {
+   "file": "png/sk_sub_garde.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_medic": {
+   "file": "png/sk_sub_medic.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_pisteur": {
+   "file": "png/sk_sub_pisteur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_runiste": {
+   "file": "png/sk_sub_runiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_saboteur": {
+   "file": "png/sk_sub_saboteur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_sub_tacticien": {
+   "file": "png/sk_sub_tacticien.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_arcaniste": {
+   "file": "png/sk_tech_arcaniste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_berserker": {
+   "file": "png/sk_tech_berserker.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_bouclier": {
+   "file": "png/sk_tech_bouclier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_chantre": {
+   "file": "png/sk_tech_chantre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_chevalier": {
+   "file": "png/sk_tech_chevalier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_chrono": {
+   "file": "png/sk_tech_chrono.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_deflagration": {
+   "file": "png/sk_tech_deflagration.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_druide": {
+   "file": "png/sk_tech_druide.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_duelliste": {
+   "file": "png/sk_tech_duelliste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_eclaireur": {
+   "file": "png/sk_tech_eclaireur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_elementaliste": {
+   "file": "png/sk_tech_elementaliste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_empoisonneur": {
+   "file": "png/sk_tech_empoisonneur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_enchanteur": {
+   "file": "png/sk_tech_enchanteur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_entaille": {
+   "file": "png/sk_tech_entaille.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_epeiste": {
+   "file": "png/sk_tech_epeiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_estoc": {
+   "file": "png/sk_tech_estoc.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_fendoir": {
+   "file": "png/sk_tech_fendoir.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_glyphe": {
+   "file": "png/sk_tech_glyphe.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_hemo": {
+   "file": "png/sk_tech_hemo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_lameombre": {
+   "file": "png/sk_tech_lameombre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_occultiste": {
+   "file": "png/sk_tech_occultiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_paladin": {
+   "file": "png/sk_tech_paladin.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_poing": {
+   "file": "png/sk_tech_poing.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_pretre": {
+   "file": "png/sk_tech_pretre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_ralliement": {
+   "file": "png/sk_tech_ralliement.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_rempart": {
+   "file": "png/sk_tech_rempart.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_rodeur": {
+   "file": "png/sk_tech_rodeur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_soin": {
+   "file": "png/sk_tech_soin.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_tempete": {
+   "file": "png/sk_tech_tempete.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_tireur": {
+   "file": "png/sk_tech_tireur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_troubadour": {
+   "file": "png/sk_tech_troubadour.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_vengeur": {
+   "file": "png/sk_tech_vengeur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tech_volee": {
+   "file": "png/sk_tech_volee.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_temps": {
+   "file": "png/sk_temps.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tourb": {
+   "file": "png/sk_tourb.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_toutrien": {
+   "file": "png/sk_toutrien.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_toxine": {
+   "file": "png/sk_toxine.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_trefle": {
+   "file": "png/sk_trefle.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_tresor": {
+   "file": "png/sk_tresor.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_arcaniste": {
+   "file": "png/sk_ult_arcaniste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_archer": {
+   "file": "png/sk_ult_archer.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_assassin": {
+   "file": "png/sk_ult_assassin.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_berserker": {
+   "file": "png/sk_ult_berserker.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_chantre": {
+   "file": "png/sk_ult_chantre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_chevalier": {
+   "file": "png/sk_ult_chevalier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_chrono": {
+   "file": "png/sk_ult_chrono.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_commandant": {
+   "file": "png/sk_ult_commandant.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_druide": {
+   "file": "png/sk_ult_druide.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_duelliste": {
+   "file": "png/sk_ult_duelliste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_eclaireur": {
+   "file": "png/sk_ult_eclaireur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_elementaliste": {
+   "file": "png/sk_ult_elementaliste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_empoisonneur": {
+   "file": "png/sk_ult_empoisonneur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_enchanteur": {
+   "file": "png/sk_ult_enchanteur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_epeiste": {
+   "file": "png/sk_ult_epeiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_gardien": {
+   "file": "png/sk_ult_gardien.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_guerrier": {
+   "file": "png/sk_ult_guerrier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_hemo": {
+   "file": "png/sk_ult_hemo.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_lameombre": {
+   "file": "png/sk_ult_lameombre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_occultiste": {
+   "file": "png/sk_ult_occultiste.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_paladin": {
+   "file": "png/sk_ult_paladin.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_pretre": {
+   "file": "png/sk_ult_pretre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_rempart": {
+   "file": "png/sk_ult_rempart.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_rodeur": {
+   "file": "png/sk_ult_rodeur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_soigneur": {
+   "file": "png/sk_ult_soigneur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_sorcier": {
+   "file": "png/sk_ult_sorcier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_soutien": {
+   "file": "png/sk_ult_soutien.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_tempete": {
+   "file": "png/sk_ult_tempete.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_tireur": {
+   "file": "png/sk_ult_tireur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_troubadour": {
+   "file": "png/sk_ult_troubadour.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ult_vengeur": {
+   "file": "png/sk_ult_vengeur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_vampir": {
+   "file": "png/sk_vampir.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_vigueur": {
+   "file": "png/sk_vigueur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_voile": {
+   "file": "png/sk_voile.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
   "ui_button": {
    "file": "png/ui_button.png",
    "w": 48,
@@ -1437,6 +3129,24 @@
    "file": "png/ui_evolution.png",
    "w": 32,
    "h": 32,
+   "kind": "ui"
+  },
+  "ui_node_lock": {
+   "file": "png/ui_node_lock.png",
+   "w": 12,
+   "h": 12,
+   "kind": "ui"
+  },
+  "ui_node_mystery": {
+   "file": "png/ui_node_mystery.png",
+   "w": 32,
+   "h": 32,
+   "kind": "ui"
+  },
+  "ui_node_next": {
+   "file": "png/ui_node_next.png",
+   "w": 40,
+   "h": 40,
    "kind": "ui"
   },
   "ui_panel": {

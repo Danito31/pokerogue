@@ -26,6 +26,10 @@ dans `new Image().src` ; fonctionne en `file://`).
 | `fx.py` | effets d'attaque animés (feuilles de sprites) |
 | `extras.py` | portail de la tour, bateau montgolfier |
 | `intro.py` | intro en BD : `intro_1..6` (320x180, scènes en perspective éclairées + palette commune + contours), `fx_vortex` (8x96x96), `intro_frame` (9-slice 12) |
+| `iconlib.py` | bibliotheque d'emblèmes paramétriques (arcs de slash, étoiles d'impact, éclats, flammes, boucliers, orbes, flèches, runes, armes, outils…) + rendu Blender de face (2 passes, 3 teintes, contour `#1d1430`, liseré blanc des ultimes) |
+| `icon_parts.py`, `icons_sk1.py`, `icons_sk2.py`, `icons_cl.py`, `icons_misc.py` | recettes des icônes de `docs/progression.md` §12 : `sk_*` (171, 32×32), `cl_*` (58, 48×48), `fr_*`, `job_*` (28), `ms_*` (9) |
+| `icons_px.py` | petites icônes dessinées en PIL (`fam_*`, `cl_voie_*` 16×16, `ui_node_*`) |
+| `icons.py` | lanceur : `/opt/bvenv/bin/python blender/icons.py <préfixe|all> [i/n] [--out dossier]` (≈ 0,25 s par icône ; `build_all.py --icons-only` = 4 processus, ≈ 50 s) |
 | `rerender.py` | re-rend un `.blend` retouché |
 | `build_all.py` | enchaîne tout et empaquette |
 

@@ -6,7 +6,7 @@ F = dict(soutien='#ffcf4a', soin='#5fe07a', protection='#bfe8ff', degats='#ff5a5
 ROLE = dict(guerrier=('#b9c4d8', '#3558b8'), gardien=('#bfe8ff', '#e0b040'), assassin=('#6a5c9a', '#c0392b'),
             archer=('#3f8f52', '#a9744a'), sorcier=('#6a48b8', '#ff7ad9'), soigneur=('#3fb0a0', '#5fe07a'), soutien=('#ffcf4a', '#ff5a5a'))
 STEEL, STEEL_D, GOLD, GOLDM = '#c9d2e0', '#8a93aa', '#ffcf4a', '#e0b040'
-WOODC, WOOD_D, SKIN, CREAM, DARK = '#a9744a', '#7a4a30', '#f2c9a0', '#f2ead6', '#3a2c4a'
+WOODC, WOOD_D, SKIN, CREAM, DARK = '#b9824f', '#9a6440', '#f2c9a0', '#f2ead6', '#3a2c4a'
 RED, GREEN, BLUE, PURP, PINK, TEAL, ORANGE, CYAN = '#ff5a5a', '#5fe07a', '#4a7ae0', '#a070f0', '#ff7ad9', '#4de0c0', '#ff9a3a', '#6fd3ff'
 
 
@@ -21,13 +21,22 @@ def person(cx, cz, s, col, head=None, rot=0):
     lay(.04)
 
 
-def bg_rays(base, n=12, r1=.98, r2=.5, ring_r=None):
-    """fond d'ultime : eclats rayonnants sombres + onde."""
+def bg_rays(base, n=14, r1=.98, r2=.62, ring_r=None):
+    """fond d'ultime : eclats rayonnants (ton moyen) + onde."""
     pl = pal(base)
-    fill(star(0, 0, n, r1, r2, 90), mix(pl[0], base, .3), True, step=.012)
+    fill(star(0, 0, n, r1, r2, 90), mix(base, '#1d1040', .35), True, step=.012)
+    fill(star(0, 0, n, r1 * .86, r2 * .9, 90 + 90 / n), mix(base, '#1d1040', .12), True, step=.012)
     if ring_r:
         shock(0, 0, ring_r, .1, (pl[1], pl[2], pl[3]))
     lay(.04)
+
+
+def cut(rot, L, w, pl, dx=0, dz=0, taper=.5, head=0.0):
+    """coup de lame quasi droit (arc de grand rayon) de longueur L, oriente rot (deg, 0 = horizontal)."""
+    R = 3.2
+    half = math.degrees(math.asin(min(.99, L / 2 / R)))
+    with xf(rot, 1, dx, dz):
+        slash(0, -R, R, 90 - half, 90 + half, w, pl, taper=taper, head=head)
 
 
 def pot(cx, cz, s, col, steam=None, lid=False):
@@ -75,7 +84,7 @@ def wolf(cx, cz, s, col, rot=0, flip=False):
 
 def boot(cx, cz, s, col, sole=None, rot=0):
     with xf(rot, s, cx, cz):
-        fill([(-.4, .9), (.3, .9), (.35, -.1), (.9, -.35), (.9, -.8), (-.45, -.8)], col)
+        fill([(-.4, .8), (.3, .8), (.35, -.05), (.9, -.3), (.95, -.8), (-.45, -.8)], col)
         fill(rect(.1, -.82, 1.4, .18), sole or shade(col, -.4), step=.02)
         fill(rect(-.05, .75, .8, .2), shade(col, .3), step=.02)
     lay(.05)
@@ -178,13 +187,11 @@ def die(cx, cz, s, col, pips=6, rot=0, pipc=DARK):
 
 def horseshoe(cx, cz, s, col, rot=0):
     with xf(rot, s, cx, cz):
-        path = [(.95 * math.cos(math.radians(a)) * .85, .9 * math.sin(math.radians(a)) * .9) for a in range(-40, 221, 10)]
-        path = [(-.82 * math.sin(math.radians(a)), -.82 * math.cos(math.radians(a))) for a in range(-130, 131, 10)][::-1]
-        fill(stroke([(p[0], -p[1] * .9 + .1) for p in path], .3), col, step=.03)
-        for x in (-.78, .78):
-            pass
-        for p in path[::4]:
-            fill(ngon(p[0], -p[1] * .9 + .1, .05, n=6), DARK, False, nolayer=True, bv=0, th=.01)
+        path = [(-.72, .75), (-.72, .1)] + arcpath(0, .1, .72, 180, 360, 12)[1:-1][::-1][::-1] + [(.72, .1), (.72, .75)]
+        path = [(-.72, .8), (-.72, .15)] + [(.72 * math.cos(math.radians(a)), .15 + .85 * math.sin(math.radians(a))) for a in range(190, 351, 10)] + [(.72, .15), (.72, .8)]
+        fill(stroke(path, .34), col, step=.03)
+        for x, z in ((-.72, .55), (-.62, -.3), (0, -.7), (.62, -.3), (.72, .55)):
+            fill(ngon(x, z, .06, n=6), DARK, False, nolayer=True, bv=0, th=.01)
     lay(.05)
 
 

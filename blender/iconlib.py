@@ -367,7 +367,7 @@ def eye(cx, cz, s, col, pupil=DK, iris=None, e=False, slit=False):
     lay(.08)
 
 
-def shield(cx, cz, s, col, trim=None, e=False, kind='heater', emblem=None):
+def shield(cx, cz, s, col, trim=None, e=False, kind='heater', emblem=None, emcol=WHITE):
     if kind == 'round':
         body = ngon(0, 0, .9, .9, 28)
     elif kind == 'kite':
@@ -381,11 +381,11 @@ def shield(cx, cz, s, col, trim=None, e=False, kind='heater', emblem=None):
         with xf(0, .8, 0, .02):
             fill(body, col, e, step=.03, bv=.04)
         if emblem == 'cross':
-            cross(0, .0, .4, WHITE, True, t=.32)
+            cross(0, .0, .4, emcol, emcol == WHITE, t=.32)
         elif emblem == 'star':
-            fill(star(0, 0, 5, .5, .22), WHITE, True, step=.02)
+            fill(star(0, 0, 5, .5, .22), emcol, emcol == WHITE, step=.02)
         elif emblem == 'chev':
-            fill([(-.5, .3), (0, -.1), (.5, .3), (.5, .05), (0, -.4), (-.5, .05)], WHITE, True, step=.02)
+            fill([(-.5, .3), (0, -.1), (.5, .3), (.5, .05), (0, -.4), (-.5, .05)], emcol, emcol == WHITE, step=.02)
     lay(.06)
 
 
@@ -566,7 +566,7 @@ def hand(cx, cz, s, col, fist=True, rot=0, cuff=None):
         if fist:
             fill([(-.62, -.5), (-.65, .2), (-.45, .6), (.45, .6), (.68, .2), (.6, -.5), (.35, -.8), (-.35, -.8)], col, step=.03)
             for x in (-.33, -.0, .33):
-                fill(stroke([(x, .55), (x, .05)], .03), shade(col, -.4), nolayer=True, bv=0, th=.01)
+                fill(stroke([(x, .6), (x, .0)], .06), DARK, nolayer=True, bv=0, th=.01)
             fill([(-.62, -.15), (-.2, -.05), (-.1, -.35), (-.5, -.5)], shade(col, -.15), step=.02)
         else:
             fill(stroke([(-.62, -.15), (-.2, -.3)], .22), col, step=.01) if False else None
@@ -655,20 +655,32 @@ def clear_scene():
     C['solid'].clear(); C['emit'].clear()
 
 
-def inner_rim(img, color=(255, 255, 255), k=.8):
+def inner_rim(img, color=(255, 255, 255), k=.75):
+    """liseré clair 1 px interne (ultimes) : seulement sur les parties epaisses (>= 4 px) pour ne pas manger les traits fins."""
     a = np.array(img)
     al = a[..., 3] > 0
     ol = (a[..., 0] == 0x1d) & (a[..., 1] == 0x14) & (a[..., 2] == 0x30) & al
     body = al & ~ol
-    er = body.copy()
-    er[1:, :] &= body[:-1, :]; er[:-1, :] &= body[1:, :]; er[:, 1:] &= body[:, :-1]; er[:, :-1] &= body[:, 1:]
-    edge = body & ~er
+
+    def er(m):
+        r = m.copy()
+        r[1:, :] &= m[:-1, :]; r[:-1, :] &= m[1:, :]; r[:, 1:] &= m[:, :-1]; r[:, :-1] &= m[:, 1:]
+        r[0, :] = r[-1, :] = False; r[:, 0] = r[:, -1] = False
+        return r
+
+    def di(m):
+        r = m.copy()
+        r[1:, :] |= m[:-1, :]; r[:-1, :] |= m[1:, :]; r[:, 1:] |= m[:, :-1]; r[:, :-1] |= m[:, 1:]
+        return r
+    e1 = er(body)
+    thick = di(di(er(er(e1)))) & body
+    edge = body & ~e1 & thick
     for i in range(3):
         a[..., i][edge] = (a[..., i][edge] * (1 - k) + color[i] * k).astype(np.uint8)
     return Image.fromarray(a, 'RGBA')
 
 
-def render_icon(key, size, fn, post, out_dir, ss=6, t_dark=.52, t_light=.9, outline=True, ext=2.0, ambient=.42):
+def render_icon(key, size, fn, post, out_dir, ss=6, t_dark=.52, t_light=.9, outline=True, ext=2.1, ambient=.42):
     clear_scene()
     sc = bpy.context.scene
     sc['px_ambient'] = ambient
@@ -680,6 +692,8 @@ def render_icon(key, size, fn, post, out_dir, ss=6, t_dark=.52, t_light=.9, outl
     img = postprocess(A, Sh, size, size, ss, outline, t_dark, t_light)
     if post == 'rim':
         img = inner_rim(img)
+    elif callable(post):
+        img = post(img)
     img.save(os.path.join(out_dir, key + '.png'))
     return img
 

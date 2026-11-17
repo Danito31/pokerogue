@@ -6,10 +6,11 @@ import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from iconlib import *
 import icons_sk1, icons_sk2, icons_cl, icons_misc  # noqa  (enregistrent les recettes dans REG)
+from icons_px import PXREG
 
 
 def keys_for(group):
-    ks = sorted(REG)
+    ks = sorted(set(REG) | set(PXREG))
     if group in ('all', '*'):
         return ks
     return [k for k in ks if k.startswith(group)]
@@ -27,6 +28,10 @@ def main(argv):
     if len(argv) > 1 and '/' in argv[1]:
         i, n = [int(v) for v in argv[1].split('/')]
         ks = ks[i::n]
+    px = [k for k in ks if k in PXREG]
+    for k in px:
+        PXREG[k]().save(os.path.join(out, k + '.png'))
+    ks = [k for k in ks if k in REG]
     reset_scene()
     t = run_keys(ks, out)
     print('icons %s %s : %d icones en %.1fs' % (group, argv[1] if len(argv) > 1 else '', len(ks), t))
