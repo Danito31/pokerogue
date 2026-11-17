@@ -79,6 +79,30 @@ button.alt{background:var(--panel2);color:var(--text)}button.red{background:var(
 .sp.ic{background:radial-gradient(var(--rc,#4a8fe0),#182048 90%)}.r1,.r2,.r3,.r4,.r5,.r6{}
 #lawb{position:absolute;left:50%;top:32%;transform:translateX(-50%);width:min(460px,88%);padding:10px 14px;text-align:center;z-index:5;pointer-events:none;font-size:13px;animation:drop .4s both}#lawb b{display:block;font-size:22px;color:var(--gold);margin-bottom:4px}#lawb p{margin:4px 0}
 #blaw{position:absolute;top:46px;left:50%;transform:translateX(-50%);padding:3px 10px;font-size:12px;color:var(--teal);max-width:60%;text-align:center}
+/* art Blender : panneaux, bâtiments, icônes */
+.rc img.ri{width:16px;height:16px;image-rendering:pixelated;flex:none}.rc.w b{color:var(--red)}
+.cost{display:inline-flex;gap:4px 10px;flex-wrap:wrap;align-items:center}.resl{display:flex;gap:4px 12px;flex-wrap:wrap}
+.sti{display:inline-flex;vertical-align:-3px;letter-spacing:0}.sti img{width:16px;height:16px;image-rendering:pixelated;margin-right:-2px}.sti.big img{width:32px;height:32px;margin-right:-3px}.sti img.off{opacity:.9}
+body.art #pin{box-sizing:border-box;border:24px solid transparent;border-image:var(--a-panel) 12 fill/24px stretch;box-shadow:6px 6px 0 rgba(0,0,0,.45);background:none;padding:0 0 4px;image-rendering:pixelated}
+body.art #pin h2{box-shadow:0 3px 0 #000}
+.bh{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin:4px 0 8px}
+.bill{flex:none;width:320px;height:240px;border:3px solid #000;box-shadow:0 0 0 2px var(--gold),4px 4px 0 2px rgba(0,0,0,.4);background:radial-gradient(circle at 50% 45%,#3a3880,#14122a 75%);overflow:hidden}
+.bill img,.bcil img{width:100%;height:100%;image-rendering:pixelated;display:block;object-fit:contain}
+.bi{flex:1 1 220px;min-width:0}.bi p{margin:6px 0}.bl{font-size:20px;font-weight:700;color:var(--gold);margin-top:2px}
+.eff{list-style:none;margin:8px 0;padding:0;font-size:14px}.eff li{padding:3px 0 3px 18px;position:relative}.eff li:before{content:'';position:absolute;left:3px;top:9px;width:6px;height:6px;background:var(--teal);border:1px solid #000;transform:rotate(45deg)}.eff .nx{color:var(--teal);font-weight:600}
+.up{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px;padding:8px;background:var(--panel2);border:2px solid #000}.up .cost{flex:1 1 auto}
+.dv{height:4px;margin:10px 0;background:var(--line);opacity:.5}
+body.artd .dv{height:16px;opacity:1;image-rendering:pixelated;background:var(--a-div) center/128px 16px no-repeat,linear-gradient(#e0b040,#e0b040) center/100% 2px no-repeat}
+.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:12px;margin:10px 0}
+.bc{display:flex;flex-direction:column;background:var(--panel2);border:3px solid #000;box-shadow:0 0 0 2px #4a4690;overflow:hidden}
+.bcil{height:120px;background:radial-gradient(circle at 50% 45%,#3a3880,#14122a 78%);border-bottom:3px solid #000;display:flex;justify-content:center}.bcil img{width:160px}
+.bcb{padding:8px;display:flex;flex-direction:column;gap:4px;flex:1}.bn{font-size:17px;color:var(--gold)}.bcb .eff{margin:4px 0;font-size:13px}.cr{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+body.artb .ib{border:8px solid transparent;border-image:var(--a-btn) 4 fill/8px stretch;background:none;box-shadow:none;padding:0 8px;color:#fff;text-shadow:1px 1px 0 #8a3418,-1px 0 0 #8a3418,0 -1px 0 #8a3418;image-rendering:pixelated;min-height:34px;line-height:18px}
+body.artb .ib.hot{border-image-source:var(--a-btn3);color:#14302a;text-shadow:none}body.artb .ib.alt{border-image-source:var(--a-btn2);color:var(--text);text-shadow:1px 1px 0 #000}
+body.artb .ib:disabled{border-image-source:var(--a-btn2);background:none;color:#a9a4d0;text-shadow:1px 1px 0 #000;filter:saturate(.4) brightness(.8)}
+.boat{display:block;width:400px;max-width:100%;image-rendering:pixelated;margin:6px auto 10px;border:3px solid #000;box-shadow:0 0 0 2px var(--gold);background:radial-gradient(circle at 50% 40%,#5a78c8,#1c1b3c 80%)}
+.sp.ic{box-sizing:content-box;width:48px;height:48px;padding:6px 8px;object-fit:contain}
+@media (max-width:560px){body.art #pin{border-width:12px;border-image-width:12px}.bill{width:160px;height:120px}.bh{gap:10px}.bgrid{grid-template-columns:1fr 1fr;gap:8px}.bcil img{width:100%}}
 @media (prefers-reduced-motion:reduce){.fl,.fl .in,#flash.go{animation:none;transition:none}}
 </style>
 <div id="stage">
@@ -89,11 +113,23 @@ button.alt{background:var(--panel2);color:var(--text)}button.red{background:var(
  <div id="joy" hidden><i></i></div><div id="toast" class="px" hidden></div><div id="flash"></div><div id="cut"></div>
  <div id="panel" hidden><div id="pin" class="px"></div></div>
 </div>
+<script src="assets/assets.js"></script>
 <script>
 'use strict';
 /* Images personnalisées (facultatif) : ASSETS['sprite_Jeanne']='data:image/png;base64,...' — sprite 32×30 px tourné vers la droite, pieds en bas.
    Icônes d'objets : ASSETS['item_epee'], ASSETS['item_arc'], ASSETS['item_potion']… (une clé par type d'objet, voir ITYPES[t].icon) — image carrée ; à défaut, dessin procédural. */
 const ASSETS={};
+/* Art Blender (assets/assets.js → window.ASSETS_IMG) fusionné dans ASSETS : les clés déjà présentes dans ASSETS restent prioritaires.
+   Toute image absente retombe sur le dessin procédural. */
+const IMG={},IALIAS={item_armure_cuir:'item_armure_legere',item_potion:'item_potion_soin',item_elixir:'item_potion_energie'};
+const aKey=k=>ASSETS[k]?k:IALIAS[k]&&ASSETS[IALIAS[k]]?IALIAS[k]:null,aSrc=k=>{k=aKey(k);return k?ASSETS[k]:null};
+function aImg(k){k=aKey(k);if(!k)return null;let im=IMG[k];if(!im){im=IMG[k]=new Image();im.src=ASSETS[k]}return im.complete&&im.naturalWidth?im:null}
+function loadAssets(){const src=window.ASSETS_IMG||{};for(const k in src)if(!ASSETS[k])ASSETS[k]=src[k];
+ const ps=Object.keys(ASSETS).filter(k=>/^data:image|\.(png|webp|gif|jpe?g)$/i.test(ASSETS[k])).map(k=>{const im=IMG[k]=new Image();im.src=ASSETS[k];return(im.decode?im.decode():new Promise((r,j)=>{im.onload=r;im.onerror=j})).catch(()=>{delete IMG[k];delete ASSETS[k]})});
+ return Promise.race([Promise.all(ps),new Promise(r=>setTimeout(r,5000))])}
+/* habillage d'interface (cadre 9-slice, boutons, séparateur) depuis les images, en variables CSS */
+function artCSS(){const r=document.documentElement.style,m={'--a-panel':'ui_panel','--a-btn':'ui_button','--a-btn2':'ui_button_alt','--a-btn3':'ui_button_hot','--a-div':'ui_divider'};for(const v in m){const a=aSrc(m[v]);if(a)r.setProperty(v,`url("${a}")`)}
+ const b=document.body.classList;b.toggle('art',!!aSrc('ui_panel'));b.toggle('artb',!!(aSrc('ui_button')&&aSrc('ui_button_alt')&&aSrc('ui_button_hot')));b.toggle('artd',!!aSrc('ui_divider'))}
 const $=s=>document.querySelector(s),rnd=(a,b)=>a+Math.random()*(b-a),ri=(a,b)=>Math.floor(rnd(a,b+1)),pick=a=>a[Math.floor(Math.random()*a.length)],clamp=(v,a,b)=>v<a?a:v>b?b:v,lerp=(a,b,k)=>a+(b-a)*k;
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=ri(0,i);[a[i],a[j]]=[a[j],a[i]]}return a};
 let SPD=1;const sleep=ms=>new Promise(r=>setTimeout(r,ms/SPD));
@@ -327,6 +363,8 @@ function bSprite(k,lv){const key=k+lv;if(BS_[key])return BS_[key];const C=BLD[k]
   if(k=='auberge')E([[-2,-1],[-1,-1],[0,-1],[-2,0],[-1,0],[0,0],[1,0],[-2,1],[-1,1],[0,1]]);else if(k=='ferme')E([[0,-2],[-1,-1],[1,-1],[0,-1],[0,0],[-1,1],[1,1],[0,1]]);else if(k=='camp')E([[2,-2],[1,-1],[0,0],[-1,1],[-2,1],[-1,2]]);else if(k=='inf')E([[0,-2],[0,-1],[-2,0],[-1,0],[0,0],[1,0],[2,0],[0,1],[0,2]]);else E([[-2,-1],[-1,-1],[0,-1],[1,-1],[2,-1],[0,0],[0,1],[-1,2],[0,2],[1,2]]);
   if(k=='forge'||k=='auberge'){g.r(38,3,7,11,1,2);g.r(37,2,9,2,9,0);if(k=='forge')g.r(11,37,7,8,11,2)}}
  return BS_[key]=bake(g,pal)}
+/* bâtiments : sprite Blender bld_<k>_<palier> (3 paliers visuels), sinon dessin procédural */
+const bTier=lv=>clamp(lv|0,1,3),bImg=(k,lv)=>aImg('bld_'+k+'_'+bTier(lv))||bSprite(k,lv),bUi=(k,lv)=>aSrc('bldui_'+k+'_'+bTier(lv))||scaleC(bSprite(k,lv),2).toDataURL();
 function miscSprite(k){if(OS['m'+k])return OS['m'+k];let g,pal;
  if(k=='plot'){g=SG(22,18);pal=[null,'#8a5a34','#f2ead6','#9a96ae','#5a3d2e'];g.r(10,6,2,12,1,2);g.r(4,1,14,8,2,0);g.r(4,1,14,1,4,2);g.r(4,8,14,1,4,2);[[9,3],[10,3],[11,3],[12,3],[10,4],[11,4],[10,5],[11,5],[10,6],[11,6]].forEach(([x,y])=>g.p(x,y,4,2))}
  else if(k=='tower'){g=SG(30,50);pal=[null,'#9a96ae','#4a6ab8','#6f6a86','#ffe08a','#c0453a','#7a4a30'];g.r(4,20,22,30,1,2);for(let y=20;y<50;y++){g.r(4,y,3,1,1,1);g.r(22,y,4,1,1,3)}for(let y=24;y<50;y+=5)for(let x=5+((y/5|0)%2?4:0);x<26;x+=8)g.p(x,y,3,2);for(let y=24;y<50;y+=5)g.row(y,4,25,3,2);[2,8,14,20,26].forEach(x=>g.r(x,17,3,4,1,0));g.r(2,20,26,2,1,3);for(let y=3;y<=18;y++){const hw=(y-3)*.85;for(let x=Math.ceil(15-hw);x<=15+hw;x++)g.p(x,y,2,x<13?1:x>17?3:2)}g.r(15,0,1,4,6,2);g.r(16,0,5,3,5,0);g.r(13,30,4,6,4,2);g.r(13,29,4,1,3,2)}
@@ -347,7 +385,7 @@ function miscSprite(k){if(OS['m'+k])return OS['m'+k];let g,pal;
  else{g=SG(8,8);pal=[null,'#fff'];g.r(0,0,8,8,1)}
  return OS['m'+k]=bake(g,pal)}
 /* ---------- icônes d'objets (ASSETS[ITYPES[t].icon] prioritaire) ---------- */
-const IS={},AIM={};
+const IS={};
 function itemSprite(t,el){const k=t+(el||'');if(IS[k])return IS[k];const acc=el?ELEMS[el].c:({potion:'#e0484a',elixir:'#4de0c0',robe:'#6a48b8',cape:'#3a3458',grimoire:'#8a3a3a',etendard:'#c0392b',cuir:'#a9744a'}[t]||'#3fb0a0'),g=SG(16,16),pal=[null,'#c9d2e2','#8a5a34','#e0b040',acc,'#d04a4a','#a9744a','#ffffff','#4a4660','#bfe8ff','#ff8a3a','#ffe27a'];
  const ln=(x0,y0,x1,y1,id,tn)=>{const n=Math.max(Math.abs(x1-x0),Math.abs(y1-y0))||1;for(let i=0;i<=n;i++)g.p(Math.round(lerp(x0,x1,i/n)),Math.round(lerp(y0,y1,i/n)),id,tn)};
  if(t=='epee'){ln(5,10,13,2,1,1);ln(6,10,13,3,1,3);ln(3,8,7,12,3,2);ln(2,13,4,11,2,2);g.p(1,14,3,2);g.p(5,10,4,2)}
@@ -370,9 +408,9 @@ function itemSprite(t,el){const k=t+(el||'');if(IS[k])return IS[k];const acc=el?
  else if(t=='relique'){g.r(4,6,8,8,3,0);g.r(5,4,6,2,3,1);ln(8,7,8,12,7,2);ln(6,9,10,9,7,2);g.p(8,2,11,1)}
  else{ln(3,1,3,15,2,2);g.r(4,2,9,7,4,0);g.r(4,9,3,2,4,3);g.r(10,9,3,2,4,3);g.r(7,4,3,3,3,2)}
  return IS[k]=bake(g,pal)}
-function itemSrc(it){const T=ITYPES[it.t];if(ASSETS[T.icon])return ASSETS[T.icon];const k='u'+it.t+(it.el||'');return IS[k]||(IS[k]=scaleC(itemSprite(it.t,it.el),3).toDataURL())}
+function itemSrc(it){const T=ITYPES[it.t],a=aSrc(T.icon);if(a)return a;const k='u'+it.t+(it.el||'');return IS[k]||(IS[k]=scaleC(itemSprite(it.t,it.el),3).toDataURL())}
 /* dessine une icône d'objet sur le canevas (image ASSETS si chargée, sinon procédurale), pieds en (x,y) */
-function dItem(t,x,y,sz=18){const key=ITYPES[t].icon;let im=null;if(ASSETS[key]){im=AIM[key];if(!im){im=AIM[key]=new Image();im.src=ASSETS[key]}if(!(im.complete&&im.naturalWidth))im=null}if(im)X.drawImage(im,Math.round(x-sz/2),Math.round(y-sz),sz,sz);else dS(itemSprite(t),x,y)}
+function dItem(t,x,y,sz=18){const im=aImg(ITYPES[t].icon);if(im)X.drawImage(im,Math.round(x-sz/2),Math.round(y-sz),sz,sz);else dS(itemSprite(t),x,y)}
 /* ================= MOTEUR ================= */
 const cv=$('#gl'),X=cv.getContext('2d');let VWp=0,VHp=0,SC=3,LW=0,LH=0,mode='village',camX=0,camY=0,T=0,vig=null;
 function resize(){VWp=$('#stage').clientWidth||innerWidth;VHp=$('#stage').clientHeight||innerHeight;const s=Math.max(2,Math.round(Math.min(VWp,VHp*1.6)/420));SC=mode=='battle'&&VWp>VHp?Math.round(s*1.4):s;LW=Math.ceil(VWp/SC);LH=Math.ceil(VHp/SC);cv.width=LW;cv.height=LH;cv.style.width=LW*SC+'px';cv.style.height=LH*SC+'px';X.imageSmoothingEnabled=false;
@@ -405,8 +443,10 @@ function openPanel(f,closable=true){PF=f;PCLOSE=closable;panelOpen=true;$('#pane
 function rp(){if(!PF)return;const r=PF();$('#pin').innerHTML=`<h2><span>${r[0]}</span>${PCLOSE?'<button onclick="closePanel()">Fermer</button>':''}</h2><div class="bd">${r[1]}</div>`}
 function closePanel(){panelOpen=false;PF=null;$('#panel').hidden=true;hud();if(PRES){const r=PRES;PRES=null;r()}}
 let PRES=null;const waitPanel=(f,c=true)=>new Promise(r=>{PRES=r;openPanel(f,c)});
-const chip=k=>`<span class="rc"><i style="background:${RES[k][1]}"></i>${RES[k][0]} <b>${G.res[k]}</b></span>`,cost=o=>Object.keys(o).filter(k=>o[k]).map(k=>`${o[k]} ${RES[k][0].toLowerCase()}`).join(', '),can=o=>Object.keys(o).every(k=>G.res[k]>=o[k]),pay=o=>{for(const k in o)G.res[k]-=o[k]};
-const elc=e=>`<i class="el" style="background:${ELEMS[e].c}"></i>${ELEMS[e].n}`,stars=n=>`<span class="st">${'★'.repeat(n)}</span>`;
+const rIco=k=>{const a=aSrc('res_'+k);return a?`<img class="ri" src="${a}" alt="">`:`<i style="background:${RES[k][1]}"></i>`},
+ chip=k=>`<span class="rc" title="${RES[k][0]}">${rIco(k)}${aSrc('res_'+k)?'':RES[k][0]+' '}<b>${G.res[k]}</b></span>`,
+ costH=o=>`<span class="cost">${Object.keys(o).filter(k=>o[k]).map(k=>`<span class="rc${G.res[k]<o[k]?' w':''}" title="${RES[k][0]}">${rIco(k)}<b>${o[k]}</b>${aSrc('res_'+k)?'':' '+RES[k][0].toLowerCase()}</span>`).join('')}</span>`,cost=o=>Object.keys(o).filter(k=>o[k]).map(k=>`${o[k]} ${RES[k][0].toLowerCase()}`).join(', '),can=o=>Object.keys(o).every(k=>G.res[k]>=o[k]),pay=o=>{for(const k in o)G.res[k]-=o[k]};
+const elc=e=>`<i class="el" style="background:${ELEMS[e].c}"></i>${ELEMS[e].n}`,stars=(n,mx,big)=>{const on=aSrc('ui_star');if(!on)return`<span class="st">${'★'.repeat(n)}${mx?'<span class="m">'+'☆'.repeat(Math.max(0,mx-n))+'</span>':''}</span>`;const off=aSrc('ui_star_off')||on;let h='';for(let i=0;i<Math.max(n,mx||0);i++)h+=`<img src="${i<n?on:off}" alt=""${i<n?'':' class="off"'}>`;return`<span class="st sti${big?' big':''}" title="${n} ★">${h}</span>`};
 function hud(){$('#res').innerHTML=['food','wood','stone','gold','shard'].map(chip).join('');const inB=mode=='battle';$('#hud').hidden=inB;$('#bat').hidden=!inB;if(inB)return;
  $('#mini').hidden=mode!='floor';$('#menu').innerHTML=mode=='village'?'<button class="alt" onclick="openTeam()">Équipe</button>':`<button class="alt" onclick="openLaw()">${F?LAWS[F.law].s:''} Loi</button><button class="alt" onclick="askLeave()">Quitter l’étage</button>`;$('#menu').classList.toggle('onfl',mode=='floor');
  $('#team').innerHTML=mode=='floor'?party().map(c=>{const s=stats(c),h=F.hp[c.id];return`<div class="tm px"><img src="${cs(c).head}" alt=""><div class="bar ${h<s.hp*.3?'low':''}"><i style="width:${h/s.hp*100}%"></i></div><div class="bar en"><i style="width:${F.en[c.id]||0}%"></i></div></div>`}).join(''):'';objective()}
@@ -450,7 +490,7 @@ function buildVillage(){const W=VT[0]*16,H=VT[1]*16,c=mkc(W,H),x=c.getContext('2
  V.p={x:V.px,y:V.py+40,d:1,mv:0,fr:0};V.npc=[]}
 function plotC(i){return[PL[i][0]*16+24,PL[i][1]*16+36]}
 function syncNPC(){const old=V.npc||[];V.npc=G.chars.filter(c=>!c.inj&&c!=party()[0]).slice(0,12).map((c,i)=>old.find(n=>n.c==c)||{c,x:V.px+rnd(-150,150),y:V.py+rnd(-80,110),tx:null,d:1,w:rnd(0,3),fr:0})}
-function villageLabels(){clrLabs();PL.forEach((p,i)=>{const pl=G.plots[i],[x,y]=plotC(i);mkLab(pl?'':'sm',pl?`${BLD[pl.k].n} · niv. ${pl.lv}`:'Terrain libre',()=>[x-camX,y-camY-(pl?62:22)])});mkLab('','Portail de la Tour',()=>[V.px-camX,V.py-camY-44])}
+function villageLabels(){clrLabs();PL.forEach((p,i)=>{const pl=G.plots[i],[x,y]=plotC(i);mkLab(pl?'':'sm',pl?`${BLD[pl.k].n} · niv. ${pl.lv}`:'Terrain libre',()=>[x-camX,y-camY-(pl?62:22)])});mkLab('','Portail de la Tour',()=>[V.px-camX,V.py-camY-(aImg('portail')?76:44)])}
 function enterVillage(){mode='village';F=null;resize();syncNPC();villageLabels();hud();save()}
 function vBlocked(x,y){const[ix,iy,iw,ih]=V.in;if(x<ix+6||x>ix+iw-6||y<iy+10||y>iy+ih-3)return true;for(let i=0;i<6;i++){if(!G.plots[i])continue;const[cx0,cy0]=plotC(i);if(Math.abs(x-cx0)<24&&y>cy0-26&&y<cy0+2)return true}return false}
 function moveE(o,dx,dy,sp,dt,blk){const l=Math.hypot(dx,dy);o.mv=l>.05?1:0;if(!o.mv)return;const nx=o.x+dx*sp*dt,ny=o.y+dy*sp*dt;if(!blk(nx,ny)||blk(o.x,o.y)){o.x=nx;o.y=ny}else if(!blk(nx,o.y))o.x=nx;else if(!blk(o.x,ny))o.y=ny;if(Math.abs(dx)>.15)o.d=dx>0?1:-1;o.fr+=dt*8}
@@ -463,26 +503,32 @@ let talkL=null;function talk(n){if(talkL){talkL.e.remove();labs=labs.filter(l=>l
 function camTo(x,y,W,H){camX=W<=LW?Math.round((W-LW)/2):clamp(Math.round(x-LW/2),0,W-LW);camY=H<=LH?Math.round((H-LH)/2):clamp(Math.round(y-LH/2),0,H-LH)}
 function swirl(x,y,c){for(let a=0;a<46;a++){const an=a*.55+T*2.6,r=1+(a%10)*1.05;X.fillStyle=c[a%c.length];X.fillRect(Math.round(x+Math.cos(an)*r*.8),Math.round(y+Math.sin(an)*r*1.25),2,2)}}
 function drawChr(c,o){const s=cs(c),fr=o.mv?s.walk[Math.floor(o.fr)%4]:s.idle[Math.floor(T*2+c.id)%2];shadow(o.x-camX,o.y-camY,7);dS(o.at>0?s.atk:fr,o.x-camX,o.y-camY,o.d<0)}
-function drawVillage(){const p=V.p;camTo(p.x,p.y-12,V.W,V.H);X.drawImage(V.ground,-camX,-camY);const L=[];
+function drawPortal(a,b,c){const im=aImg('portail');if(im){dS(im,a,b+13);if(Math.random()<.25)parts.push({x:a+camX+rnd(-12,12),y:b+camY-rnd(10,44),vx:rnd(-3,3),vy:-rnd(6,14),l:.8,c:pick(['#4de0c0','#bffff0','#fff']),w:1})}else{swirl(a,b-14,c);dS(miscSprite('arch'),a,b+6)}}
+function drawVillage(){const p=V.p;camTo(p.x,p.y-12,V.W,V.H);X.drawImage(V.ground,-camX,-camY);const L=[],pe=aImg('plot_empty');
+ if(pe)for(let i=0;i<6;i++)if(!G.plots[i]){const[x,y]=plotC(i);dS(pe,x-camX,y-camY+4)}
+ if(G.ballon){const bt=aImg('bateau');if(bt)L.push({y:V.in[1]-40,f:()=>dS(bt,V.px+124-camX,V.in[1]-30-camY+Math.round(Math.sin(T*1.4)*3))})}
  V.stat.forEach(o=>L.push({y:o.y,f:()=>dS(o.s,o.x-camX,o.y-camY)}));
- for(let i=0;i<6;i++){const pl=G.plots[i],[x,y]=plotC(i);if(pl){L.push({y:y,f:()=>{shadow(x-camX,y-camY+1,24);dS(bSprite(pl.k,pl.lv),x-camX,y-camY+2)}});
+ for(let i=0;i<6;i++){const pl=G.plots[i],[x,y]=plotC(i);if(pl){L.push({y:y,f:()=>{shadow(x-camX,y-camY+1,24);dS(bImg(pl.k,pl.lv),x-camX,y-camY+2)}});
    if(pl.k=='ferme')[[-34,2],[-34,-10],[34,2],[34,-10]].forEach(([a,b])=>L.push({y:y+b,f:()=>dS(miscSprite('crop'),x+a-camX,y+b-camY)}));if(pl.k=='camp')L.push({y:y+4,f:()=>dS(miscSprite('dummy'),x+34-camX,y+4-camY)});
    if((pl.k=='forge'||pl.k=='auberge')&&pl.lv>1&&Math.random()<.12)parts.push({x:x+16,y:y-52,vx:rnd(-3,3),vy:-10,l:1.6,c:pl.k=='forge'?'#6a6478':'#d0cce0',w:1})}
-  else L.push({y:y-8,f:()=>dS(miscSprite('plot'),x-camX,y-camY-8)})}
- L.push({y:V.py+6,f:()=>{swirl(V.px-camX,V.py-camY-14,['#c58bff','#4de0c0','#ff7ad9','#ffffff']);dS(miscSprite('arch'),V.px-camX,V.py-camY+6)}});
+  else if(!pe)L.push({y:y-8,f:()=>dS(miscSprite('plot'),x-camX,y-camY-8)})}
+ L.push({y:V.py+6,f:()=>drawPortal(V.px-camX,V.py-camY,['#c58bff','#4de0c0','#ff7ad9','#ffffff'])});
  V.npc.forEach(n=>L.push({y:n.y,f:()=>drawChr(n.c,n)}));const cap0=party()[0]||G.chars[0];L.push({y:p.y,f:()=>drawChr(cap0,p)});
  L.sort((a,b)=>a.y-b.y).forEach(o=>o.f());if(Math.random()<.3)parts.push({x:V.px+rnd(-10,10),y:V.py-rnd(4,26),vx:rnd(-4,4),vy:-rnd(8,20),l:.9,c:pick(['#c58bff','#4de0c0','#fff']),w:1})}
 /* ---------- panneaux du village ---------- */
-function openBuild(i){openPanel(()=>['Construire',`<p class="m">Choisissez le bâtiment à élever sur ce terrain. Il commencera comme un simple campement et prendra de l’ampleur à chaque niveau.</p><p>${['wood','stone'].map(chip).join(' ')}</p>`+Object.keys(BLD).filter(k=>!bl(k)).map(k=>{const o={wood:BLD[k].c[0],stone:BLD[k].c[1]};return`<div class="row"><img class="sp" src="${bSprite(k,1).toDataURL()}" alt=""><div class="gr"><b>${BLD[k].n}</b><div class="m">${BLD[k].d}</div><div class="m">Coût : ${cost(o)}</div></div><button ${can(o)?'':'disabled'} onclick="build(${i},'${k}')">Construire</button></div>`}).join('')||'<p>Tous les bâtiments disponibles sont déjà construits.</p>'])}
+/* effets d'un bâtiment à un niveau donné (affichage) */
+function bEff(k,lv){const P=v=>Math.round(v*100)+' %';return k=='auberge'?[`Capacité : ${3+3*lv} personnages`,'Invocation : 50 or']:k=='ferme'?[`Production : ${lv} vivres / 4 s`,`Réserve max. : ${60*lv} vivres`]:k=='camp'?[`Séance : ${Math.max(10,28-6*lv)} vivres`,`Gain : ${40+20*lv} points d’exp.`]:k=='inf'?[`Risque de mort : ${P(Math.max(.1,.4-.1*lv))}`,`Soin : ${Math.max(8,34-8*lv)} vivres`]:k=='forge'?[`Niveau d’arme max. : ${3*lv}`]:[]}
+const effH=(k,lv)=>{const a=bEff(k,lv),b=lv<3?bEff(k,lv+1):null;return`<ul class="eff">${a.map((t,i)=>`<li>${t}${b&&b[i]!=t?` <span class="nx">→ ${b[i].split(' : ')[1]}</span>`:''}</li>`).join('')}</ul>`};
+function openBuild(i){openPanel(()=>{const ks=Object.keys(BLD).filter(k=>!bl(k));return['Construire',`<p class="m">Choisissez le bâtiment à élever sur ce terrain. Il commencera comme un simple campement et prendra de l’ampleur à chaque niveau.</p><p class="resl">${['wood','stone'].map(chip).join(' ')}</p>`+(ks.length?`<div class="bgrid">${ks.map(k=>{const o={wood:BLD[k].c[0],stone:BLD[k].c[1]};return`<div class="bc"><div class="bcil"><img src="${bUi(k,1)}" alt=""></div><div class="bcb"><b class="bn">${BLD[k].n}</b><div class="m">${BLD[k].d}</div><ul class="eff">${bEff(k,1).map(t=>`<li>${t}</li>`).join('')}</ul><div class="cr">${costH(o)}<button class="ib" ${can(o)?'':'disabled'} onclick="build(${i},'${k}')">Construire</button></div></div></div>`}).join('')}</div>`:'<p>Tous les bâtiments disponibles sont déjà construits.</p>')]})}
 function build(i,k){const o={wood:BLD[k].c[0],stone:BLD[k].c[1]};if(!can(o))return;pay(o);G.plots[i]={k,lv:1,stock:0};const[x,y]=plotC(i);if(V.p){V.p.x=x;V.p.y=y+12}closePanel();villageLabels();save();toast(BLD[k].n+' construite !');for(let n=0;n<30;n++)parts.push({x:x+rnd(-22,22),y:y-rnd(0,30),vx:rnd(-20,20),vy:-rnd(10,40),l:rnd(.4,.9),c:pick(['#e8d9b5','#c9a36a','#fff'])})}
 function upB(i){const pl=G.plots[i],b=BLD[pl.k],o={wood:b.c[0]*(pl.lv+1),stone:b.c[1]*(pl.lv+1)};if(pl.lv>=3||!can(o))return;pay(o);pl.lv++;villageLabels();save();rp();toast(b.n+' : niveau '+pl.lv)}
 function openB(i){openPanel(()=>{const pl=G.plots[i],k=pl.k,b=BLD[k],o={wood:b.c[0]*(pl.lv+1),stone:b.c[1]*(pl.lv+1)};
- let h=`<div class="row"><img class="sp" src="${bSprite(k,pl.lv).toDataURL()}" alt=""><div class="gr"><b>Niveau ${pl.lv} / 3</b><div class="m">${b.d}</div>${pl.lv<3?`<div class="m">Amélioration : ${cost(o)}</div>`:''}</div>${pl.lv<3?`<button ${can(o)?'':'disabled'} onclick="upB(${i})">Améliorer</button>`:'<span class="g">Niveau maximal</span>'}</div><p>${['food','wood','stone','gold','shard'].map(chip).join(' ')}</p>`;
- if(k=='auberge')h+=`<p>Places : <b>${G.chars.length} / ${capa()}</b> · une invocation coûte 50 or.</p><p class="m">Taux : matériaux 39,39 % (dont 13,13 % d’équipement : arme, armure, outil ou potion) · 1★ 50 % · 2★ 9 % · 3★ 1 % · 4★ 0,5 % · 5★ 0,1 % · 6★ 0,01 %. Un mage apparaît une fois sur cent. Les invoqués arrivent souvent équipés ; leur classe dépend de leur arme.</p><button onclick="summon(1)" ${G.res.gold<50?'disabled':''}>Invoquer ×1</button> <button onclick="summon(10)" ${G.res.gold<500?'disabled':''}>Invoquer ×10</button>`+pullHTML();
- if(k=='ferme')h+=`<p>Récolte prête : <b>${pl.stock|0}</b> vivres (réserve max. ${60*pl.lv}).</p><button onclick="G.res.food+=G.plots[${i}].stock|0;G.plots[${i}].stock=0;save();rp()">Récolter</button>`;
- if(k=='camp'){const c0=Math.max(10,28-6*pl.lv);h+=`<p class="m">Une séance coûte ${c0} vivres et rapporte ${40+20*pl.lv} points d’expérience.</p>`+G.chars.filter(c=>!c.inj).map(c=>`<div class="row"><img class="sp" src="${cs(c).url}" alt=""><div class="gr"><b>${c.name}</b> ${stars(c.st)} <span class="m">niv. ${c.lv}/${cap(c)} · exp. ${c.xp}/${need(c)}</span></div><button ${G.res.food<c0||c.lv>=cap(c)?'disabled':''} onclick="train(${c.id},${c0},${40+20*pl.lv})">Entraîner</button></div>`).join('')}
- if(k=='inf'){const c0=Math.max(8,34-8*pl.lv),inj=G.chars.filter(c=>c.inj);h+=`<p class="m">Soin d’une blessure grave : ${c0} vivres. Risque de mort d’un personnage à terre après un combat : <b>${Math.round(deathP()*100)} %</b>.</p>`+(inj.map(c=>`<div class="row"><img class="sp" src="${cs(c).url}" alt=""><div class="gr"><b>${c.name}</b> <span class="w">gravement blessé</span></div><button ${G.res.food<c0?'disabled':''} onclick="healC(${c.id},${c0})">Soigner</button></div>`).join('')||'<p>Aucun blessé. Tant mieux.</p>')}
- if(k=='forge')h+=`<p class="m">La Forge renforce l’arme équipée : chaque niveau ajoute 8 % d’attaque. Niveau d’arme maximal : ${3*pl.lv}.</p>`+G.chars.map(c=>{const it=c.eq.arme,w=it?it.lv||0:0,o2={stone:30*(w+1),gold:40*(w+1)};return`<div class="row"><img class="sp" src="${cs(c).url}" alt="">${it?`<img class="sp ic r${it.st}" style="width:40px;height:40px" src="${itemSrc(it)}" alt="">`:''}<div class="gr"><b>${c.name}</b> <span class="m">${it?iName(it)+' +'+w+' · '+cost(o2):'à mains nues : équipez une arme'}</span></div><button ${!it||w>=3*pl.lv||!can(o2)?'disabled':''} onclick="forge(${c.id})">Forger</button></div>`}).join('');
+ let h=`<div class="bh"><div class="bill"><img src="${bUi(k,pl.lv)}" alt=""></div><div class="bi">${stars(pl.lv,3,1)}<div class="bl">Niveau ${pl.lv} / 3</div><p class="m">${b.d}</p>${effH(k,pl.lv)}${pl.lv<3?`<div class="up">${costH(o)}<button class="ib" ${can(o)?'':'disabled'} onclick="upB(${i})">Améliorer → niv. ${pl.lv+1}</button></div>`:'<div class="up g">Niveau maximal atteint</div>'}</div></div><div class="dv"></div><p class="resl">${['food','wood','stone','gold','shard'].map(chip).join(' ')}</p>`;
+ if(k=='auberge')h+=`<p>Places : <b>${G.chars.length} / ${capa()}</b> · une invocation coûte 50 or.</p><p class="m">Taux : matériaux 39,39 % (dont 13,13 % d’équipement : arme, armure, outil ou potion) · 1★ 50 % · 2★ 9 % · 3★ 1 % · 4★ 0,5 % · 5★ 0,1 % · 6★ 0,01 %. Un mage apparaît une fois sur cent. Les invoqués arrivent souvent équipés ; leur classe dépend de leur arme.</p><button class="ib hot" onclick="summon(1)" ${G.res.gold<50?'disabled':''}>Invoquer ×1</button> <button class="ib hot" onclick="summon(10)" ${G.res.gold<500?'disabled':''}>Invoquer ×10</button>`+pullHTML();
+ if(k=='ferme')h+=`<p>Récolte prête : <b>${pl.stock|0}</b> vivres (réserve max. ${60*pl.lv}).</p><button class="ib" onclick="G.res.food+=G.plots[${i}].stock|0;G.plots[${i}].stock=0;save();rp()">Récolter</button>`;
+ if(k=='camp'){const c0=Math.max(10,28-6*pl.lv);h+=`<p class="m">Une séance coûte ${c0} vivres et rapporte ${40+20*pl.lv} points d’expérience.</p>`+G.chars.filter(c=>!c.inj).map(c=>`<div class="row"><img class="sp" src="${cs(c).url}" alt=""><div class="gr"><b>${c.name}</b> ${stars(c.st)} <span class="m">niv. ${c.lv}/${cap(c)} · exp. ${c.xp}/${need(c)}</span></div><button class="ib" ${G.res.food<c0||c.lv>=cap(c)?'disabled':''} onclick="train(${c.id},${c0},${40+20*pl.lv})">Entraîner</button></div>`).join('')}
+ if(k=='inf'){const c0=Math.max(8,34-8*pl.lv),inj=G.chars.filter(c=>c.inj);h+=`<p class="m">Soin d’une blessure grave : ${c0} vivres. Risque de mort d’un personnage à terre après un combat : <b>${Math.round(deathP()*100)} %</b>.</p>`+(inj.map(c=>`<div class="row"><img class="sp" src="${cs(c).url}" alt=""><div class="gr"><b>${c.name}</b> <span class="w">gravement blessé</span></div><button class="ib" ${G.res.food<c0?'disabled':''} onclick="healC(${c.id},${c0})">Soigner</button></div>`).join('')||'<p>Aucun blessé. Tant mieux.</p>')}
+ if(k=='forge')h+=`<p class="m">La Forge renforce l’arme équipée : chaque niveau ajoute 8 % d’attaque. Niveau d’arme maximal : ${3*pl.lv}.</p>`+G.chars.map(c=>{const it=c.eq.arme,w=it?it.lv||0:0,o2={stone:30*(w+1),gold:40*(w+1)};return`<div class="row"><img class="sp" src="${cs(c).url}" alt="">${it?`<img class="sp ic r${it.st}" style="width:40px;height:40px" src="${itemSrc(it)}" alt="">`:''}<div class="gr"><b>${c.name}</b> <span class="m">${it?iName(it)+' +'+w+' · '+cost(o2):'à mains nues : équipez une arme'}</span></div><button class="ib" ${!it||w>=3*pl.lv||!can(o2)?'disabled':''} onclick="forge(${c.id})">Forger</button></div>`}).join('');
  return[b.n,h]})}
 function train(id,c0,xp){const c=G.chars.find(x=>x.id==id);if(G.res.food<c0)return;G.res.food-=c0;if(gain(c,xp))toast(c.name+' passe au niveau '+c.lv+' !');save();rp()}
 function healC(id,c0){const c=G.chars.find(x=>x.id==id);if(G.res.food<c0)return;G.res.food-=c0;c.inj=0;save();syncNPC();rp()}
@@ -495,7 +541,7 @@ function summon(n){SM=[];for(let i=0;i<n;i++){if(G.res.gold<50)break;const s=rol
 const pst=x=>x.c?x.c.st:x.it?x.it.st:1;
 function pullHTML(){if(!SM.length)return'';return`<p class="m">Touchez une carte pour la retourner. Une lueur dorée annonce une rareté de 3★ ou plus.</p><div class="pull">${SM.map((x,i)=>`<div class="fl ${x.f?'on':''} ${pst(x)>=3&&!x.m?'hi':''}" style="animation-delay:${i*.06}s" onclick="flip(${i})"><div class="in"><div class="bk">✦</div><div class="fr r${pst(x)}">${x.c?`<img src="${cs(x.c).url}" alt=""><b>${x.c.name}</b>${stars(x.c.st)}<div style="font-size:11px">${ROLES[x.c.role].n} · ${ELEMS[x.c.elem].n}${x.c.race!='Humain'?' · '+x.c.race:''}${x.c.mage?'<br>Mage '+x.c.mage:''}</div>`:x.it?`<img src="${itemSrc(x.it)}" style="width:64px;height:64px;margin:12px 0 4px" alt=""><b>${iName(x.it)}</b>${stars(x.it.st)}<div style="font-size:11px">${SLOTS[ITYPES[x.it.t].s]}${ITYPES[x.it.t].role?' · '+ROLES[ITYPES[x.it.t].role].n:''}</div>`:`<img src="${scaleC(miscSprite('wood'),3).toDataURL()}" style="width:auto;height:44px;margin:26px 0 8px" alt=""><b>Matériaux</b><div>+${x.m[0]} bois<br>+${x.m[1]} pierre</div>`}</div></div></div>`).join('')}</div><button class="alt" onclick="SM.forEach((x,i)=>setTimeout(()=>flip(i),i*200))">Tout révéler</button>`}
 function flip(i){const x=SM[i];if(!x||x.f)return;x.f=1;const e=document.querySelectorAll('.fl')[i];if(!e)return;if(!x.m&&pst(x)>=3){e.classList.add('sh');setTimeout(()=>e.classList.add('on'),750)}else e.classList.add('on')}
-const slotH=(c,k)=>{const it=c.eq[k];return`<button class="slot ${it?'r'+it.st:''}" onclick="openEq(${c.id},'${k}')" title="${SLOTS[k]}">${it?`<img src="${itemSrc(it)}" alt="">${iName(it)}${it.lv?' +'+it.lv:''}${it.q?' ×'+it.q:''} <span class="st">${'★'.repeat(it.st)}</span>`:`<i>${SLOTS[k]} : vide</i>`}</button>`};
+const slotH=(c,k)=>{const it=c.eq[k];return`<button class="slot ${it?'r'+it.st:''}" onclick="openEq(${c.id},'${k}')" title="${SLOTS[k]}">${it?`<img src="${itemSrc(it)}" alt="">${iName(it)}${it.lv?' +'+it.lv:''}${it.q?' ×'+it.q:''} ${stars(it.st)}`:`<i>${SLOTS[k]} : vide</i>`}</button>`};
 function charRow(c,btn){const s=stats(c),R=ROLES[c.role];return`<div class="row"><img class="sp" src="${cs(c).url}" alt=""><div class="gr"><b>${c.name}</b> ${stars(c.st)} <span class="m">niv. ${c.lv}/${cap(c)} · ${c.race}${c.mage?' · Mage '+c.mage:''}</span><div><b class="g">${R.n}</b> <span class="m">(${c.eq.arme?ITYPES[c.eq.arme.t].n.toLowerCase():'à mains nues'})</span> · ${elc(c.elem)} · ${c.pers} <span class="m">(${c.sub})</span>${c.inj?' <b class="w">blessé</b>':''}</div><div class="m">PV ${s.hp} · ATQ ${s.atk} · DEF ${s.def} · VIT ${s.spd} · Crit. ${Math.round(s.crit*100)} %</div><div class="m">${PERS[c.pers]} · ${kit(c).ul[0]} / ${kit(c).sk[0]}</div><div class="slots">${SLK.map(k=>slotH(c,k)).join('')}</div></div><div style="display:flex;gap:4px;flex-wrap:wrap;max-width:210px;justify-content:flex-end">${btn(c)}</div></div>`}
 function openTeam(){openPanel(()=>['Équipe et compagnons',`<p class="m">Quatre combattants au plus. Le premier de l’équipe est le capitaine que vous dirigez. Chaque personnage porte trois objets — arme, armure, outil ou potion — et <b>sa classe découle de son équipement</b> (touchez un emplacement pour le changer). Au niveau maximal, un personnage peut être promu d’une étoile contre des éclats.</p><p>${chip('shard')} ${chip('gold')} <button class="alt" onclick="openStash()">Réserve d’objets (${G.items.length})</button></p>`+G.chars.slice().sort((a,b)=>(b.party?9-b.party:0)-(a.party?9-a.party:0)||b.st-a.st).map(c=>charRow(c,c=>{const pr={shard:2*c.st,gold:120*c.st};return`<button class="${c.party?'on':'alt'}" ${c.inj?'disabled':''} onclick="tParty(${c.id})">${c.party?'Dans l’équipe':'Ajouter'}</button><button class="alt" onclick="tLock(${c.id})">${c.lock?'Verrouillé':'Verrouiller'}</button>${c.lv>=cap(c)&&c.st<6?`<button ${can(pr)?'':'disabled'} onclick="promote(${c.id})">Promouvoir (${cost(pr)})</button>`:''}${c.st==1&&!c.lock?`<button class="red" onclick="sac(${c.id})">${c.arm?'Confirmer le sacrifice (définitif) ?':'Sacrifier'}</button>`:''}`})).join('')+(G.dead.length?`<p class="m">Tombés au combat : ${G.dead.join(', ')}.</p>`:'')+`<p style="margin-top:16px"><button class="red" onclick="newGame()">${rst?'Confirmer : effacer toute la partie ?':'Nouvelle partie'}</button></p>`])}
 let rst=0;function newGame(){if(!rst){rst=1;return rp()}rst=0;fresh();save();for(const k in CS)delete CS[k];closePanel();V.p.x=V.px;V.p.y=V.py+40;enterVillage();toast('Nouvelle partie.')}
@@ -603,7 +649,7 @@ function entAct(e){const f=F.f;
  if(e.t=='hurt')return{t:e.vip?'Secourir le héros blessé':'Secourir le blessé',f:()=>{e.used=1;if(G.chars.length<capa()||e.vip){G.chars.push(e.c);toast(`${e.c.name} (${'★'.repeat(e.c.st)}, ${ROLES[e.c.role].n}) vous remercie et rejoint le village.`+(G.chars.length>capa()?' L’auberge déborde, mais on lui trouve une place.':''),3600)}else toast('Le blessé vous remercie… mais l’auberge est pleine. '+addLoot({gold:40}));save()}}}
 function altar(k){const e=F.ents.find(e=>e.t=='altar'&&!e.used&&Math.hypot(F.p.x-e.x,F.p.y-e.y)<40);if(e)e.used=1;closePanel();const x=Math.random();if(!k){if(F.law=='gel')toast('Le froid étouffe la prière : rien ne se passe.');else{party().forEach(c=>{const m=stats(c).hp;F.hp[c.id]=Math.min(m,F.hp[c.id]+m*.2)});toast('Une chaleur douce vous enveloppe.')}}else if(x<.5)toast('L’orbe éclate en pièces d’or : '+addLoot({gold:120+15*F.f,shard:1}));else if(x<.75){const c=pick(party());c.inj=1;c.party=0;reidx();toast(c.name+' est gravement blessé par l’orbe !');if(!party().length)return leaveFloor('wipe');syncFol()}else toast('Rien ne se passe.');hud()}
 function askLeave(){openPanel(()=>['Quitter l’étage ?','<p>Vous garderez le butin déjà ramassé, mais la progression dans cet étage sera perdue.</p><button class="red" onclick="closePanel();leaveFloor(\'quit\')">Retourner au village</button>'])}
-async function leaveFloor(why){busy=true;const f=F.f,l=F.loot,its=F.items||[];if(why=='win'&&f>=G.max)G.max=f+1;if(why=='win'&&f==20)G.ballon=1;const lines=[why=='win'?`<p class="g">Étage ${f} terminé.${f==20?' Le plan du bateau montgolfier magique est à vous : il faudra un mage pour le piloter (à venir).':''}</p>`:why=='wipe'?'<p class="w">Toute l’équipe est hors de combat. Vous êtes ramenés au village.</p>':'<p>Vous quittez l’étage.</p>'];
+async function leaveFloor(why){busy=true;const f=F.f,l=F.loot,its=F.items||[];if(why=='win'&&f>=G.max)G.max=f+1;if(why=='win'&&f==20)G.ballon=1;const lines=[why=='win'?`<p class="g">Étage ${f} terminé.${f==20?' Le plan du bateau montgolfier magique est à vous : il faudra un mage pour le piloter (à venir).':''}</p>${f==20&&aSrc('bateau_ui')?`<img class="boat" src="${aSrc('bateau_ui')}" alt="Le bateau montgolfier magique">`:''}`:why=='wipe'?'<p class="w">Toute l’équipe est hors de combat. Vous êtes ramenés au village.</p>':'<p>Vous quittez l’étage.</p>'];
  const lt=Object.keys(l).map(k=>`${l[k]} ${RES[k][0].toLowerCase()}`).join(', ');if(lt)lines.push('<p>Butin rapporté : '+lt+'.</p>');if(its.length)lines.push('<p>Objets trouvés (dans la réserve) : '+its.join(', ')+'.</p>');
  if(!G.chars.length){G.chars.push(mk(1,{party:1}));lines.push('<p>Un vagabond, ému par votre sort, rejoint le village.</p>')}if(!party().length){const c=G.chars.find(c=>!c.inj)||G.chars[0];c.inj=0;c.party=1}reidx();
  V.p.x=V.px;V.p.y=V.py+34;enterVillage();busy=false;await waitPanel(()=>[why=='win'?'Victoire':'Retour au village',lines.join('')])}
@@ -627,7 +673,7 @@ function drawFloor(){const p=F.p,bi=F.bi,W=N*16;camTo(p.x,p.y-10,W,W);X.drawImag
  for(const e of F.ents){if(e.x<camX-40||e.x>camX+LW+40||e.y<camY-20||e.y>camY+LH+50)continue;L.push({y:e.y+(e.t=='gate'||e.t=='exit'?4:0),f:()=>{const a=e.x-camX,b=e.y-camY;
   if(e.t=='seal'){dS(miscSprite('seal'),a,b+2);if(!e.used){const yy=b-30+Math.sin(T*3)*2;X.fillStyle='#ffcf4a';X.fillRect(a-1,yy-3,2,6);X.fillRect(a-3,yy-1,6,2);X.fillStyle='#fff';X.fillRect(a-1,yy-1,2,2)}}
   else if(e.t=='gate'){if(F.seals>=3)swirl(a,b-14,['#ffcf4a','#ff7ad9','#fff']);dS(miscSprite(F.seals>=3?'gateo':'gate'),a,b+4)}
-  else if(e.t=='exit'){swirl(a,b-14,['#4de0c0','#fff','#c58bff']);dS(miscSprite('arch'),a,b+6)}
+  else if(e.t=='exit')drawPortal(a,b,['#4de0c0','#fff','#c58bff']);
   else if(e.t=='chest')dS(miscSprite(e.used?'chesto':'chest'),a,b);
   else if(e.t=='fire'){dS(miscSprite('fire'),a,b+2);if(!e.used){const fl=Math.floor(T*10)%3;X.fillStyle='#ff8a3a';X.fillRect(a-3,b-8-fl,6,7+fl);X.fillStyle='#ffcf4a';X.fillRect(a-2,b-6-fl,4,5);X.fillStyle='#fff';X.fillRect(a-1,b-4,2,2);if(Math.random()<.3)parts.push({x:e.x+rnd(-3,3),y:e.y-10,vx:rnd(-4,4),vy:-rnd(14,26),l:.6,c:'#ffb04a',w:1})}}
   else if(e.t=='altar'){dS(miscSprite('altar'),a,b+2);if(e.used){X.fillStyle='rgba(20,10,40,.5)';X.fillRect(a-3,b-16,7,7)}}
@@ -671,7 +717,7 @@ function bakeBG(){const bi=F.bi,c=mkc(LW,LH),x=c.getContext('2d'),hz=Math.round(
  [[.55,sh(bi.blk[0],.25),14],[.8,bi.blk[0],9]].forEach(([k,col,amp],li)=>{x.fillStyle=col;let h=hz*k;for(let i=0;i<LW;i++){h+=rnd(-1.2,1.2)*(li?1.6:1);h=clamp(h,hz*k-amp,hz*k+amp);x.fillRect(i,Math.round(h),1,hz-Math.round(h)+2)}});
  for(let i=0;i<LW/22;i++){const d=pick(bi.obs),s=obSprite(d[0],d[1]);x.drawImage(s,Math.round(i*22+rnd(-6,6)),hz-s.height+rnd(2,7))}
  for(let y=hz;y<LH;y+=4){x.fillStyle=bi.g[(y>>2)%3];x.fillRect(0,y,LW,4)}speck(x,0,hz,LW,LH-hz,bi.sp,LW*(LH-hz)/30,n=>Math.random()*(n||1));x.fillStyle='rgba(20,10,40,.18)';x.fillRect(0,hz,LW,3);B.bg=c}
-async function runBattle(cfg){mode='battle';clrLabs();$('#toast').hidden=true;$('#lawb').hidden=true;resize();const ps=party();
+async function runBattle(cfg){mode='battle';FXS=[];clrLabs();$('#toast').hidden=true;$('#lawb').hidden=true;resize();const ps=party();
  if(F.law=='duel'&&cfg.defs.length>1){const d=cfg.defs;cfg.defs=[d[0]];cfg.waves=(cfg.waves||[]).concat(d.slice(1).filter(x=>x.kind!='obj').reverse().map(x=>[x]));d.slice(1).filter(x=>x.kind=='obj').forEach(x=>cfg.defs.push(x))}
  B={A:ps.map(c=>{const s=stats(c),e=c.eq||{};return{ally:1,c,n:c.name,mhp:s.hp,hp:Math.min(s.hp,F.hp[c.id]==null?s.hp:F.hp[c.id]),atk:s.atk,def:s.def,spd:s.spd,crit:s.crit,en:F.en[c.id]||0,sh:0,bf:{},taunt:0,alive:true,elem:c.elem,el2:e.arme&&e.arme.el||null,res:e.armure&&e.armure.el||null,torch:!!(e.outil&&e.outil.t=='torche'),av:1e4/s.spd*rnd(.9,1.1),ox:0,oy:0,x:0,y:0,spr:cs(c),ph:rnd(0,6)}}),E:[],sp:3,auto:B_AUTO,ultQ:[],wait:null,waves:(cfg.waves||[]).slice(),cur:null,tg:null,shake:0,kind:cfg.kind,law:F.law,tn:0,field:F.field||pick(EK),rune:F.rune,wx:null,nextOrd:1};
  cfg.defs.forEach(d=>B.E.push(mkFoe(d)));B.E.forEach(e=>{if(e.mech.includes('cristaux'))for(let i=0;i<2;i++)B.E.push(mkFoe({type:'cristal',elem:e.elem,kind:'obj'}))});
@@ -700,7 +746,7 @@ function useQ(u,it){it.q--;if(it.q<=0&&u.c.eq.outil==it)u.c.eq.outil=null}
 function canItem(u){const it=u&&u.c.eq&&u.c.eq.outil;if(!it||!(it.q>0))return 0;if(it.t=='potion')return B.law!='gel'&&u.hp<u.mhp?1:0;if(it.t=='elixir')return u.en<100?1:0;return 0}
 function useItem(u){if(!canItem(u)){say(B.law=='gel'&&u.c.eq.outil&&u.c.eq.outil.t=='potion'?'Le gel fige les potions.':'Aucun objet utilisable.');return 0}const it=u.c.eq.outil;useQ(u,it);if(it.t=='potion'){say(u.n+' boit une potion');heal(u,u.mhp*.4)}else{say(u.n+' boit un élixir');u.en=Math.min(100,u.en+50);fl(u,'ÉNERGIE +50','buf')}return 1}
 function autoItem(u){const it=u.c.eq&&u.c.eq.outil;if(it&&it.t=='potion'&&canItem(u)&&u.hp<u.mhp*.35){useQ(u,it);fl(u,'POTION','buf');heal(u,u.mhp*.4)}}
-async function doDef(u){say(u.n+' se met en garde');u.guard=1;fl(u,'DÉFENSE','buf');gainEn(u,15);await cast(u,'#bfe8ff')}
+async function doDef(u){say(u.n+' se met en garde');fxOn('fx_shield',u,{a:.85});u.guard=1;fl(u,'DÉFENSE','buf');gainEn(u,15);await cast(u,'#bfe8ff')}
 function lawTick(){B.tn++;const L=B.law;
  if(L=='sablier'&&F.time>0&&!F.storm){F.time=Math.max(0,F.time-2);if(!F.time)F.storm=1}
  if(L=='prisme'&&B.tn%3==0){B.field=EK[(EK.indexOf(B.field)+1)%EK.length];say('Le champ élémentaire passe à '+ELEMS[B.field].n)}
@@ -727,11 +773,20 @@ function deal(a,t,mult,tb,o={}){if(!t||!t.alive)return;const L=B.law,ae=[a.elem,
  if(L=='tenebres'&&!ae.some(e=>e=='feu'||e=='sacre')&&!a.torch&&Math.random()<.2+.05*(F.lv-1)){fl(t,'RATÉ','deb');return}
  if(a.ally&&tb&&t.mt&&!t.broken&&wk){t.tough=Math.max(0,t.tough-tb*(a.c.pers=='Curieux'?1.3:1)*(fb?2:1));if(t.tough<=0){t.broken=1;t.av+=2500/t.spd;fl(t,'RUPTURE !','brk');B.shake=5;if(t.charging){t.charging=0;say(t.n+' est interrompu !')}hurt(t,atkOf(a)*(1+.06*F.f),{weak:1});if(!t.alive)return}}
  const crit=Math.random()<(o.crit!=null?o.crit:a.crit);let d=atkOf(a)*mult*100/(100+t.def)*rnd(.95,1.05);if(crit)d*=1.5;if(t.broken)d*=1.2;if(fb)d*=1.5;if(L=='verrous'&&a.ally&&!ae.includes(B.rune))d*=.6;if(L=='orage'&&B.wx=='orage'&&ae.includes('foudre'))d*=1.3;if(!a.ally&&t.res&&t.res==a.elem)d*=.75;if(guarded(t)){d*=.2;fl(t,'PROTÉGÉ','buf')}
- hurt(t,d,{crit,weak:wk});if(B.skill&&a.ally&&a.alive&&t.alive&&t.mech&&t.mech.includes('miroir'))hurt(a,d*.3,{})}
-function heal(a,v,by){if(!a.alive)return;v=Math.round(v*(by&&by.c&&by.c.pers=='Altruiste'?1.2:1));if(B&&B.law=='gel'){const g=Math.round(v*.6);a.sh=Math.max(a.sh,g);a.sht=3;fl(a,'GIVRE '+g,'buf');return}a.hp=Math.min(a.mhp,a.hp+v);fl(a,'+'+v,'heal');const p=fpos(a);spark(p[0],p[1]+14,'#5fe07a',6,30)}
-function addSh(a,v,by){v=Math.round(v*(by.c.pers=='Altruiste'?1.2:1));a.sh=Math.max(a.sh,v);a.sht=3;fl(a,'BOUCLIER','buf')}
+ fxHit(a,t);hurt(t,d,{crit,weak:wk});if(B.skill&&a.ally&&a.alive&&t.alive&&t.mech&&t.mech.includes('miroir'))hurt(a,d*.3,{})}
+function heal(a,v,by){if(!a.alive)return;v=Math.round(v*(by&&by.c&&by.c.pers=='Altruiste'?1.2:1));if(B&&B.law=='gel'){const g=Math.round(v*.6);a.sh=Math.max(a.sh,g);a.sht=3;fl(a,'GIVRE '+g,'buf');fxOn('fx_el_glace',a);return}if(B)fxOn('fx_heal',a,{delay:B.ult?.15:0});a.hp=Math.min(a.mhp,a.hp+v);fl(a,'+'+v,'heal');const p=fpos(a);spark(p[0],p[1]+14,'#5fe07a',6,30)}
+function addSh(a,v,by){if(!B.ult)fxOn('fx_shield',a);v=Math.round(v*(by.c.pers=='Altruiste'?1.2:1));a.sh=Math.max(a.sh,v);a.sht=3;fl(a,'BOUCLIER','buf')}
 const gainEn=(u,v)=>u.en=Math.min(100,u.en+v*(B&&B.law=='duel'?1.5:1));
-async function hitAnim(u,t,cb,rg){const dir=u.ally?1:-1;u.pose=1;if(rg){await anim(120,k=>u.ox=dir*6*k);const sx=u.x+dir*14,sy=u.y-16,tx=t.x,ty=t.y-(t.ally?14:t.spr.s.height/2);B.proj={x:sx,y:sy,c:ELEMS[u.elem].c};await anim(210,k=>{B.proj.x=lerp(sx,tx,k);B.proj.y=lerp(sy,ty,k)-Math.sin(k*3.14)*14;if(Math.random()<.6)parts.push({x:B.proj.x,y:B.proj.y,vx:0,vy:0,l:.2,c:ELEMS[u.elem].c})});B.proj=null;cb();await sleep(120);await anim(120,k=>u.ox=dir*6*(1-k))}
+/* ---------- effets animés : feuilles de sprites horizontales (images carrées), 14 images/s, suivent SPD ---------- */
+let FXS=[];const RFX={guerrier:'fx_slash',gardien:'fx_slash',assassin:'fx_stab',archer:'fx_arrow',sorcier:'fx_blast'};
+function fxPlay(k,x,y,o={}){const im=aImg(k);if(!im)return 0;const fh=im.naturalHeight,n=Math.max(1,Math.round(im.naturalWidth/fh)),fps=o.fps||14;FXS.push({im,n,fh,x,y,t:-(o.delay||0),fps,flip:!!o.flip,a:o.a==null?1:o.a});return(n/fps+(o.delay||0))*1000}
+function updFx(dt){for(let i=FXS.length-1;i>=0;i--){const f=FXS[i];f.t+=dt*SPD;if(f.t*f.fps>=f.n)FXS.splice(i,1)}}
+function drawFx(){for(const f of FXS){if(f.t<0)continue;const fr=Math.min(f.n-1,Math.floor(f.t*f.fps)),w=f.fh,x=Math.round(f.x-w/2),y=Math.round(f.y-w/2);X.globalAlpha=f.a;if(f.flip){X.save();X.translate(x+w,y);X.scale(-1,1);X.drawImage(f.im,fr*w,0,w,w,0,0,w,w);X.restore()}else X.drawImage(f.im,fr*w,0,w,w,x,y,w,w);X.globalAlpha=1}}
+const ctr=u=>[u.x+u.ox,u.y+u.oy-(u.ally?14:Math.round(u.spr.s.height/2))],fxOn=(k,u,o)=>{const[x,y]=ctr(u);return fxPlay(k,x,y,o)};
+const grpC=us=>{if(!us.length)return[LW/2,B.gy+20];let x=0,y=0;us.forEach(u=>{const c=ctr(u);x+=c[0];y+=c[1]});return[x/us.length,y/us.length]};
+/* éclat élémentaire à l'impact : élément qui exploite la faiblesse, sinon élément de l'arme, sinon celui du personnage */
+function fxHit(a,t){const ae=[a.el2,a.elem].filter(Boolean),e=(a.ally&&t.weak&&ae.find(x=>t.weak.includes(x)))||a.el2||a.elem;const[x,y]=ctr(t);fxPlay('fx_el_'+e,x+ri(-3,3),y+ri(-4,2),{delay:.07,flip:!a.ally,a:a.ally?1:.85})}
+async function hitAnim(u,t,cb0,rg){const dir=u.ally?1:-1,rk=u.ally?RFX[u.c.role]:rg?null:'fx_slash',cb=()=>{if(rk&&!B.ult)fxOn(rk,t,{flip:!u.ally,a:u.ally?1:.8});cb0()};u.pose=1;if(rg){await anim(120,k=>u.ox=dir*6*k);const sx=u.x+dir*14,sy=u.y-16,tx=t.x,ty=t.y-(t.ally?14:t.spr.s.height/2);B.proj={x:sx,y:sy,c:ELEMS[u.elem].c};await anim(210,k=>{B.proj.x=lerp(sx,tx,k);B.proj.y=lerp(sy,ty,k)-Math.sin(k*3.14)*14;if(Math.random()<.6)parts.push({x:B.proj.x,y:B.proj.y,vx:0,vy:0,l:.2,c:ELEMS[u.elem].c})});B.proj=null;cb();await sleep(120);await anim(120,k=>u.ox=dir*6*(1-k))}
  else{const dx=t.x-dir*(14+(t.ally?0:t.spr.s.width/2-8))-u.x,dy=t.y-u.y;u.pose=0;await anim(190,k=>{u.ox=dx*k;u.oy=dy*k-Math.sin(k*3.14)*8});u.pose=1;await sleep(70);cb();await sleep(150);u.pose=0;await anim(200,k=>{u.ox=dx*(1-k);u.oy=dy*(1-k)})}u.pose=0;u.ox=0;u.oy=0}
 async function cast(u,col){u.pose=1;const p=fpos(u);for(let i=0;i<14;i++)parts.push({x:u.x+rnd(-10,10),y:u.y-rnd(0,6),vx:rnd(-6,6),vy:-rnd(20,50),l:rnd(.3,.6),c:col||ELEMS[u.elem].c});await sleep(320);u.pose=0}
 async function wave(u,col){const fs=foes();for(let i=0;i<LW*.5;i+=6)parts.push({x:LW*.5+i,y:B.gy+rnd(0,LH*.3),vx:rnd(20,60),vy:-rnd(10,50),l:rnd(.3,.6),c:col});B.shake=4;await sleep(140)}
@@ -740,18 +795,19 @@ async function doSkill(u){setSP(-1);gainEn(u,30);const r=u.c.role,t=tgt(),R=kit(
  if(r=='guerrier')await hitAnim(u,t,()=>deal(u,t,2.2,20));
  else if(r=='assassin')await hitAnim(u,t,()=>deal(u,t,2.6,20,{crit:t.broken?1:u.crit+.2}));
  else if(r=='archer')for(let i=0;i<3;i++){const e=pick(real());if(!e)break;await hitAnim(u,e,()=>deal(u,e,.9,10),1)}
- else if(r=='sorcier'){await cast(u);await wave(u,E);foes().forEach(e=>deal(u,e,1.1,10));await sleep(260)}
+ else if(r=='sorcier'){await cast(u);foes().forEach((e,i)=>fxOn('fx_blast',e,{delay:i*.05}));await wave(u,E);foes().forEach(e=>deal(u,e,1.1,10));await sleep(260)}
  else if(r=='gardien'){await cast(u,'#bfe8ff');u.taunt=2;addSh(u,u.def*2+u.mhp*.1,u);await sleep(240)}
  else if(r=='soigneur'){await cast(u,'#5fe07a');const a=allies().sort((x,y)=>x.hp/x.mhp-y.hp/y.mhp)[0];heal(a,u.atk*1.6+a.mhp*.08,u);await sleep(240)}
- else{await cast(u,'#ffcf4a');const a=allies().filter(x=>x!=u).sort((x,y)=>y.atk-x.atk)[0]||u;a.bf.atk={v:.4,t:2};fl(a,'ATQ +40 %','buf');if(a!=u){a.av=0;fl(a,'AGIT !','buf')}await sleep(240)}B.skill=0}
+ else{await cast(u,'#ffcf4a');const a=allies().filter(x=>x!=u).sort((x,y)=>y.atk-x.atk)[0]||u;a.bf.atk={v:.4,t:2};fl(a,'ATQ +40 %','buf');fxOn('fx_buff',a);if(a!=u){a.av=0;fl(a,'AGIT !','buf')}await sleep(240)}B.skill=0}
 async function cutIn(u){const R=kit(u.c),e=$('#cut');e.innerHTML=`<div class="band" style="--cc:${ELEMS[u.elem].c}"><img src="${u.spr.url}" alt=""><b>${R.ul[0]}<span>${u.n}</span></b></div>`;e.classList.add('go');await sleep(850);e.classList.remove('go')}
-async function doUlt(u){u.en=0;const r=u.c.role,E=ELEMS[u.elem].c,J=u.c.sig;await cutIn(u);const t=tgt();B.skill=1;
- if(r=='guerrier'&&t)await hitAnim(u,t,()=>{const f=foes(),i=f.indexOf(t);deal(u,t,J?2.8:3.2,30);[f[i-1],f[i+1]].forEach(e=>e&&deal(u,e,1.6,20));if(J)allies().forEach(a=>{a.bf.atk={v:.25,t:2};fl(a,'ATQ +25 %','buf')})});
- else if(r=='assassin'&&t){await hitAnim(u,t,()=>deal(u,t,4.5,30));if(!t.alive){if(B.cur==u)u.extra=1;else u.av=0;fl(u,'REJOUE','buf')}}
- else if(r=='archer'||r=='sorcier'){await cast(u);await wave(u,E);await wave(u,'#fff');foes().forEach(e=>deal(u,e,r=='archer'?1.8:2.4,20));await sleep(300)}
- else if(r=='gardien'){await cast(u,'#bfe8ff');allies().forEach(a=>addSh(a,u.def*1.4+u.mhp*.06,u));await sleep(260)}
- else if(r=='soigneur'){await cast(u,'#5fe07a');allies().forEach(a=>heal(a,u.atk*1.2+a.mhp*.06,u));await sleep(260)}
- else if(r=='soutien'){await cast(u,'#ffcf4a');allies().forEach(a=>{a.bf.atk={v:.3,t:2};fl(a,'ATQ +30 %','buf')});setSP(2);await sleep(260)}B.skill=0;drawTL()}
+async function doUlt(u){u.en=0;const r=u.c.role,E=ELEMS[u.elem].c,J=u.c.sig,UK='fx_ult_'+r;await cutIn(u);const t=tgt();B.skill=1;B.ult=1;
+ const uAt=us=>{const[x,y]=grpC(us);return sleep(Math.min(fxPlay(UK,x,y-6)*.5,480))};
+ if(r=='guerrier'&&t)await hitAnim(u,t,()=>{fxOn(UK,t);const f=foes(),i=f.indexOf(t);deal(u,t,J?2.8:3.2,30);[f[i-1],f[i+1]].forEach(e=>e&&deal(u,e,1.6,20));if(J)allies().forEach(a=>{a.bf.atk={v:.25,t:2};fl(a,'ATQ +25 %','buf')})});
+ else if(r=='assassin'&&t){await hitAnim(u,t,()=>{fxOn(UK,t);deal(u,t,4.5,30)});if(!t.alive){if(B.cur==u)u.extra=1;else u.av=0;fl(u,'REJOUE','buf')}}
+ else if(r=='archer'||r=='sorcier'){await cast(u);await uAt(foes());await wave(u,E);await wave(u,'#fff');foes().forEach(e=>deal(u,e,r=='archer'?1.8:2.4,20));await sleep(300)}
+ else if(r=='gardien'){await cast(u,'#bfe8ff');await uAt(allies());allies().forEach(a=>addSh(a,u.def*1.4+u.mhp*.06,u));await sleep(260)}
+ else if(r=='soigneur'){await cast(u,'#5fe07a');await uAt(allies());allies().forEach(a=>heal(a,u.atk*1.2+a.mhp*.06,u));await sleep(260)}
+ else if(r=='soutien'){await cast(u,'#ffcf4a');await uAt(allies());allies().forEach(a=>{a.bf.atk={v:.3,t:2};fl(a,'ATQ +30 %','buf')});setSP(2);await sleep(260)}B.skill=0;B.ult=0;drawTL()}
 async function foeTurn(e){e.turns++;const M=e.mech;
  if(e.d.ord){say(e.n+' pulse d’une lueur menaçante');await sleep(300);return}
  if(e.type=='cristal'){const b=B.E.find(x=>x.alive&&x.mech.includes('cristaux'));if(b&&b.hp<b.mhp){say(e.n+' nourrit '+b.n);heal(b,b.mhp*.06)}await sleep(320);return}
@@ -768,7 +824,7 @@ async function foeTurn(e){e.turns++;const M=e.mech;
  else if(B.ward&&!tn&&B.ward.hp>0&&Math.random()<.4){say(e.n+' s’en prend au cristal-phare !');await anim(220,k=>e.ox=-16*Math.sin(k*3.14));wardHit(e,1);await sleep(260)}
  else{const pool=[];al.forEach(a=>{pool.push(a);if(a.c.role=='gardien')pool.push(a)});const t=tn||pick(pool);say(e.n+' attaque '+t.n);await hitAnim(e,t,()=>deal(e,t,1,0),E0[e.type].rg)}}
 function wardHit(e,m){const d=Math.max(1,Math.round(e.atk*m*rnd(.95,1.05)));B.ward.hp=Math.max(0,B.ward.hp-d);B.ward.fl=.12;floatT(LW*.14,B.gy+10,String(d),'');lawInfo()}
-function updBattle(dt){if(B.ward&&B.ward.fl>0)B.ward.fl-=dt;B.A.forEach((u,i)=>{const e=$('#pc'+i);if(!e)return;const hp=e.children[3],en=e.children[4];hp.firstChild.style.width=u.hp/u.mhp*100+'%';hp.lastChild.style.width=Math.min(100,u.sh/u.mhp*100)+'%';hp.classList.toggle('low',u.hp<u.mhp*.3);en.firstChild.style.width=u.en+'%';e.classList.toggle('cur',B.cur==u);e.classList.toggle('dn',!u.alive);e.classList.toggle('rdy',u.alive&&u.en>=100);e.classList.toggle('dg',u.alive&&u.hp<u.mhp*.25);e.children[2].textContent=u.alive&&u.hp<u.mhp*.25?'DANGER':u.n});
+function updBattle(dt){updFx(dt);if(B.ward&&B.ward.fl>0)B.ward.fl-=dt;B.A.forEach((u,i)=>{const e=$('#pc'+i);if(!e)return;const hp=e.children[3],en=e.children[4];hp.firstChild.style.width=u.hp/u.mhp*100+'%';hp.lastChild.style.width=Math.min(100,u.sh/u.mhp*100)+'%';hp.classList.toggle('low',u.hp<u.mhp*.3);en.firstChild.style.width=u.en+'%';e.classList.toggle('cur',B.cur==u);e.classList.toggle('dn',!u.alive);e.classList.toggle('rdy',u.alive&&u.en>=100);e.classList.toggle('dg',u.alive&&u.hp<u.mhp*.25);e.children[2].textContent=u.alive&&u.hp<u.mhp*.25?'DANGER':u.n});
  B.A.concat(B.E).forEach(u=>{if(u.flT>0)u.flT-=dt});if(B.shake>0)B.shake=Math.max(0,B.shake-dt*18)}
 function drawBattle(){const sx=B.shake?Math.round(rnd(-B.shake,B.shake)):0,sy=B.shake?Math.round(rnd(-B.shake,B.shake)*.5):0;X.save();X.translate(sx,sy);X.drawImage(B.bg,0,0);
  const L=B.A.concat(B.E).filter(u=>u.alive||u.ally||u.fd>0).sort((a,b)=>a.y+a.oy-b.y-b.oy);
@@ -782,7 +838,7 @@ function drawBattle(){const sx=B.shake?Math.round(rnd(-B.shake,B.shake)):0,sy=B.
    if(B.tg==u){X.fillStyle='#ffcf4a';const a=Math.round(x),b=by-14+Math.round(Math.sin(T*6)*2);X.fillRect(a-3,b,6,2);X.fillRect(a-2,b+2,4,2);X.fillRect(a-1,b+4,2,2)}if(u.charging&&Math.floor(T*8)%2){X.fillStyle='#ff5a5a';X.fillRect(Math.round(x-1),by-24,3,7);X.fillRect(Math.round(x-1),by-15,3,2)}if(u.broken){X.fillStyle='#ffcf4a';for(let i=0;i<3;i++){const an=T*4+i*2.1;X.fillRect(Math.round(x+Math.cos(an)*9),Math.round(y-h-2+Math.sin(an)*3),2,2)}}}}
  if(B.ward){const s=obSprite('crystal','#4de0c0'),x=Math.round(LW*.14),y=Math.round(B.gy+(LH*(VWp>VHp?.3:.27))*.55);shadow(x,y,8);dS(B.ward.fl>0?tintC(s,'#fff'):s,x,y+2,false,B.ward.hp>0?1:.3);X.fillStyle='#000';X.fillRect(x-10,y+5,20,3);X.fillStyle='#4de0c0';X.fillRect(x-9,y+6,Math.round(18*B.ward.hp/B.ward.mhp),1)}
  if(B.zone&&B.zone.alive&&Math.floor(T*6)%2){const x=Math.round(B.zone.x+B.zone.ox),y=Math.round(B.zone.y+B.zone.oy);X.fillStyle='#ff5a5a';X.fillRect(x-12,y+1,24,1);X.fillRect(x-10,y+3,20,1);X.fillRect(x-12,y-1,2,4);X.fillRect(x+10,y-1,2,4)}
- if(B.proj){X.fillStyle='#fff';X.fillRect(Math.round(B.proj.x)-2,Math.round(B.proj.y)-2,4,4);X.fillStyle=B.proj.c;X.fillRect(Math.round(B.proj.x)-1,Math.round(B.proj.y)-3,2,6);X.fillRect(Math.round(B.proj.x)-3,Math.round(B.proj.y)-1,6,2)}X.restore()}
+ drawFx();if(B.proj){X.fillStyle='#fff';X.fillRect(Math.round(B.proj.x)-2,Math.round(B.proj.y)-2,4,4);X.fillStyle=B.proj.c;X.fillRect(Math.round(B.proj.x)-1,Math.round(B.proj.y)-3,2,6);X.fillRect(Math.round(B.proj.x)-3,Math.round(B.proj.y)-1,6,2)}X.restore()}
 /* ================= BOUCLE ================= */
 let last=0,hudT=0;
 function frame(ts){requestAnimationFrame(frame);const dt=Math.min(.05,(ts-last)/1000||0);last=ts;T+=dt;
@@ -793,7 +849,7 @@ function frame(ts){requestAnimationFrame(frame);const dt=Math.min(.05,(ts-last)/
  if(vig)X.drawImage(vig,0,0);updLabs();if(mode!='battle')setActs();hudT+=dt;if(hudT>.3){hudT=0;if(mode=='floor'&&F){drawMini();objective()}else if(mode=='village')objective()}}
 setInterval(()=>{G.plots.forEach(p=>{if(p&&p.k=='ferme')p.stock=Math.min(60*p.lv,(p.stock||0)+p.lv)})},4000);
 window.addEventListener('error',e=>{const t=$('#toast');t.hidden=false;t.textContent='Erreur : '+e.message});
-buildVillage();enterVillage();requestAnimationFrame(frame);
+loadAssets().then(()=>{artCSS();for(const k in BS_)delete BS_[k];buildVillage();enterVillage();requestAnimationFrame(frame)});
 </script>
 
 </body></html>
