@@ -1,0 +1,1157 @@
+{
+ "version": 1,
+ "buildings": {
+  "auberge": {
+   "name": "Auberge",
+   "col": "#c0453a"
+  },
+  "ferme": {
+   "name": "Ferme",
+   "col": "#5a9a3a"
+  },
+  "camp": {
+   "name": "Camp d'entraînement",
+   "col": "#d08a2a"
+  },
+  "inf": {
+   "name": "Infirmerie",
+   "col": "#3fb0a0"
+  },
+  "forge": {
+   "name": "Forge",
+   "col": "#5a5f78"
+  },
+  "hdv": {
+   "name": "Hôtel de ville",
+   "col": "#4a6ab8"
+  },
+  "chasse": {
+   "name": "Installations de chasse",
+   "col": "#6a7a3a"
+  },
+  "biblio": {
+   "name": "Bibliothèque",
+   "col": "#8a5ac8"
+  },
+  "labo": {
+   "name": "Laboratoire d'alchimie",
+   "col": "#d0508a"
+  },
+  "entrepot": {
+   "name": "Entrepôt",
+   "col": "#8a7050"
+  },
+  "marche": {
+   "name": "Marché",
+   "col": "#d8b838"
+  }
+ },
+ "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), fx_<nom> (feuilles horizontales), portail, bateau, bateau_ui.",
+ "assets": {
+  "bateau": {
+   "file": "png/bateau.png",
+   "w": 96,
+   "h": 96,
+   "kind": "misc"
+  },
+  "bateau_ui": {
+   "file": "png/bateau_ui.png",
+   "w": 200,
+   "h": 150,
+   "kind": "misc"
+  },
+  "bld_auberge_1": {
+   "file": "png/bld_auberge_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "auberge",
+   "level": 1,
+   "col": "#c0453a",
+   "name": "Auberge"
+  },
+  "bld_auberge_2": {
+   "file": "png/bld_auberge_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "auberge",
+   "level": 2,
+   "col": "#c0453a",
+   "name": "Auberge"
+  },
+  "bld_auberge_3": {
+   "file": "png/bld_auberge_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "auberge",
+   "level": 3,
+   "col": "#c0453a",
+   "name": "Auberge"
+  },
+  "bld_biblio_1": {
+   "file": "png/bld_biblio_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "biblio",
+   "level": 1,
+   "col": "#8a5ac8",
+   "name": "Bibliothèque"
+  },
+  "bld_biblio_2": {
+   "file": "png/bld_biblio_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "biblio",
+   "level": 2,
+   "col": "#8a5ac8",
+   "name": "Bibliothèque"
+  },
+  "bld_biblio_3": {
+   "file": "png/bld_biblio_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "biblio",
+   "level": 3,
+   "col": "#8a5ac8",
+   "name": "Bibliothèque"
+  },
+  "bld_camp_1": {
+   "file": "png/bld_camp_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "camp",
+   "level": 1,
+   "col": "#d08a2a",
+   "name": "Camp d'entraînement"
+  },
+  "bld_camp_2": {
+   "file": "png/bld_camp_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "camp",
+   "level": 2,
+   "col": "#d08a2a",
+   "name": "Camp d'entraînement"
+  },
+  "bld_camp_3": {
+   "file": "png/bld_camp_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "camp",
+   "level": 3,
+   "col": "#d08a2a",
+   "name": "Camp d'entraînement"
+  },
+  "bld_chasse_1": {
+   "file": "png/bld_chasse_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "chasse",
+   "level": 1,
+   "col": "#6a7a3a",
+   "name": "Installations de chasse"
+  },
+  "bld_chasse_2": {
+   "file": "png/bld_chasse_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "chasse",
+   "level": 2,
+   "col": "#6a7a3a",
+   "name": "Installations de chasse"
+  },
+  "bld_chasse_3": {
+   "file": "png/bld_chasse_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "chasse",
+   "level": 3,
+   "col": "#6a7a3a",
+   "name": "Installations de chasse"
+  },
+  "bld_entrepot_1": {
+   "file": "png/bld_entrepot_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "entrepot",
+   "level": 1,
+   "col": "#8a7050",
+   "name": "Entrepôt"
+  },
+  "bld_entrepot_2": {
+   "file": "png/bld_entrepot_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "entrepot",
+   "level": 2,
+   "col": "#8a7050",
+   "name": "Entrepôt"
+  },
+  "bld_entrepot_3": {
+   "file": "png/bld_entrepot_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "entrepot",
+   "level": 3,
+   "col": "#8a7050",
+   "name": "Entrepôt"
+  },
+  "bld_ferme_1": {
+   "file": "png/bld_ferme_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "ferme",
+   "level": 1,
+   "col": "#5a9a3a",
+   "name": "Ferme"
+  },
+  "bld_ferme_2": {
+   "file": "png/bld_ferme_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "ferme",
+   "level": 2,
+   "col": "#5a9a3a",
+   "name": "Ferme"
+  },
+  "bld_ferme_3": {
+   "file": "png/bld_ferme_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "ferme",
+   "level": 3,
+   "col": "#5a9a3a",
+   "name": "Ferme"
+  },
+  "bld_forge_1": {
+   "file": "png/bld_forge_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "forge",
+   "level": 1,
+   "col": "#5a5f78",
+   "name": "Forge"
+  },
+  "bld_forge_2": {
+   "file": "png/bld_forge_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "forge",
+   "level": 2,
+   "col": "#5a5f78",
+   "name": "Forge"
+  },
+  "bld_forge_3": {
+   "file": "png/bld_forge_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "forge",
+   "level": 3,
+   "col": "#5a5f78",
+   "name": "Forge"
+  },
+  "bld_hdv_1": {
+   "file": "png/bld_hdv_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "hdv",
+   "level": 1,
+   "col": "#4a6ab8",
+   "name": "Hôtel de ville"
+  },
+  "bld_hdv_2": {
+   "file": "png/bld_hdv_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "hdv",
+   "level": 2,
+   "col": "#4a6ab8",
+   "name": "Hôtel de ville"
+  },
+  "bld_hdv_3": {
+   "file": "png/bld_hdv_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "hdv",
+   "level": 3,
+   "col": "#4a6ab8",
+   "name": "Hôtel de ville"
+  },
+  "bld_inf_1": {
+   "file": "png/bld_inf_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "inf",
+   "level": 1,
+   "col": "#3fb0a0",
+   "name": "Infirmerie"
+  },
+  "bld_inf_2": {
+   "file": "png/bld_inf_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "inf",
+   "level": 2,
+   "col": "#3fb0a0",
+   "name": "Infirmerie"
+  },
+  "bld_inf_3": {
+   "file": "png/bld_inf_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "inf",
+   "level": 3,
+   "col": "#3fb0a0",
+   "name": "Infirmerie"
+  },
+  "bld_labo_1": {
+   "file": "png/bld_labo_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "labo",
+   "level": 1,
+   "col": "#d0508a",
+   "name": "Laboratoire d'alchimie"
+  },
+  "bld_labo_2": {
+   "file": "png/bld_labo_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "labo",
+   "level": 2,
+   "col": "#d0508a",
+   "name": "Laboratoire d'alchimie"
+  },
+  "bld_labo_3": {
+   "file": "png/bld_labo_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "labo",
+   "level": 3,
+   "col": "#d0508a",
+   "name": "Laboratoire d'alchimie"
+  },
+  "bld_marche_1": {
+   "file": "png/bld_marche_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "marche",
+   "level": 1,
+   "col": "#d8b838",
+   "name": "Marché"
+  },
+  "bld_marche_2": {
+   "file": "png/bld_marche_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "marche",
+   "level": 2,
+   "col": "#d8b838",
+   "name": "Marché"
+  },
+  "bld_marche_3": {
+   "file": "png/bld_marche_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "marche",
+   "level": 3,
+   "col": "#d8b838",
+   "name": "Marché"
+  },
+  "bldui_auberge_1": {
+   "file": "png/bldui_auberge_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "auberge",
+   "level": 1,
+   "col": "#c0453a",
+   "name": "Auberge"
+  },
+  "bldui_auberge_2": {
+   "file": "png/bldui_auberge_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "auberge",
+   "level": 2,
+   "col": "#c0453a",
+   "name": "Auberge"
+  },
+  "bldui_auberge_3": {
+   "file": "png/bldui_auberge_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "auberge",
+   "level": 3,
+   "col": "#c0453a",
+   "name": "Auberge"
+  },
+  "bldui_biblio_1": {
+   "file": "png/bldui_biblio_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "biblio",
+   "level": 1,
+   "col": "#8a5ac8",
+   "name": "Bibliothèque"
+  },
+  "bldui_biblio_2": {
+   "file": "png/bldui_biblio_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "biblio",
+   "level": 2,
+   "col": "#8a5ac8",
+   "name": "Bibliothèque"
+  },
+  "bldui_biblio_3": {
+   "file": "png/bldui_biblio_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "biblio",
+   "level": 3,
+   "col": "#8a5ac8",
+   "name": "Bibliothèque"
+  },
+  "bldui_camp_1": {
+   "file": "png/bldui_camp_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "camp",
+   "level": 1,
+   "col": "#d08a2a",
+   "name": "Camp d'entraînement"
+  },
+  "bldui_camp_2": {
+   "file": "png/bldui_camp_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "camp",
+   "level": 2,
+   "col": "#d08a2a",
+   "name": "Camp d'entraînement"
+  },
+  "bldui_camp_3": {
+   "file": "png/bldui_camp_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "camp",
+   "level": 3,
+   "col": "#d08a2a",
+   "name": "Camp d'entraînement"
+  },
+  "bldui_chasse_1": {
+   "file": "png/bldui_chasse_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "chasse",
+   "level": 1,
+   "col": "#6a7a3a",
+   "name": "Installations de chasse"
+  },
+  "bldui_chasse_2": {
+   "file": "png/bldui_chasse_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "chasse",
+   "level": 2,
+   "col": "#6a7a3a",
+   "name": "Installations de chasse"
+  },
+  "bldui_chasse_3": {
+   "file": "png/bldui_chasse_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "chasse",
+   "level": 3,
+   "col": "#6a7a3a",
+   "name": "Installations de chasse"
+  },
+  "bldui_entrepot_1": {
+   "file": "png/bldui_entrepot_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "entrepot",
+   "level": 1,
+   "col": "#8a7050",
+   "name": "Entrepôt"
+  },
+  "bldui_entrepot_2": {
+   "file": "png/bldui_entrepot_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "entrepot",
+   "level": 2,
+   "col": "#8a7050",
+   "name": "Entrepôt"
+  },
+  "bldui_entrepot_3": {
+   "file": "png/bldui_entrepot_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "entrepot",
+   "level": 3,
+   "col": "#8a7050",
+   "name": "Entrepôt"
+  },
+  "bldui_ferme_1": {
+   "file": "png/bldui_ferme_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "ferme",
+   "level": 1,
+   "col": "#5a9a3a",
+   "name": "Ferme"
+  },
+  "bldui_ferme_2": {
+   "file": "png/bldui_ferme_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "ferme",
+   "level": 2,
+   "col": "#5a9a3a",
+   "name": "Ferme"
+  },
+  "bldui_ferme_3": {
+   "file": "png/bldui_ferme_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "ferme",
+   "level": 3,
+   "col": "#5a9a3a",
+   "name": "Ferme"
+  },
+  "bldui_forge_1": {
+   "file": "png/bldui_forge_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "forge",
+   "level": 1,
+   "col": "#5a5f78",
+   "name": "Forge"
+  },
+  "bldui_forge_2": {
+   "file": "png/bldui_forge_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "forge",
+   "level": 2,
+   "col": "#5a5f78",
+   "name": "Forge"
+  },
+  "bldui_forge_3": {
+   "file": "png/bldui_forge_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "forge",
+   "level": 3,
+   "col": "#5a5f78",
+   "name": "Forge"
+  },
+  "bldui_hdv_1": {
+   "file": "png/bldui_hdv_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "hdv",
+   "level": 1,
+   "col": "#4a6ab8",
+   "name": "Hôtel de ville"
+  },
+  "bldui_hdv_2": {
+   "file": "png/bldui_hdv_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "hdv",
+   "level": 2,
+   "col": "#4a6ab8",
+   "name": "Hôtel de ville"
+  },
+  "bldui_hdv_3": {
+   "file": "png/bldui_hdv_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "hdv",
+   "level": 3,
+   "col": "#4a6ab8",
+   "name": "Hôtel de ville"
+  },
+  "bldui_inf_1": {
+   "file": "png/bldui_inf_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "inf",
+   "level": 1,
+   "col": "#3fb0a0",
+   "name": "Infirmerie"
+  },
+  "bldui_inf_2": {
+   "file": "png/bldui_inf_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "inf",
+   "level": 2,
+   "col": "#3fb0a0",
+   "name": "Infirmerie"
+  },
+  "bldui_inf_3": {
+   "file": "png/bldui_inf_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "inf",
+   "level": 3,
+   "col": "#3fb0a0",
+   "name": "Infirmerie"
+  },
+  "bldui_labo_1": {
+   "file": "png/bldui_labo_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "labo",
+   "level": 1,
+   "col": "#d0508a",
+   "name": "Laboratoire d'alchimie"
+  },
+  "bldui_labo_2": {
+   "file": "png/bldui_labo_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "labo",
+   "level": 2,
+   "col": "#d0508a",
+   "name": "Laboratoire d'alchimie"
+  },
+  "bldui_labo_3": {
+   "file": "png/bldui_labo_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "labo",
+   "level": 3,
+   "col": "#d0508a",
+   "name": "Laboratoire d'alchimie"
+  },
+  "bldui_marche_1": {
+   "file": "png/bldui_marche_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "marche",
+   "level": 1,
+   "col": "#d8b838",
+   "name": "Marché"
+  },
+  "bldui_marche_2": {
+   "file": "png/bldui_marche_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "marche",
+   "level": 2,
+   "col": "#d8b838",
+   "name": "Marché"
+  },
+  "bldui_marche_3": {
+   "file": "png/bldui_marche_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "marche",
+   "level": 3,
+   "col": "#d8b838",
+   "name": "Marché"
+  },
+  "fx_arrow": {
+   "file": "png/fx_arrow.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_blast": {
+   "file": "png/fx_blast.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_buff": {
+   "file": "png/fx_buff.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_arcane": {
+   "file": "png/fx_el_arcane.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_feu": {
+   "file": "png/fx_el_feu.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_foudre": {
+   "file": "png/fx_el_foudre.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_glace": {
+   "file": "png/fx_el_glace.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_nature": {
+   "file": "png/fx_el_nature.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_ombre": {
+   "file": "png/fx_el_ombre.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_el_sacre": {
+   "file": "png/fx_el_sacre.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_heal": {
+   "file": "png/fx_heal.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_shield": {
+   "file": "png/fx_shield.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_slash": {
+   "file": "png/fx_slash.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_stab": {
+   "file": "png/fx_stab.png",
+   "w": 384,
+   "h": 48,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 48,
+   "frame_h": 48,
+   "fps": 14
+  },
+  "fx_ult_archer": {
+   "file": "png/fx_ult_archer.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "fx_ult_assassin": {
+   "file": "png/fx_ult_assassin.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "fx_ult_gardien": {
+   "file": "png/fx_ult_gardien.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "fx_ult_guerrier": {
+   "file": "png/fx_ult_guerrier.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "fx_ult_soigneur": {
+   "file": "png/fx_ult_soigneur.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "fx_ult_sorcier": {
+   "file": "png/fx_ult_sorcier.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "fx_ult_soutien": {
+   "file": "png/fx_ult_soutien.png",
+   "w": 960,
+   "h": 96,
+   "kind": "fx",
+   "frames": 10,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "item_arbalete": {
+   "file": "png/item_arbalete.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_arc": {
+   "file": "png/item_arc.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_armure_legere": {
+   "file": "png/item_armure_legere.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_armure_lourde": {
+   "file": "png/item_armure_lourde.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_baton": {
+   "file": "png/item_baton.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_bouclier": {
+   "file": "png/item_bouclier.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_cle": {
+   "file": "png/item_cle.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_corde": {
+   "file": "png/item_corde.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_dagues": {
+   "file": "png/item_dagues.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_epee": {
+   "file": "png/item_epee.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_etendard": {
+   "file": "png/item_etendard.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_grimoire": {
+   "file": "png/item_grimoire.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_hache": {
+   "file": "png/item_hache.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_lance": {
+   "file": "png/item_lance.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_luth": {
+   "file": "png/item_luth.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_pioche": {
+   "file": "png/item_pioche.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_potion_energie": {
+   "file": "png/item_potion_energie.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_potion_soin": {
+   "file": "png/item_potion_soin.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_relique": {
+   "file": "png/item_relique.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_robe": {
+   "file": "png/item_robe.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_sceptre": {
+   "file": "png/item_sceptre.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "item_torche": {
+   "file": "png/item_torche.png",
+   "w": 24,
+   "h": 24,
+   "kind": "item"
+  },
+  "plot_empty": {
+   "file": "png/plot_empty.png",
+   "w": 54,
+   "h": 36,
+   "kind": "misc"
+  },
+  "portail": {
+   "file": "png/portail.png",
+   "w": 64,
+   "h": 80,
+   "kind": "misc"
+  },
+  "res_food": {
+   "file": "png/res_food.png",
+   "w": 16,
+   "h": 16,
+   "kind": "resource"
+  },
+  "res_gold": {
+   "file": "png/res_gold.png",
+   "w": 16,
+   "h": 16,
+   "kind": "resource"
+  },
+  "res_shard": {
+   "file": "png/res_shard.png",
+   "w": 16,
+   "h": 16,
+   "kind": "resource"
+  },
+  "res_stone": {
+   "file": "png/res_stone.png",
+   "w": 16,
+   "h": 16,
+   "kind": "resource"
+  },
+  "res_wood": {
+   "file": "png/res_wood.png",
+   "w": 16,
+   "h": 16,
+   "kind": "resource"
+  },
+  "ui_button": {
+   "file": "png/ui_button.png",
+   "w": 48,
+   "h": 16,
+   "kind": "ui"
+  },
+  "ui_button_alt": {
+   "file": "png/ui_button_alt.png",
+   "w": 48,
+   "h": 16,
+   "kind": "ui"
+  },
+  "ui_button_hot": {
+   "file": "png/ui_button_hot.png",
+   "w": 48,
+   "h": 16,
+   "kind": "ui"
+  },
+  "ui_corner": {
+   "file": "png/ui_corner.png",
+   "w": 16,
+   "h": 16,
+   "kind": "ui"
+  },
+  "ui_divider": {
+   "file": "png/ui_divider.png",
+   "w": 64,
+   "h": 8,
+   "kind": "ui"
+  },
+  "ui_panel": {
+   "file": "png/ui_panel.png",
+   "w": 48,
+   "h": 48,
+   "kind": "ui",
+   "slice": 12
+  },
+  "ui_star": {
+   "file": "png/ui_star.png",
+   "w": 16,
+   "h": 16,
+   "kind": "ui"
+  },
+  "ui_star_off": {
+   "file": "png/ui_star_off.png",
+   "w": 16,
+   "h": 16,
+   "kind": "ui"
+  }
+ }
+}

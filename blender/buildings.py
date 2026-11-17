@@ -573,7 +573,7 @@ def build_plot():
 
 if __name__ == '__main__':
     args = sys.argv[1:]
-    ks = [a for a in args if a in BLD_NAMES] or BLD_NAMES
+    ks = [a for a in args if a in BLD_NAMES] or ([] if 'plot' in args else BLD_NAMES)
     lvs = [int(a) for a in args if a.isdigit()] or [1, 2, 3]
     if 'plot' in args or not args:
         build_plot()
