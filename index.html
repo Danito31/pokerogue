@@ -549,7 +549,7 @@ function enterFloor(f){const kind=f%10==0?'boss':f%5==0?'mini':'norm',bi=biomeOf
  for(let i=0;i<7;i++)put(pick([bi.res,bi.res,'herb',bi.res=='wood'?'stone':'wood']));put('vein');if(r()<.7)put('coffrev');if(law=='sablier')for(let i=0;i<3;i++)put('sablier');
  const[sx,sy]=C(st);
  if(law=='verrous')ents.push({t:'stele',x:sx+22,y:sy-10});
- if(law=='prisme'){const pe=[...new Set(party().map(c=>c.elem))],els=shuffle(EK).filter(e=>!pe.includes(e));const L3=[pick(pe.length?pe:EK),...els].slice(0,3);while(pr.length<3)pr.push(null);pr.forEach((p,i)=>{if(!p){const q=spot();if(!q)return;p=q}ents.push({t:'prisme',el:L3[i],x:p[0],y:p[1]})})}
+ if(law=='prisme'){const pe=[...new Set(party().map(c=>c.elem))],els=shuffle(EK).filter(e=>!pe.includes(e));const L3=[pick(pe.length?pe:EK),...els].slice(0,3);pr.length=Math.min(pr.length,3);while(pr.length<3)pr.push(null);pr.forEach((p,i)=>{if(!p){const q=spot();if(!q)return;p=q}ents.push({t:'prisme',el:L3[i],x:p[0],y:p[1]})})}
  if(law=='traque')groups.forEach(g=>g.pat=1);
  F={f,kind,bi,law,lv:LV,w,ob,gc,ents,groups,seals:0,quest:quest?'Quête : '+QUESTS[quest]:null,qk:quest,boss,done:0,hp:{},en:{},p:{x:sx,y:sy,d:1,mv:0,fr:0,at:0},fol:[],seen:new Uint8Array(N*N),sx,sy,amb:[],inv:1.5,loot:{},items:[],order:shuffle([0,1,2]),rune:pick(bi.el),field:null,lights:[{x:sx,y:sy}],bolts:[],boltT:3,time:0,storm:0};
  if(law=='sablier')F.time=Math.round((kind=='boss'?240:kind=='mini'?210:170)*Math.max(.6,1-.12*(LV-1)))+(hasFx('temps')?60:0);
