@@ -178,9 +178,9 @@ body.artb .ib:disabled{border-image-source:var(--a-btn2);background:none;color:#
 .bub.sfx{background:none;border:0;box-shadow:none;padding:0;font-weight:700;color:#ffcf4a;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:4px 4px 0 #000,0 0 14px rgba(255,140,40,.8);rotate:-9deg;letter-spacing:2px;animation:bsfx .45s cubic-bezier(.2,1.8,.4,1) both;white-space:nowrap}
 .bub.sfx .cur{display:none}
 @keyframes bpop{from{scale:.3;opacity:0}to{scale:1;opacity:1}}@keyframes bsfx{0%{scale:3;opacity:0}60%{scale:.9;opacity:1}100%{scale:1}}
-#iscr{position:absolute;left:0;top:0;display:flex;flex-direction:column;align-items:center;gap:1.6em;pointer-events:none;text-align:center;white-space:nowrap}
-#iscr b{font:700 1em var(--font);color:#ffcf4a;letter-spacing:.06em;text-shadow:.12em .12em 0 #2a1458,0 0 .5em #ff7ad9}
-#iscr span{font:600 .62em var(--font);color:#14302a;background:#4de0c0;border:.12em solid #000;padding:.15em .7em;animation:ihb .6s steps(2) infinite}
+#iscr{position:absolute;inset:0;pointer-events:none;text-align:center;white-space:nowrap}#iscr>*{position:absolute;left:0;top:0}#iscr.img b{background:#120c38;padding:.1em .35em;box-shadow:0 0 .4em .2em #120c38}
+#iscr b{font-weight:700;font-family:var(--font);color:#ffcf4a;letter-spacing:.06em;text-shadow:.12em .12em 0 #2a1458,0 0 .5em #ff7ad9}
+#iscr span{font-weight:600;font-family:var(--font);color:#14302a;background:#4de0c0;border:.12em solid #000;padding:.15em .7em;animation:ihb .6s steps(2) infinite}
 .hc{width:min(580px,100%);max-height:100%;overflow:auto;padding:12px 14px 14px;animation:drop .5s both;-webkit-overflow-scrolling:touch}
 .hc h2,.whl h2{margin:0 0 4px;font-size:24px;color:var(--gold);text-align:center;text-shadow:2px 2px 0 #000}
 .hct{display:flex;gap:14px;align-items:center}.hcf{flex:1;min-width:0}
@@ -1420,7 +1420,7 @@ const eOut=k=>1-Math.pow(1-clamp(k,0,1),3),eIn=k=>clamp(k,0,1)**2,eIO=k=>{k=clam
 const BDP=[
  {k:'intro_1',kb:[1,96,64,1.4,104,60],b:[{k:'cap',t:'Banlieue, 3 h 12 du matin.',x:.03,y:.05},{k:'cap',t:'La ville dort. Enfin… presque toute la ville.',x:.97,y:.95,ax:1,ay:1}]},
  {k:'intro_2',kb:[1.3,96,66,1,96,64],b:[{k:'say',t:'Allez… juste UN dernier tirage.',x:.05,y:.06,tx:.8},{k:'say',t:'0,6 % de taux de drop. Ils se moquent de moi.',x:.95,y:.56,ax:1,tx:.15}]},
- {k:'intro_3',kb:[1,96,64,1.16,96,56],ov:1,b:[{k:'say',t:'« La Tour des Étoiles » ? Jamais entendu parler…',x:.03,y:.04,tx:.6},{k:'say',t:'Pas de pub, pas d’éditeur, gratuit. Louche. Parfait.',x:.97,y:.97,ax:1,ay:1,up:1,tx:.7}]},
+ {k:'intro_3',kb:[1,96,64,1.16,96,56],ov:1,b:[{k:'say',t:'« La Tour des Étoiles » ? Jamais entendu parler…',x:.03,y:.04,tx:.6,w:.4},{k:'say',t:'Pas de pub, pas d’éditeur, gratuit. Louche. Parfait.',x:.97,y:.97,ax:1,ay:1,up:1,tx:.7}]},
  {k:'intro_4',kb:[1.25,92,58,1.55,104,64],b:[{k:'sfx',t:'CLIC',x:.56,y:.62,fx:'flash'},{k:'voice',t:'Joueur… tu as été choisi.',x:.5,y:.06,ax:.5,auto:1,fx:'voice'},{k:'say',t:'… Hein ?',x:.04,y:.62,tx:.7}]},
  {k:'intro_5',kb:[1,96,64,1.25,96,56],shake:1,b:[{k:'sfx',t:'VWOOOOOM',x:.5,y:.04,ax:.5,fx:'boom'},{k:'say',t:'AAAAH ! Mes figurines !',x:.03,y:.66,tx:.7},{k:'voice',t:'La Tour t’attend.',x:.97,y:.95,ax:1,ay:1}]},
  {k:'intro_6',kb:[1.35,96,74,1,96,64],b:[{k:'cap',t:'Le lendemain, on ne retrouva qu’une chaise qui tournait encore.',x:.03,y:.05},{k:'cap',t:'Et sur l’écran : « Joueur 1 connecté. »',x:.97,y:.95,ax:1,ay:1}]}];
@@ -1474,7 +1474,7 @@ const BDSC=[
    const ln=fa>=0?mixC('#dff6ff','#e8b8ff',va):'#dff6ff';[[56,50],[90,50]].forEach(([a,b])=>{bR(x,'#1d1430',a-2,b-2,26,18);bR(x,ln,a,b,22,14);for(let y=b+1;y<b+14;y+=3)bR(x,mixC('#6fd3ff','#b565ff',va),a+1,y,20,1);x.globalAlpha=.35;bR(x,'#14305a',a+8,b+5,5,5);x.globalAlpha=1});bR(x,'#1d1430',78,55,12,2);
    if(va>.3){bR(x,'#2a1a40',80,84,6,6);bR(x,'#1d1430',81,85,4,4)}else bR(x,'#3a4a7a',80,86,8,2);
    bE(x,158,112,12,15,'#c9d2e6');bR(x,'#8a90a8',157,98,2,10);bE(x,154,100,13,6,sk);[0,1,2].forEach(i=>bR(x,sd,146+i*6,96,1,6))}
-  if(fa>=0&&fa<.6){const k=fa/.6;x.globalAlpha=1-k;[[-1,-1],[0,-1],[1,-1],[-1,0],[1,0]].forEach(([a,b])=>{for(let i=0;i<4;i++)bR(x,'#ffcf4a',158+a*(10+i+k*10),98+b*(8+i+k*8),2,2)});x.globalAlpha=1}
+  if(fa>=0&&fa<.6){const k=fa/.6,mx=ov?22:158,my=ov?104:98;x.globalAlpha=1-k;[[-1,-1],[0,-1],[1,-1],[-1,0],[1,0]].forEach(([a,b])=>{for(let i=0;i<4;i++)bR(x,'#ffcf4a',mx+a*(10+i+k*10),my+b*(8+i+k*8),2,2)});x.globalAlpha=1}
   if(ov&&va){x.globalAlpha=.18*va;bR(x,'#b565ff',0,0,BDW,BDH);x.globalAlpha=1}},
  (x,t,ov,ev)=>{const bt=ev.boom!=null?t-ev.boom:-1,R=Math.min(62,22+t*12+(bt>0?bt*20:0)),cx=96,cy=48;
   if(!ov){bR(x,'#0d0a1e',0,0,BDW,BDH);bR(x,'#08061a',0,104,BDW,24);bR(x,'#231c36',22,88,148,6);bR(x,'#0b0a16',62,26,68,46);
@@ -1487,7 +1487,7 @@ const BDSC=[
  (x,t,ov)=>{const sp=Math.cos(t*5.5),aw=Math.abs(sp);
   if(!ov){bRoom(x,t,.35,0,(x,a,b,w,h,t)=>{bR(x,'#0b1430',a,b,w,h);bR(x,'#c9d2e2',a+12,b+17,42,1);bR(x,'#1d3a6a',a+12,b+20,42,4);bR(x,'#4de0c0',a+12,b+20,Math.round(42*((t*.25)%1)),4);if(Math.sin(t*4)>0)bR(x,'#4de0c0',a+31,b+28,4,2)});
    const w=Math.max(4,Math.round(36*aw));bR(x,sp>0?'#2a2440':'#3a3266',96-w/2,70,w,36);bR(x,'#3a3060',96-w/2,70,w,2);bR(x,'#1d1835',80,104,32,5);bR(x,'#1d1835',94,108,4,10);bR(x,'#1d1835',82,117,28,3)}
-  x.globalAlpha=.75;for(let i=0;i<3;i++){const a=t*6+i*2.1,ry=6+i*3;for(let k=0;k<5;k++){const an=a+k*.12;bR(x,'#a9a4d0',96+Math.cos(an)*(26+i*4),96+Math.sin(an)*ry,2,1)}}x.globalAlpha=1;
+  const chx=ov?146:96,chy=ov?90:96,chr=ov?.6:1;x.globalAlpha=.75;for(let i=0;i<3;i++){const a=t*6+i*2.1,ry=(6+i*3)*chr;for(let k=0;k<5;k++){const an=a+k*.12;bR(x,ov?'#fff6c0':'#a9a4d0',chx+Math.cos(an)*(26+i*4)*chr,chy+Math.sin(an)*ry,2,1)}}x.globalAlpha=1;
   for(let i=0;i<4;i++){const u=(t*.12+i*.27)%1;x.save();x.translate(Math.round(30+i*42+Math.sin(t*1.5+i)*8),Math.round(-6+u*130));x.rotate(Math.sin(t*2+i)*.6);x.drawImage(bMini('paper'),-4,-4);x.restore()}}];
 /* ---------- mise en page (cases 3:2) et caméra ---------- */
 function bdLayout(W,H){const cols=W/H<.8?1:W/H<1.25?2:3,rows=Math.ceil(6/cols),g=W<520?10:16,m=W<520?12:22;let pw;
@@ -1511,16 +1511,18 @@ let BDPAT=null;function bdPage(x,I,showAct){const L=I.L,a=bdS(I,[L.x0-14,L.y0-14
  const n=I.ph=='comic'?I.pi:BDP.length;for(let i=0;i<=Math.min(n,BDP.length-1);i++){const act=I.ph=='comic'&&i==I.pi;const R=bdPanel(x,I,i,act?I.pt:9,act);if(act)I.R=R}}
 /* ---------- bulles (HTML, tapées lettre par lettre) ---------- */
 function bdBub(d,R){const el=document.createElement('div');el.className='bub '+d.k+(d.up?' up':'');el.style.setProperty('--tx',Math.round((d.tx==null?.25:d.tx)*100)+'%');const t=frT(d.t);el.innerHTML='<span class="v"></span><span class="h">'+t+'</span><i class="cur">▼</i>';$('#ibl').appendChild(el);return{d,el,t,n:0,R}}
-function bdBubPos(I,b,R){const d=b.d,el=b.el,fs=d.k=='sfx'?clamp(R.w*.1,30,92):clamp(R.w/38,13,19);el.style.fontSize=fs+'px';const w=el.offsetWidth,h=el.offsetHeight;let l=R.x+d.x*R.w-(d.ax||0)*w,t=R.y+d.y*R.h-(d.ay||0)*h;l=clamp(l,8,I.L.W-8-w);t=clamp(t,8,I.L.H-8-h);el.style.transform=`translate(${Math.round(l)}px,${Math.round(t)}px)`}
+function bdBubPos(I,b,R){const d=b.d,el=b.el,fs=d.k=='sfx'?clamp(R.w*.1,30,92):clamp(R.w/38,13,19);el.style.fontSize=fs+'px';if(d.w)el.style.maxWidth=Math.max(130,d.w*R.w)+'px';const w=el.offsetWidth,h=el.offsetHeight;let l=R.x+d.x*R.w-(d.ax||0)*w,t=R.y+d.y*R.h-(d.ay||0)*h;l=clamp(l,8,I.L.W-8-w);t=clamp(t,8,I.L.H-8-h);el.style.transform=`translate(${Math.round(l)}px,${Math.round(t)}px)`}
 function bdClearBubs(){INTRO.bubs=[];$('#ibl').innerHTML=''}
 function bdShowNext(){const I=INTRO,P=BDP[I.pi];I.bi++;const d=P.b[I.bi];if(!d)return;const b=bdBub(d);I.bubs.push(b);I.typing=b;if(d.fx)I.ev[d.fx]=I.pt;if(d.k=='sfx')b.n=b.t.length}
 function bdType(I,dt){const b=I.typing;if(!b)return;b.n=Math.min(b.t.length,b.n+dt*(b.d.k=='voice'?24:40));const s=b.t.slice(0,Math.floor(b.n));b.el.firstChild.textContent=s;b.el.children[1].textContent=b.t.slice(s.length);if(b.n>=b.t.length){b.el.classList.add('done');I.typing=null;const nx=BDP[I.pi]&&BDP[I.pi].b[I.bi+1];if(nx&&nx.auto)I.wait=.45}}
 function bdFinish(b){b.n=b.t.length;b.el.firstChild.textContent=b.t;b.el.children[1].textContent='';b.el.classList.add('done')}
 /* écran du titre dans la case 3 (texte HTML net par-dessus l'image ou le dessin) */
+/* avec l'image intro_3 (320×180, recadrée en 3:2) : titre et bouton posés sur ceux de l'écran dessiné ; sinon au centre du dessin procédural */
 function bdScreen(I,R,tp){let e=$('#iscr');if(I.ph!='comic'||I.pi!=2||!R){if(e)e.remove();return}if(!e){e=document.createElement('div');e.id='iscr';e.innerHTML='<b>La Tour des Étoiles</b><span>Commencer ?</span>';$('#ibl').prepend(e)}
- const M=bdMap(2,R,tp),p=[M.ox+96*M.m,M.oy+52*M.m];e.style.fontSize=Math.max(9,M.m*8.5)+'px';e.style.opacity=clamp((tp-.35)/.4,0,1);e.style.transform=`translate(${Math.round(p[0])}px,${Math.round(p[1])}px) translate(-50%,-50%)`}
+ const im=!!aImg('intro_3'),M=bdMap(2,R,tp),P=im?[[126,18],[131,86]]:[[96,40],[96,76]],fs=Math.max(8,M.m*(im?6.4:8.5));e.classList.toggle('img',im);e.style.opacity=clamp((tp-.35)/.4,0,1);
+ [...e.children].forEach((c,i)=>{c.style.fontSize=(i?fs*.62:fs)+'px';c.style.transform=`translate(${Math.round(M.ox+P[i][0]*M.m)}px,${Math.round(M.oy+P[i][1]*M.m)}px) translate(-50%,-50%)`})}
 /* ---------- aspiration plein écran ---------- */
-function drawVortex(x,cx,cy,S,t,al,px){x.save();x.globalAlpha=al;const vx=aImg('fx_vortex');if(vx){const fh=vx.naturalHeight,n=Math.max(1,Math.round(vx.naturalWidth/fh)),f=Math.floor(t*12)%n;x.imageSmoothingEnabled=false;x.save();x.translate(cx,cy);x.rotate(t*1.4);x.drawImage(vx,f*fh,0,fh,fh,-S,-S,S*2,S*2);x.restore()}
+function drawVortex(x,cx,cy,S,t,al,px){x.save();x.globalAlpha=al;const vx=aImg('fx_vortex');if(vx){const fh=vx.naturalHeight,n=Math.max(1,Math.round(vx.naturalWidth/fh)),f=Math.floor(t*12)%n;x.imageSmoothingEnabled=false;x.save();x.globalAlpha=al*.6;x.translate(cx,cy);x.rotate(t*1.4);x.drawImage(vx,f*fh,0,fh,fh,-S*.8,-S*.8,S*1.6,S*1.6);x.restore()}
  const C=['#c58bff','#4de0c0','#ff7ad9','#ffffff','#5aa8ff','#ffcf4a'];for(let a=0;a<6;a++)for(let k=0;k<70;k++){const rr=((k/70)+t*.35)%1,an=a*1.047+rr*6.5-t*3.2,ra=rr*S,sz=Math.round((1+rr*5)*px/3)*3||3;x.fillStyle=C[(k+a)%6];x.globalAlpha=al*(rr<.08?rr/.08:1);x.fillRect(Math.round((cx+Math.cos(an)*ra)/px)*px,Math.round((cy+Math.sin(an)*ra)/px)*px,sz,sz)}
  x.globalAlpha=al;const g=x.createRadialGradient(cx,cy,0,cx,cy,S*.22);g.addColorStop(0,'#ffffff');g.addColorStop(.4,'rgba(255,240,255,.8)');g.addColorStop(1,'rgba(197,139,255,0)');x.fillStyle=g;x.fillRect(cx-S,cy-S,S*2,S*2);x.restore()}
 function drawSuck(x,I){const L=I.L,t=I.t,cx=L.W/2,cy=L.H/2,S=Math.max(L.W,L.H)*.75,px=Math.max(3,Math.round(Math.min(L.W,L.H)/160));x.fillStyle='#0b0a18';x.fillRect(0,0,L.W,L.H);drawVortex(x,cx,cy,S,t,clamp(t/.9,0,1),px);
