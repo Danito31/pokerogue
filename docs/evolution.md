@@ -7,11 +7,11 @@ Tout est dans `index.html` (bloc `ÉVOLUTION, INGRÉDIENTS ET ARTISANAT`). Les i
 
 ## 1. Inventaire : `G.mats`
 
-`G.mats = {clé: nombre}`, sauvegardé avec la partie (clé `tdE5`). Migration : une ancienne sauvegarde (tdE4/tdE5 sans `mats`) reçoit le petit lot de départ ; les clés inconnues ou nulles sont supprimées. Nouvelle partie : 6 minerais, 2 cuirs, 2 bois ouvragés, 1 tissu.
+`G.mats = {clé: nombre}`, sauvegardé avec la partie (clé `tdE6` depuis la refonte de la progression ; copie `tdE5_bak` de l’ancienne sauvegarde). Migration : une ancienne sauvegarde (tdE4/tdE5 sans `mats`) reçoit le petit lot de départ ; les clés inconnues ou nulles sont supprimées. Nouvelle partie : 6 minerais, 2 cuirs, 2 bois ouvragés, 1 tissu.
 
 | Groupe (Sac) | Clés | Usage |
 |---|---|---|
-| Évolution | `mat_parchemin_1..6` (Parchemin d'évolution ★N) | éveil d'un personnage N★ → N+1★ ; ★6 = transcendance d'un 6★ |
+| Évolution | `mat_parchemin_1..6` (Parchemin d'évolution ★N) | éveil d'un personnage N★ → N+1★ ; ★6 = Constellation d'un 6★ divin |
 | | `mat_pierre_1..6` (Pierre d'éveil ★N) | éveil d'un équipement N★ → N+1★ ; ★6 = transcendance |
 | | `mat_fragment` (Fragment de parchemin, icône procédurale) | 10 → 1 parchemin ★1 |
 | Compétences | `mat_tome_1..5` (commune → légendaire) | évolution de rareté ; « Étudier » (+2 niveaux) |
@@ -54,7 +54,7 @@ Poids du rang N : `base[N] × (1 + étage/20)^(N−1)` avec base = 100 / 30 / 8 
 
 ## 3. Éveil des personnages (Auberge → onglet « Autel d'éveil », fiche, équipe)
 
-Condition : **niveau maximal du rang** (`cap = 10 + 10 × ★ + 5 × transcendance`).
+Condition : **niveau maximal du rang** (`cap = 10 × ★` : 1★ 10 · 2★ 20 · 3★ 30 · 4★ 40 · 5★ 50 · 6★ 60, voir `docs/progression.md` §1). Pour une Constellation : niv. 60 **et** forme divine obtenue.
 
 | Éveil | Parchemins | Essence de son élément | Autres | Or |
 |---|---|---|---|---|
@@ -63,10 +63,10 @@ Condition : **niveau maximal du rang** (`cap = 10 + 10 × ★ + 5 × transcendan
 | 3★ → 4★ | ★3 × 4 | 6 | cristal 3 | 2 500 |
 | 4★ → 5★ | ★4 × 5 | 10 | noyau 2 | 6 000 |
 | 5★ → 6★ | ★5 × 6 | 15 | noyau 4, cristal 6 | 15 000 |
-| 6★ transcendance ✦1/✦2/✦3 | ★6 × 1/2/3 | 20 | noyau 5 | 25 000 / 50 000 / 75 000 |
+| 6★ Constellation ✦1/✦2/✦3 | ★6 × 1/2/3 | 20 | noyau 5 | 25 000 / 50 000 / 75 000 |
 
-Effets : +1★ (niveau max. +10), statistiques de base mises à l'échelle du nouveau rang (même formule que la génération : PV 220+90★, ATQ 26+11★, DEF 16+7★), **une compétence tirée d'office** (même pondération personnalité/sous-traits/race ; doublon = +2 niveaux), **35 %** de chances d'un nouveau sous-trait (si moins de 3 ; profil de croissance recalculé). Transcendance : niveau max. +5, stats de base +4 %. Race, personnalité, élément et équipement conservés. L'ancienne « promotion contre éclats » est remplacée (la fonction `promote` ouvre l'éveil).
-Interface : fiche d'éveil (condition, gains chiffrés, ingrédients rouges si manquants, confirmation en deux temps), puis révélation animée (rayons de la couleur de l'élément, flash, étoiles qui s'allument, nouvelle étoile qui tombe, gains et compétence).
+Effets : +1★ (niveau max. +10), statistiques de base mises à l'échelle du nouveau rang (même formule que la génération : PV 220+90★, ATQ 26+11★, DEF 16+7★), **un nœud d'étoile** ajouté à l'arbre personnel au niveau de l'ancien plafond (tiré dans la rareté de la nouvelle bande ; doublon = +2 niveaux), **révélation et figement** des nœuds de la bande suivante, **réserve d'expérience** versée aussitôt (au plafond, 50 % de l'exp. gagnée y est rangée, au plus la moitié de la bande suivante ; les paliers franchis se déclenchent normalement), **35 %** de chances d'un nouveau sous-trait (si moins de 3 ; profil de croissance recalculé, les nœuds encore cachés en tiennent compte). Constellations (6★ niv. 60 divin) : ✦1 Écho divin (stats +4 %, passif divin +50 %), ✦2 Ciel ouvert (stats +4 %, ultime divin +20 %, 30 d'énergie au début du combat), ✦3 Aura stellaire (stats +4 %, équipe +5 % PV/ATQ/DEF) ; elles ne donnent plus de niveaux. Race, personnalité, élément et équipement conservés. L'ancienne « promotion contre éclats » est remplacée (la fonction `promote` ouvre l'éveil).
+Interface : fiche d'éveil (condition, gains chiffrés, ingrédients rouges si manquants, confirmation en deux temps), puis révélation animée (rayons de la couleur de l'élément, flash, étoiles qui s'allument, nouvelle étoile qui tombe, gains, nœud d'étoile, réserve libérée et nœuds révélés).
 
 ### Fusion (Autel d'éveil ; pierres à la Forge)
 3 ingrédients ★N → 1 ★N+1 contre N éclats et 100 × N or (parchemins ★1→★6, tomes 1→5, pierres ★1→★6). 10 fragments → 1 parchemin ★1. Les éclats gardent ainsi un usage.
@@ -155,7 +155,7 @@ Plafond selon la Forge : niv. 1 → 3★, niv. 2 → 5★, niv. 3 → 6★ et tr
 
 ## 6. Équilibrage (intention)
 - Un 1★ ramené à 2★ demande ~2 parchemins ★1 (2–4 coffres/gardiens des premiers étages) : premier éveil en une soirée.
-- Jeanne (3★ → 4★) demande le niveau 40 et 4 parchemins ★3, disponibles à partir de l'étage 3 mais surtout via quêtes/boss et la fusion (12 ★2 → 4 ★3) : objectif de moyen terme.
+- Jeanne (3★ → 4★) demande le niveau 30 (ancienne sauvegarde : niv. 36 → 30 + réserve de 4 260 exp. rendue à l'éveil) et 4 parchemins ★3, disponibles à partir de l'étage 3 mais surtout via quêtes/boss et la fusion (12 ★2 → 4 ★3) : objectif de moyen terme.
 - 5★/6★ : ingrédients débloqués aux étages 15 / 25, ~2–4 % et ~1 % des tirages même chez les boss ; la fusion (3 → 1) offre une voie lente mais sûre.
 - L'or des coûts suit le gain par étage (≈ 500 or à l'étage 10, ≈ 1 000 à l'étage 20).
 - La fabrication rend surtout du 1★–2★ : elle sert à combler un emplacement et à produire des pierres via le démantèlement des 3★+, sans concurrencer les objets de boss.
