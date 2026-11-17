@@ -548,6 +548,8 @@ Les multiplicateurs ci-dessous sont des % de l'ATQ (dégâts) ou des PV max / AT
 
 ## 6. Métiers
 
+> **Implémenté** : postes, rangs, effets, évolution et les six nouveaux bâtiments sont en place ; tous les chiffres définitifs (y compris les écarts avec le tableau ci-dessous) sont dans `docs/metiers.md`.
+
 ### 6.1 Liste et effets
 
 Un métier rend utile un personnage même faible en combat (bible §8). Effet **village** : quand le personnage est **en poste** (affecté au bâtiment indiqué, hors équipe ; chaque bâtiment a **autant de postes que son niveau**). Effet **expédition** : quand il est dans l'équipe. `r` = rang (1 apprenti … 7 grand maître).
@@ -569,7 +571,7 @@ Un métier rend utile un personnage même faible en combat (bible §8). Effet **
 | `cartographe` | Cartographe | Hôtel de ville (sinon : expédition seule) | – | révèle 10 %×r de la carte à l'entrée d'étage ; dès r 4 les coffres, dès r 6 les leviers et l'ordre runique | **Arpenteur des étoiles** | voit l'étage suivant (loi, biome, quête) avant d'y entrer |
 | `bibliothecaire` | Bibliothécaire | Bibliothèque (sinon : Auberge) | niveaux de compétence −5 %×r d'or ; *Étudier* +3 niveaux dès r 5 ; recherches des mages −5 %×r de durée | – | **Archiviste** | 15 % de chances de récupérer le tome lors d'une évolution de rareté |
 
-Bâtiments : le code actuel a 5 bâtiments (`BLD` : auberge, ferme, camp, inf, forge) ; les rendus de `assets/manifest.json` en annoncent 6 de plus (Hôtel de ville `hdv`, Installations de chasse `chasse`, Bibliothèque `biblio`, Laboratoire d'alchimie `labo`, Entrepôt `entrepot`, Marché `marche`). Chaque métier a donc un **poste cible** et un **repli** sur un bâtiment existant ; dès que le bâtiment cible existe, le poste y migre automatiquement.
+Bâtiments : 11 dans le code (`BLD`) : auberge, ferme, camp, inf, forge, et depuis les métiers `hdv`, `chasse`, `biblio`, `labo`, `entrepot`, `marche` (`docs/metiers.md` §1–2). Chaque métier a un **poste cible** et parfois un **repli** ; dès que le bâtiment cible existe, le poste y migre automatiquement.
 
 Un personnage **niv. 60 divin** conserve son métier et ajoute l'**aura de Grand maître** : effet du rang 7 ×1,5.
 

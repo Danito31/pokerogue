@@ -17,6 +17,9 @@ Tout est dans `index.html` (bloc `ÉVOLUTION, INGRÉDIENTS ET ARTISANAT`). Les i
 | Compétences | `mat_tome_1..5` (commune → légendaire) | évolution de rareté ; « Étudier » (+2 niveaux) |
 | Forge | `mat_minerai`, `mat_lingot`, `mat_mithril`, `mat_cuir`, `mat_tissu`, `mat_bois`, `mat_cristal`, `mat_croc`, `mat_noyau`, `mat_poussiere` | fabrication, affinage, éveil des objets |
 | Essences | `mat_essence_feu/glace/foudre/nature/sacre/ombre/arcane` | éveil des personnages de l'élément, élément imposé à la fabrication |
+| Chasse | `mat_viande` (Viande, icône procédurale) | potions et philtres du Laboratoire, Marché |
+
+Capacités : depuis les métiers, les matériaux de forge, la viande et les essences sont plafonnés par l’Entrepôt (60 par type sans Entrepôt, puis 150 / 300 / 600) ; ingrédients d’évolution non plafonnés ; rien n’est retiré d’un stock existant (`docs/metiers.md` §2).
 
 Interface : bouton **Sac** dans le HUD (village et étages), tuiles groupées avec compteur, tuiles vides grisées, fiche détaillée (usage + où le trouver) au toucher, raccourcis vers l'Autel d'éveil et la Forge.
 
