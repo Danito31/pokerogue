@@ -18,7 +18,7 @@ os.makedirs(CACHE, exist_ok=True)
 
 # ---- couleurs de la scene (coherentes d'une planche a l'autre)
 HOOD, HOOD_D, HOOD_L = '#a32638', '#7a1a2c', '#c4384a'
-SKIN, HAIR, PANTS = '#f1c7a0', '#2b2338', '#34406a'
+SKIN, HAIR, PANTS = '#e6a47c', '#3b2f55', '#34406a'
 WALL, WALL_D, FLOOR = '#4a4880', '#3a3868', '#3d2f52'
 SCREEN_L = '#78b4ff'
 PINK, TEALC, GOLDC = '#ff7ad9', '#4de0c0', '#ffcf4a'
@@ -98,6 +98,7 @@ def new_scene(sky=None):
     sc = reset_scene()
     _M.clear()
     sc.render.film_transparent = False
+    sc.render.dither_intensity = 0.0
     sc.cycles.use_denoising = True
     try:
         sc.cycles.denoiser = 'OPENIMAGEDENOISE'
@@ -129,8 +130,8 @@ def new_scene(sky=None):
         nt.links.new(cr.outputs['Color'], bg.inputs['Color'])
         bg.inputs['Strength'].default_value = 1.0
     else:
-        bg.inputs['Color'].default_value = hex_lin('#120e2a')
-        bg.inputs['Strength'].default_value = 0.5
+        bg.inputs['Color'].default_value = hex_lin('#3a3280')
+        bg.inputs['Strength'].default_value = 1.0
     nt.links.new(bg.outputs[0], out.inputs[0])
     sc.world = w
     return sc
@@ -236,7 +237,7 @@ def screen_content(c, w, h, mode='title'):
     sky = box((w, 0.004, h), (cx, y, cz), '#000000', center=True)
     sky.data.materials.clear()
     if mode == 'burst':
-        sky.data.materials.append(GM([(0, '#c8fff4'), (1, '#ffffff')], 3.0))
+        sky.data.materials.append(GM([(0, '#9ff4e0'), (1, '#e8fffa')], 1.6))
         return
     sky.data.materials.append(GM([(0, '#6a3a9a'), (0.28, '#2c2a78'), (0.6, '#171858'), (1, '#0b0c33')], 1.0))
     rg = random.Random(5)
@@ -272,9 +273,9 @@ def screen_content(c, w, h, mode='title'):
     # titre : barres dorees "texte" + sous-titre
     bars = [(-0.30, 0.10), (-0.17, 0.09), (-0.05, 0.11), (0.08, 0.10), (0.20, 0.12), (0.34, 0.08)]
     for u, ww in bars:
-        emis(box((ww * w * 0.9, 0.003, 0.085 * h), px(u * 0.9 + 0.05, 0.37), '#000000', bevel=0.004, center=True), GOLDC, 2.2)
+        emis(box((ww * w * 0.72, 0.003, 0.085 * h), px(u * 0.72 + 0.17, 0.37), '#000000', bevel=0.004, center=True), GOLDC, 2.2)
     for u, ww in [(-0.12, 0.26), (0.17, 0.2)]:
-        emis(box((ww * w, 0.003, 0.03 * h), px(u + 0.02, 0.27), '#000000', center=True), '#fff0a0', 1.6)
+        emis(box((ww * w * 0.8, 0.003, 0.03 * h), px(u * 0.8 + 0.2, 0.27), '#000000', center=True), '#fff0a0', 1.6)
     # bouton "start"
     emis(box((0.30 * w, 0.003, 0.11 * h), px(0.2, -0.24), '#000000', bevel=0.006, center=True), GOLDC, 2.0)
     o = emis(box((0.27 * w, 0.003, 0.085 * h), px(0.2, -0.24), '#000000', bevel=0.006, center=True), TEALC, 2.6)
@@ -285,7 +286,7 @@ def screen_content(c, w, h, mode='title'):
 
 
 # ---------------------------------------------------------------- personnage
-def figure(at, yaw=0.0, lean=6, head=(0, 0), arms='desk', mouth=0.0, wide=False, face=True, s=1.0, hand_target=None):
+def figure(at, yaw=0.0, lean=6, head=(0, 0), arms='desk', mouth=0.0, wide=False, face=True, s=1.0, hand_target=None, hand_world=None):
     """Jeune adulte en hoodie rouge sombre, cheveux sombres en bataille. Origine = bassin, regarde +y."""
     root = empty('fig', at, (0, 0, yaw), s)
     to = empty('torso', (0, 0, 0), (-lean, 0, 0))
@@ -314,7 +315,7 @@ def figure(at, yaw=0.0, lean=6, head=(0, 0), arms='desk', mouth=0.0, wide=False,
             if d.y > 0.55:
                 d.y *= 0.3
             q = d.to_track_quat('Z', 'Y').to_euler()
-            Q(cyl(0.052, 0.14, tuple(d * 0.12 + Vector((0, -0.03, 0.03))), HAIR, 6, r2=0.0, rot=[math.degrees(t) for t in q]))
+            Q(cyl(0.05, 0.1, tuple(d * 0.12 + Vector((0, -0.03, 0.03))), HAIR, 6, r2=0.0, rot=[math.degrees(t) for t in q]))
         for i, (x_, z_) in enumerate(((-0.06, 0.1), (0.02, 0.11), (0.08, 0.09))):     # frange
             Q(cyl(0.034, 0.11, (x_, 0.105, z_), HAIR, 6, r2=0.0, rot=(160 + (i - 1) * 8, (i - 1) * 14, 0)))
         for sx in (-1, 1):
@@ -342,6 +343,9 @@ def figure(at, yaw=0.0, lean=6, head=(0, 0), arms='desk', mouth=0.0, wide=False,
                 el_, ha = (sx * 0.36, 0.32, 0.16), (sx * 0.2, 0.7, 0.34)
             if hand_target and sx > 0:
                 ha = hand_target
+                if hand_world:
+                    bpy.context.view_layer.update()
+                    ha = tuple(to.matrix_world.inverted() @ Vector(hand_world))
             P(rod3((sx * sh, 0, 0.18), el_, 0.058, HOOD, 8))
             P(rod3(el_, ha, 0.05, HOOD, 8))
             P(sph(0.048, ha, SKIN, 8, 6))
@@ -359,9 +363,8 @@ def chair(x, y, yaw=0, tilt=0, z=0.0):
     g = empty('chair', (x, y, z), (tilt, 0, yaw))
     with G('chair'):
         for o in (box((0.52, 0.5, 0.1), (0, 0, 0.44), '#25243a', bevel=0.03),
-                  box((0.5, 0.1, 0.78), (0, -0.25, 0.5), '#25243a', (-6, 0, 0), bevel=0.04),
-                  box((0.5, 0.025, 0.2), (0, -0.30, 0.95), HOOD_D, (-6, 0, 0), bevel=0.01),
-                  box((0.22, 0.1, 0.2), (0, -0.29, 1.28), '#25243a', (-6, 0, 0), bevel=0.04),
+                  box((0.5, 0.1, 0.6), (0, -0.25, 0.5), '#25243a', (-6, 0, 0), bevel=0.04),
+                  box((0.5, 0.025, 0.14), (0, -0.30, 0.92), HOOD_D, (-6, 0, 0), bevel=0.01),
                   box((0.06, 0.45, 0.04), (-0.29, 0, 0.62), '#1b1a28'), box((0.06, 0.45, 0.04), (0.29, 0, 0.62), '#1b1a28'),
                   cyl(0.035, 0.34, (0, 0, 0.12), '#8a8aa0', 8)):
             o.parent = g
@@ -429,7 +432,7 @@ def room(screen='title'):
         for (yy, zz, sy_, sz_) in ((1.0, 0.85, 1.1, 0.06), (1.0, 1.85, 1.1, 0.06), (0.5, 0.85, 0.06, 1.05), (1.5, 0.85, 0.06, 1.05), (1.0, 0.85, 0.06, 1.05)):
             box((0.06, sy_, sz_), (-RW + 0.02, yy, zz), '#2a1c40')
         st = poly(star_pts(4, 0.1, 0.025), 0.01, (-RW + 0.04, 0.8, 1.5), '#000000', (0, 0, 90))
-        st.rotation_euler = (math.radians(90), 0, math.radians(90))
+        st.rotation_euler = (0, 0, math.radians(90))
         emis(st, '#ffffff', 4.0)
     posters(ymax)
     with G('bazar'):
@@ -476,11 +479,13 @@ def posters(ymax):
                 box((0.46, 0.012, 0.06), (cx, cy, zb + 0.04), c2)
 
 
-def room_lights(rim=True, moon=True):
+def room_lights(rim=True, moon=True, top=True, k=1.0):
     if moon:
         light('AREA', (-2.0, 1.0, 1.4), (0.5, 0.8, 0.5), 150, '#6a8cff', 1.0, 1.0)   # lune par la fenetre
     if rim:
-        light('POINT', (0.0, 1.8, 2.3), None, 260, PINK, 0.3)
+        light('POINT', (0.0, 1.8, 2.3), None, 100 * k, PINK, 0.3)
+    if top:
+        light('POINT', (0.0, 0.0, 2.5), None, 150 * k, '#8a7ad8', 0.4)
 
 
 # ---------------------------------------------------------------- panneaux
@@ -490,9 +495,9 @@ def p2():
     chair(0.2, 0.62, 8)
     figure((0.2, 0.7, 0.55), yaw=6, lean=8, head=(-4, 4), arms='desk', face=False)
     room_lights()
-    light('AREA', (0.2, 1.55, 1.3), (0.2, -0.4, 1.0), 300, SCREEN_L, 1.0, 0.7)
+    light('AREA', (0.2, 1.55, 1.3), (0.2, -0.4, 1.0), 900, SCREEN_L, 1.0, 0.7)
     light('POINT', (0.2, 1.3, 0.9), None, 55, '#9cc8ff', 0.2)
-    cam_at((0.95, -2.7, 1.62), (0.1, 1.1, 0.98), 24)
+    cam_at((0.55, -0.9, 1.45), (0.2, 1.3, 1.08), 24)
     return sc
 
 
@@ -500,7 +505,7 @@ def p3():
     sc = new_scene()
     room('title')
     light('POINT', (0.2, 1.0, 1.1), None, 80, '#9cc8ff', 0.3)
-    cam_at((0.0, 0.55, 1.14), (0.2, 1.74, 1.1), 34)
+    cam_at((-0.12, 0.62, 1.2), (0.2, 1.74, 1.26), 38)
     return sc
 
 
@@ -508,18 +513,18 @@ def p4():
     sc = new_scene()
     room('title')
     chair(0.2, 0.62, 8)
-    figure((0.2, 0.7, 0.55), yaw=6, lean=14, head=(8, -4), arms='desk', mouth=0.6, wide=True, hand_target=(0.3, 0.5, -0.3))
-    room_lights()
-    light('AREA', (0.55, 1.65, 1.3), (0.2, 0.7, 1.2), 150, SCREEN_L, 0.95, 0.55)
-    light('AREA', (0.2, 1.55, 1.3), (0.2, 0.0, 1.0), 150, SCREEN_L, 1.0, 0.7)
-    cam_at((1.0, 1.45, 1.35), (0.2, 0.75, 1.3), 40)
+    figure((0.2, 0.7, 0.55), yaw=6, lean=14, head=(8, -4), arms='desk', mouth=0.6, wide=True, hand_target=(0.3, 0.5, -0.3), hand_world=(0.5, 1.31, 0.855))
+    room_lights(top=False, k=0.5)
+    light('AREA', (0.2, 1.6, 1.3), (0.2, 0.7, 1.25), 30, SCREEN_L, 0.95, 0.55)
+    light('POINT', (-0.3, 1.2, 1.2), None, 18, '#ff9a60', 0.2)
+    cam_at((-0.6, 1.68, 1.12), (0.08, 0.98, 1.1), 30)
     return sc
 
 
 def p5():
     sc = new_scene()
     room('burst')
-    chair(0.5, 0.15, 40, 18, 0.1)
+    chair(0.1, 0.2, 200, 24, 0.1)
     figure((0.25, 0.95, 1.05), yaw=4, lean=40, head=(0, 8), arms='reach', mouth=1.0, wide=True, hand_target=(0.16, 0.8, 0.4))
     rg = random.Random(9)
     for i in range(14):
@@ -528,23 +533,25 @@ def p5():
         y = 1.5 - (1 - t) * 2.0 + rg.uniform(-0.1, 0.1) - 0.2
         z = 1.25 + rg.uniform(-0.7, 0.6) * (1 - t * 0.6)
         r_ = (rg.uniform(0, 360), rg.uniform(0, 360), rg.uniform(0, 360))
+        if abs(x - 0.25) < 0.55 and abs(y - 0.95) < 0.6 and abs(z - 1.1) < 0.6:
+            x += 0.9
         with G('fly%d' % i):
             k = i % 4
             if k == 0:
-                can(x, y, z, ('#2fa8e8', '#e8486a', '#7cff5a')[i % 3], r_, 2.2, '#ffe27a')
+                can(x, y, z, ('#2fa8e8', '#e8486a', '#7cff5a')[i % 3], r_, 1.8, '#ffe27a')
             elif k == 1:
-                paper(x, y, z, r_, 2.3)
+                paper(x, y, z, r_, 1.8)
             elif k == 2:
                 figurine(x, y, z, PINK if i % 2 else TEALC, TEALC if i % 2 else GOLDC, r_, 2.4)
             else:
                 paper(x, y, z, r_, 1.9, '#fff6c0')
     with G('vortex'):
-        vortex_geo((0.2, 1.62, 1.22), 1.15)
-    room_lights()
-    light('POINT', (0.2, 1.3, 1.25), None, 900, '#6ff0d0', 0.4)
-    light('POINT', (0.2, 1.0, 1.4), None, 400, GOLDC, 0.3)
-    light('AREA', (0.2, 1.62, 1.25), (0.2, -0.5, 1.0), 500, '#c8fff4', 1.0, 0.6)
-    cam_at((1.5, -1.0, 1.55), (0.25, 1.2, 1.2), 24, -6)
+        vortex_geo((0.2, 1.62, 1.22), 1.35)
+    room_lights(k=0.4)
+    light('POINT', (0.2, 1.3, 1.25), None, 250, '#6ff0d0', 0.4)
+    light('POINT', (0.2, 1.0, 1.4), None, 120, GOLDC, 0.3)
+    light('AREA', (0.2, 1.62, 1.25), (0.2, -0.5, 1.0), 220, '#c8fff4', 1.0, 0.6)
+    cam_at((-1.9, -0.5, 1.5), (0.3, 1.25, 1.2), 22, -3)
     return sc
 
 
@@ -559,10 +566,13 @@ def p6():
     with G('can'):
         can(0.9, 0.3, 0.033, '#2fa8e8', (0, 90, 70), 1.4)
     with G('sparkle'):
-        st = poly(star_pts(4, 0.2, 0.035), 0.01, (0.75, 1.6, 1.75), '#000000', (90, 0, 0))
+        st = poly(star_pts(4, 0.2, 0.035), 0.01, (0.75, 1.6, 1.75), '#000000', (0, 0, 0))
         emis(st, '#ffffff', 6.0)
-        st2 = poly(star_pts(4, 0.1, 0.02), 0.01, (0.75, 1.59, 1.75), '#000000', (90, 0, 45))
+        st2 = poly(star_pts(4, 0.1, 0.02), 0.01, (0.75, 1.59, 1.75), '#000000', (0, 45, 0))
         emis(st2, GOLDC, 6.0)
+    with G('spin'):
+        for k, (r_, a0, a1) in enumerate(((0.55, 20, 130), (0.55, 200, 300), (0.75, 100, 190))):
+            emis(crescent(r_, a0, a1, 0.05, (0.2, 0.55, 0.85 + k * 0.1), '#000000', 0.01, 12, (90, 0, 0)), '#ffffff', 2.5)
     sz_ = 0.77 + 0.2 + (0.55 + 0.07) / 2
     with G('petit'):
         tiny_fall((0.2 - 0.18 * 0.95 + 0.06, 1.75 - 0.014, sz_ + 0.2 * 0.55))
@@ -586,6 +596,7 @@ def tiny_fall(c):
     for i in range(3):
         emis(box((0.004, 0.003, 0.07 - i * 0.015), (-0.03 + i * 0.03, 0.001, 0.12 + i * 0.01), '#000000', center=True), '#ffffff', 2.5).parent = g
     g.rotation_euler = (0, math.radians(165), 0)
+    g.scale = (1.7, 1.7, 1.7)
 
 
 def p1():
@@ -598,7 +609,7 @@ def p1():
         box((60, 0.18, 0.15), (0, -0.5, -0.02), '#8a86a8')         # bordure
     BX, BY = 0.0, 3.0
     with G('immeuble'):
-        box((4.4, 3.4, 8.6), (BX, BY, 0), '#6c5c88', bevel=0.03)
+        box((4.4, 3.4, 8.6), (BX, BY, 0), '#54486f', bevel=0.03)
         box((4.7, 3.7, 0.3), (BX, BY, 8.6), '#4a3c66')
         for lv in range(5):
             box((4.5, 0.12, 0.12), (BX, BY - 1.72, 1.45 + lv * 1.6), '#8a7aa8')
@@ -609,7 +620,7 @@ def p1():
             lit = (lv == 3 and col == 1)
             with G('win%d_%d' % (lv, col)):
                 box((0.85, 0.08, 0.1), (x, BY - 1.72, z - 0.04), '#2a2040')
-                emis(box((0.8, 0.06, 0.8), (x, BY - 1.72, z), '#000000'), '#bfe0ff' if lit else '#1c1a48', 4.0 if lit else 0.9)
+                emis(box((0.8, 0.06, 0.8), (x, BY - 1.72, z), '#000000'), '#86c0ff' if lit else '#1c1a48', 4.0 if lit else 0.9)
                 if not lit:
                     box((0.04, 0.07, 0.8), (x, BY - 1.73, z), '#3a2c5a')
                     box((0.8, 0.07, 0.04), (x, BY - 1.73, z + 0.2), '#3a2c5a')
@@ -656,17 +667,17 @@ def p1():
         box((0.8, 0.7, 1.7), (2.6, -1.6, 0), '#2a3a8a', bevel=0.03)
         emis(box((0.6, 0.03, 1.2), (2.6, -1.97, 0.35), '#000000'), '#7ad8ff', 2.4)
     sun = light('SUN', (0, 0, 5), None, 0, '#a0b8ff')
-    sun.data.energy = 1.2
+    sun.data.energy = 0.5
     sun.rotation_euler = (math.radians(58), 0, math.radians(-28))
     light('POINT', (-2.1, -2.0, 3.2), None, 900, '#ffd89a', 0.2)
-    light('AREA', (BX - 0.05, BY - 3.0, 6.0), (BX, BY, 6.0), 1500, '#9cc8ff', 0.8, 0.8)
+    light('AREA', (BX - 0.3, BY - 2.6, 5.0), (BX, BY, 5.0), 500, '#7ab4ff', 0.6, 0.6)
     light('POINT', (2.6, -2.5, 1.0), None, 80, '#7ad8ff', 0.2)
-    cam_at((1.3, -9.5, 1.5), (-0.1, BY, 5.6), 30, 0)
+    cam_at((1.6, -12.5, 1.3), (-0.1, BY, 5.3), 28, 0)
     return sc
 
 
-def vortex_geo(c, R, scale=1.0, arms=6, per=16):
-    """Tourbillon de particules emissives (teal/or/rose) jaillissant de c vers -y."""
+def vortex_geo(c, R, scale=1.0, arms=6, per=26):
+    """Tourbillon de rubans emissifs (teal/or/rose) jaillissant de c vers -y."""
     cx, cy, cz = c
     cols = [TEALC, GOLDC, PINK]
     for a in range(arms):
@@ -674,19 +685,21 @@ def vortex_geo(c, R, scale=1.0, arms=6, per=16):
         col = cols[a % 3]
         for i in range(per):
             t = i / (per - 1)
-            ang = base + t * 2.6 * math.pi
-            r = R * (0.1 + 0.9 * t ** 0.9)
-            size = 0.17 * (1 - t * 0.55) * scale * R
-            o = box((size, size, size), (cx + math.cos(ang) * r, cy - t * 1.5 * scale, cz + math.sin(ang) * r), '#000000', (0, 0, 0), center=True)
-            o.rotation_euler = (math.radians(35), math.radians(ang * 30), math.radians(45))
-            emis(o, col, 5.0)
-    emis(sph(0.2 * R, (cx, cy - 0.04, cz), '#000000', 10, 8), '#ffffff', 10.0)
-    emis(torus(0.36 * R, 0.04 * R, (cx, cy - 0.05, cz), '#000000', 24, 5, (90, 0, 0)), TEALC, 6.0)
-    emis(torus(0.62 * R, 0.035 * R, (cx, cy - 0.3, cz), '#000000', 24, 5, (90, 0, 0)), GOLDC, 6.0)
+            ang = base + t * 2.8 * math.pi
+            r = R * (0.12 + 0.88 * t ** 0.8)
+            L = 0.16 * (1 - t * 0.5) * R
+            wd = 0.075 * (1 - t * 0.6) * R
+            o = box((L, wd, wd), (cx + math.cos(ang) * r, cy - t * 0.9 * scale, cz + math.sin(ang) * r), '#000000', center=True)
+            o.rotation_euler = (math.radians(ang * 0 + 0), math.radians(math.degrees(-ang) - 90 + 20), 0)
+            emis(o, col, 1.3)
+    emis(sph(0.2 * R, (cx, cy - 0.04, cz), '#000000', 10, 8), '#ffffff', 3.0)
+    emis(torus(0.36 * R, 0.04 * R, (cx, cy - 0.05, cz), '#000000', 24, 5, (90, 0, 0)), TEALC, 1.8)
+    emis(torus(0.62 * R, 0.035 * R, (cx, cy - 0.3, cz), '#000000', 24, 5, (90, 0, 0)), GOLDC, 1.8)
 
 
+EXPO = {4: -0.9, 5: -0.4, 1: -0.1}
 PANELS = {1: p1, 2: p2, 3: p3, 4: p4, 5: p5, 6: p6}
-GLOW = {1: 0.5, 2: 0.4, 3: 0.5, 4: 0.45, 5: 0.55, 6: 0.4}
+GLOW = {1: 0.5, 2: 0.4, 3: 0.5, 4: 0.1, 5: 0.3, 6: 0.4}
 
 
 # ---------------------------------------------------------------- rendu + post-traitement
@@ -731,7 +744,8 @@ def render_panel(n):
     sc.render.resolution_percentage = 100
     sc.view_settings.view_transform = 'Standard'
     sc.view_settings.look = 'None'
-    sc.cycles.samples = 56
+    sc.view_settings.exposure = EXPO.get(n, 0.0)
+    sc.cycles.samples = int(os.environ.get('INTRO_SAMPLES', 56))
     p = os.path.join(TMPD, 'beauty.png')
     sc.render.filepath = p
     bpy.ops.render.render(write_still=True)
@@ -741,6 +755,7 @@ def render_panel(n):
     sc.cycles.samples = 1
     sc.render.filter_size = 0.01
     sc.view_settings.view_transform = 'Raw'
+    sc.view_settings.exposure = 0.0
     sc.world.node_tree.nodes['Background'].inputs['Strength'].default_value = 0.0
     sc.world.node_tree.nodes['Background'].inputs['Color'].default_value = (0, 0, 0, 1)
     for nd in list(sc.world.node_tree.nodes['Background'].inputs['Color'].links):
@@ -821,8 +836,8 @@ def finalize(only=None):
             data[n] = np.load(f)
     sm = {n: np.clip(glow(d['small'], GLOW[n]) ** 0.92, 0, 1) for n, d in data.items()}
     mosaic = np.concatenate([sm[n] for n in sorted(sm)], axis=0)
-    q = Image.fromarray((mosaic * 255).astype(np.uint8)).quantize(colors=44, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
-    pal = np.array(q.getpalette()[:44 * 3], np.float32).reshape(-1, 3)
+    q = Image.fromarray((mosaic * 255).astype(np.uint8)).quantize(colors=64, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE)
+    pal = np.array(q.getpalette()[:64 * 3], np.float32).reshape(-1, 3)
     extra = [OLC, '#ffffff', GOLDC, TEALC, PINK, '#f2e6c9', HOOD, HOOD_L, '#ffe0b0', '#b8fff0', '#fff0a0', '#2a2858']
     pal = np.concatenate([pal, np.array([h2rgb(c) for c in extra], np.float32)], 0)
     outs = []
@@ -830,7 +845,7 @@ def finalize(only=None):
         if only and n not in only:
             continue
         d = data[n]
-        rgb = sm[n] * 255.0 + BAYER[(np.arange(H) % 4)[:, None], (np.arange(W) % 4)[None, :]][..., None] * 14.0
+        rgb = sm[n] * 255.0 + BAYER[(np.arange(H) % 4)[:, None], (np.arange(W) % 4)[None, :]][..., None] * 5.0
         col = snap_palette(rgb, pal).astype(np.uint8)
         idv, depth, sky = d['idv'], d['depth'], d['sky']
         ol = np.zeros((H, W), bool)
@@ -889,7 +904,7 @@ def fx_vortex():
     sc.cycles.use_denoising = False
     N = 8
     sc.frame_start, sc.frame_end = 0, N - 1
-    arms, per = 6, 12
+    arms, per = 6, 18
     cols = [TEALC, GOLDC, PINK]
     root = empty('vortex')
     for a in range(arms):
@@ -897,12 +912,13 @@ def fx_vortex():
         col = cols[a % 3]
         for i in range(per):
             t = i / (per - 1)
-            ang = base + t * 2.3 * math.pi
-            r = 0.3 + 2.0 * t ** 0.85
-            size = 0.55 * (1 - 0.6 * t)
-            o = box((size, 0.2, size), (math.cos(ang) * r, 0, math.sin(ang) * r), '#000000', (0, 0, 0), center=True)
-            emis(o, col if i % 5 else '#ffffff', 1.0)
-            o.rotation_euler = (0, -ang + math.radians(45), 0)
+            ang = base + t * 1.9 * math.pi
+            r = 0.35 + 2.0 * t ** 0.9
+            L = 0.30 + 0.5 * t
+            wd = 0.30 * (1 - 0.65 * t)
+            o = box((L, 0.2, wd), (math.cos(ang) * r, 0, math.sin(ang) * r), '#000000', center=True)
+            o.rotation_euler = (0, -(ang + math.pi / 2 + 0.25), 0)
+            emis(o, col if i % 7 else '#ffffff', 1.0)
             o.parent = root
     emis(sph(0.38, (0, 0.1, 0), '#000000', 12, 8), '#ffffff', 1.0)
     for R, c, w in ((0.62, TEALC, 0.09), (0.95, GOLDC, 0.07)):

@@ -21,7 +21,7 @@ def jobs():
     J = [['buildings.py', 'plot']]
     for k in BLD:
         J.append(['buildings.py', k])
-    J += [['items.py'], ['ui.py'], ['extras.py'], ['materials.py']]
+    J += [['items.py'], ['ui.py'], ['extras.py'], ['materials.py'], ['intro.py', 'panels'], ['intro.py', 'vortex', 'frame']]
     fx = ['slash', 'shield', 'stab', 'arrow', 'blast', 'heal', 'buff', 'el_feu', 'el_glace', 'el_foudre', 'el_nature',
           'el_sacre', 'el_ombre', 'el_arcane', 'ult_guerrier', 'ult_gardien', 'ult_assassin', 'ult_archer',
           'ult_sorcier', 'ult_soigneur', 'ult_soutien']
@@ -58,6 +58,10 @@ def pack():
             e.update(kind='building_map' if k.startswith('bld_') else 'building_ui', building=bk, level=lv, col=BLD_INFO[bk][1], name=BLD_INFO[bk][0])
         elif k.startswith('item_'):
             e['kind'] = 'item'
+        elif k.startswith('intro_') and k != 'intro_frame':
+            e['kind'] = 'intro'
+        elif k == 'intro_frame':
+            e.update(kind='ui', slice=12)
         elif k.startswith('mat_'):
             e['kind'] = 'material'
         elif k.startswith('res_'):
@@ -74,13 +78,13 @@ def pack():
     open(os.path.join(ASSETS, 'assets.js'), 'w').write(js)
     manifest = dict(version=1, buildings={k: dict(name=v[0], col=v[1]) for k, v in BLD_INFO.items()},
                     note="Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), "
-                         "fx_<nom> (feuilles horizontales), portail, bateau, bateau_ui.", assets=man)
+                         "fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).", assets=man)
     json.dump(manifest, open(os.path.join(ASSETS, 'manifest.json'), 'w'), indent=1, ensure_ascii=False)
     # ---- planche de contact x3 (x2 pour les grandes images) sur le fond du jeu
     W = 2400
     bg = (0x14, 0x12, 0x2a, 255)
     groups = [('bld_', 'Batiments (carte)'), ('plot_', 'Terrain'), ('portail', 'Portail'), ('res_', 'Ressources'), ('ui_', 'UI'),
-              ('item_', 'Objets'), ('mat_', 'Materiaux / evolution'), ('fx_el', 'Elements'), ('fx_ult', 'Ultimes'), ('fx_', 'Effets de role'), ('bateau', 'Bateau'), ('bldui_', 'Illustrations')]
+              ('item_', 'Objets'), ('mat_', 'Materiaux / evolution'), ('fx_el', 'Elements'), ('fx_ult', 'Ultimes'), ('fx_', 'Effets de role'), ('bateau', 'Bateau'), ('intro_', 'Intro (BD)'), ('bldui_', 'Illustrations')]
     used = set()
     placed = []
     y = 8

@@ -46,7 +46,7 @@
    "col": "#d8b838"
   }
  },
- "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales), portail, bateau, bateau_ui.",
+ "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).",
  "assets": {
   "bateau": {
    "file": "png/bateau.png",
@@ -929,6 +929,59 @@
    "frame_w": 96,
    "frame_h": 96,
    "fps": 14
+  },
+  "fx_vortex": {
+   "file": "png/fx_vortex.png",
+   "w": 768,
+   "h": 96,
+   "kind": "fx",
+   "frames": 8,
+   "frame_w": 96,
+   "frame_h": 96,
+   "fps": 14
+  },
+  "intro_1": {
+   "file": "png/intro_1.png",
+   "w": 320,
+   "h": 180,
+   "kind": "intro"
+  },
+  "intro_2": {
+   "file": "png/intro_2.png",
+   "w": 320,
+   "h": 180,
+   "kind": "intro"
+  },
+  "intro_3": {
+   "file": "png/intro_3.png",
+   "w": 320,
+   "h": 180,
+   "kind": "intro"
+  },
+  "intro_4": {
+   "file": "png/intro_4.png",
+   "w": 320,
+   "h": 180,
+   "kind": "intro"
+  },
+  "intro_5": {
+   "file": "png/intro_5.png",
+   "w": 320,
+   "h": 180,
+   "kind": "intro"
+  },
+  "intro_6": {
+   "file": "png/intro_6.png",
+   "w": 320,
+   "h": 180,
+   "kind": "intro"
+  },
+  "intro_frame": {
+   "file": "png/intro_frame.png",
+   "w": 48,
+   "h": 48,
+   "kind": "ui",
+   "slice": 12
   },
   "item_arbalete": {
    "file": "png/item_arbalete.png",

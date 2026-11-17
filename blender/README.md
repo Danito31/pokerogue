@@ -25,6 +25,7 @@ dans `new Image().src` ; fonctionne en `file://`).
 | `ui.py` | icônes de ressources 16×16, étoiles, cadre 9-slice, boutons, ornements |
 | `fx.py` | effets d'attaque animés (feuilles de sprites) |
 | `extras.py` | portail de la tour, bateau montgolfier |
+| `intro.py` | intro en BD : `intro_1..6` (320x180, scènes en perspective éclairées + palette commune + contours), `fx_vortex` (8x96x96), `intro_frame` (9-slice 12) |
 | `rerender.py` | re-rend un `.blend` retouché |
 | `build_all.py` | enchaîne tout et empaquette |
 
