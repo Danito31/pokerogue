@@ -25,7 +25,7 @@ async function runBattle(cfg){mode='battle';FXS=[];clrLabs();$('#toast').hidden=
  if(cfg.ward){const ch=B.E.find(e=>e.kind=='mini')||B.E[0];B.ward={hp:Math.round(ch.atk*14),mhp:Math.round(ch.atk*14),n:'Cristal-phare',fl:0};B.wardT=8}
  battleStart();B.A.forEach(u=>{const it=u.c.eq&&u.c.eq.outil;if(it&&it.t=='elixir'&&it.q>0&&u.en<50){u.en=Math.min(100,u.en+50);useQ(u,it)}});layout();bakeBG();lawInfo();
  $('#bpar').innerHTML=B.A.map((u,i)=>`<div class="pc px" id="pc${i}" onclick="pressU(${i})"><span class="u">ULTIME</span><img src="${u.spr.head}" alt=""><div class="pn">${u.n}</div><div class="bar"><i></i><b></b></div><div class="bar en"><i></i></div></div>`).join('');hud();setSP(0);
- B.tg=real()[0];flashT(cfg.adv>0?'AVANTAGE !':cfg.adv<0?'EMBUSCADE !':'COMBAT !');if(cfg.adv>0)B.E.forEach(e=>{e.av*=1.6;e.tough=Math.ceil(e.tough*.6)});if(cfg.adv<0)B.A.forEach(a=>a.av*=1.6);say(cfg.adv>0?'Vous frappez les premiers !':cfg.adv<0?'L’ennemi vous surprend !':'Le combat commence.');await sleep(700);
+ B.tg=real()[0];flashT(cfg.adv>1?'EMBUSCADE RÉUSSIE !':cfg.adv>0?'AVANTAGE !':cfg.adv<0?'EMBUSCADE !':'COMBAT !');if(cfg.adv>0)B.E.forEach(e=>{e.av*=cfg.adv>1?2.2:1.6;e.tough=Math.ceil(e.tough*.6)});if(cfg.adv<0)B.A.forEach(a=>a.av*=1.6);say(cfg.adv>1?'Ils ne vous ont pas vus : embuscade !':cfg.adv>0?'Vous frappez les premiers !':cfg.adv<0?'L’ennemi vous surprend !':'Le combat commence.');await sleep(700);
  let res=null;while(!res){
   while(B.ultQ.length&&!res){const u=B.ultQ.shift();if(u.alive&&u.en>=100){await doUlt(u);res=await over()}}if(res)break;
   const us=B.A.concat(B.E).filter(u=>u.alive);let u=us[0];us.forEach(x=>{if(x.av<u.av)u=x});const d=u.av;us.forEach(x=>x.av-=d);B.cur=u;drawTL();
