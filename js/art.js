@@ -118,8 +118,8 @@ function drawChar(c,fr){const L0=c.look||look(c),RS=RSKIN[c.race],L=RS?Object.as
 const CS={};
 /* portrait 20×18 recadré dans l'image idle (redéfini par chibi.js) */
 function headC(i0){const h=mkc(20,18);h.getContext('2d').drawImage(i0,6,1,20,18,0,0,20,18);return h}
-function cs(c){const L=c.look,k=c.id+':'+c.st+':'+c.role+':'+c.elem+':'+c.race+(L?':'+[L.skin,L.hair,L.eye,L.style,L.face|0,L.body|0,L.acc|0,L.cape|0,L.tn|0].join(','):'')+(typeof CHIBI!='undefined'&&CHIBI?':c'+(c.eq&&c.eq.arme?c.eq.arme.t:''):'');if(CS[k])return CS[k];const f=fr=>drawChar(c,fr),i0=f({b:0}),s={idle:[i0,f({b:1})],walk:[f({b:0,st:1}),f({b:1}),f({b:0,st:2}),f({b:1})],atk:f({at:1})};
- if(ASSETS['sprite_'+c.name]){const im=new Image();im.src=ASSETS['sprite_'+c.name];im.onload=()=>{const k2=mkc(32,30);k2.getContext('2d').drawImage(im,0,0,32,30);s.idle=[k2,k2];s.walk=[k2,k2,k2,k2];s.atk=k2;s.white=tintC(k2,'#fff');s.glow=glowC(k2)}}
+function cs(c){const L=c.look,k=c.id+':'+c.st+':'+c.role+':'+c.elem+':'+c.race+(L?':'+[L.skin,L.hair,L.eye,L.style,L.face|0,L.body|0,L.acc|0,L.cape|0,L.tn|0].join(','):'')+(typeof CHIBI!='undefined'&&CHIBI?':c'+(c.eq&&c.eq.arme?c.eq.arme.t:''):'');if(CS[k])return CS[k];const f=fr=>drawChar(c,fr),i0=f({b:0}),s={idle:[i0,f({b:1})],walk:[f({b:0,st:1}),f({b:1}),f({b:0,st:2}),f({b:1})],atk:f({at:1})};s.ko=f({b:0,ko:1});
+ if(ASSETS['sprite_'+c.name]){const im=new Image();im.src=ASSETS['sprite_'+c.name];im.onload=()=>{const k2=mkc(32,30);k2.getContext('2d').drawImage(im,0,0,32,30);s.idle=[k2,k2];s.walk=[k2,k2,k2,k2];s.atk=k2;s.ko=k2;s.white=tintC(k2,'#fff');s.glow=glowC(k2)}}
  s.white=tintC(i0,'#fff');s.glow=glowC(i0);s.url=scaleC(s.glow,3).toDataURL();s.head=scaleC(headC(i0,c),2).toDataURL();return CS[k]=s}
 /* ---------- monstres (tournés vers la droite) ---------- */
 const MS={};

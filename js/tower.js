@@ -123,7 +123,7 @@ function drawFloor(){const p=F.p,bi=F.bi,W=N*16;camTo(p.x,p.y-10,W,W);X.drawImag
   else if(e.t=='chest')dS(miscSprite(e.used?'chesto':'chest'),a,b);
   else if(e.t=='fire'){dS(miscSprite('fire'),a,b+2);if(!e.used){const fl=Math.floor(T*10)%3;X.fillStyle='#ff8a3a';X.fillRect(a-3,b-8-fl,6,7+fl);X.fillStyle='#ffcf4a';X.fillRect(a-2,b-6-fl,4,5);X.fillStyle='#fff';X.fillRect(a-1,b-4,2,2);if(Math.random()<.3)parts.push({x:e.x+rnd(-3,3),y:e.y-10,vx:rnd(-4,4),vy:-rnd(14,26),l:.6,c:'#ffb04a',w:1})}}
   else if(e.t=='altar'){dS(miscSprite('altar'),a,b+2);if(e.used){X.fillStyle='rgba(20,10,40,.5)';X.fillRect(a-3,b-16,7,7)}}
-  else if(e.t=='hurt'){if(!e.used){if(e.vip&&Math.random()<.15)parts.push({x:e.x+rnd(-8,8),y:e.y-rnd(4,16),vx:0,vy:-12,l:.6,c:'#ffcf4a',w:1});const s=cs(e.c).idle[0];X.save();X.translate(Math.round(a),Math.round(b));X.rotate(-Math.PI/2);X.drawImage(s,-6,-16);X.restore();X.fillStyle='#fff';X.fillRect(a-1,b-22+Math.round(Math.sin(T*4)),2,5);X.fillRect(a-1,b-15+Math.round(Math.sin(T*4)),2,2)}}
+  else if(e.t=='hurt'){if(!e.used){if(e.vip&&Math.random()<.15)parts.push({x:e.x+rnd(-8,8),y:e.y-rnd(4,16),vx:0,vy:-12,l:.6,c:'#ffcf4a',w:1});const s=cs(e.c).ko||cs(e.c).idle[0];X.save();X.translate(Math.round(a),Math.round(b));X.rotate(-Math.PI/2);X.drawImage(s,-6,-16);X.restore();X.fillStyle='#fff';X.fillRect(a-1,b-22+Math.round(Math.sin(T*4)),2,5);X.fillRect(a-1,b-15+Math.round(Math.sin(T*4)),2,2)}}
   else if(e.t=='lever'){dS(miscSprite(e.used?'levero':'lever'),a,b+2)}
   else if(e.t=='stele'){dS(miscSprite('stele'),a,b+2);X.fillStyle='#4de0c0';X.fillRect(a-1,b-26+Math.round(Math.sin(T*3)),2,2)}
   else if(e.t=='firex'){dS(miscSprite('fire'),a,b+2);X.fillStyle='#bfe8ff';X.fillRect(a-3,b-7,6,6);X.fillStyle='#fff';X.fillRect(a-2,b-6,2,2)}
