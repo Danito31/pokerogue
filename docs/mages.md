@@ -95,7 +95,7 @@ Modules (§16.3), niveaux 1–3, après la Nacelle, niveau ≤ niveau du Chantie
 Bonus du pilote selon son domaine (§16.2) : Arcanique protection +20 %, Temporelle vitesse +20 %, Élémentaire détection +1, Obscure camouflage +10 ; Naturelle et Sacrée : bonus de voyage notés « à venir ». *Navigation stellaire* : vitesse +10 %.
 
 ## 7. Mages et recherches (bible §9)
-Un mage (`c.mage` = domaine, 1 % des invocations) s’obtient aussi par l’**aventurier de passage** (8 %) ou l’**Appel aux mages** de la Tour : 800 or, 2 cristaux, 1 essence arcanique, toutes les 12 h, mage garanti (1★ 40 %, 2★ 40 %, 3★ 17 %, 4★ 3 %), domaine au hasard.
+Un mage (`c.mage` = domaine, 1 % des invocations) s’obtient aussi par l’**aventurier de passage** (8 %) ou l’**Appel aux mages** de la Tour : 800 or, 2 cristaux, 1 essence arcanique, toutes les 12 h, mage garanti (1★ 40 %, 2★ 40 %, 3★ 17 %, 4★ 3 %), domaine au hasard. Tant que le village n'a aucun mage, l'Appel est exaucé même si l'Auberge est pleine (sinon un village plein de 3★+, qu'on ne peut pas sacrifier, ne pouvait plus jamais obtenir de pilote pour le bateau).
 
 Chaque mage en poste à la Tour mène **une** recherche (`G.mrs.run`) ; elle n’avance que pendant qu’il travaille (en poste, ni blessé ni dans l’équipe), jeu fermé compris. Rang de recherche ≤ niveau de la Tour.
 

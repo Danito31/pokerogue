@@ -74,6 +74,8 @@ function PAGE(SEED, POL, MAXF) {
   const _ms = mkSell; mkSell = function () { const g0 = G.res.gold, r = _ms.apply(this, arguments); S.gsrc.marche += G.res.gold - g0; return r };
   const _rc = recycle; recycle = function () { const g0 = G.res.gold, r = _rc.apply(this, arguments); S.gsrc.demantele += G.res.gold - g0; return r };
   const _gt = galTradeL; galTradeL = function () { const g0 = G.res.gold, r = _gt.apply(this, arguments); if (G.res.gold > g0) S.gsrc.galaxie += G.res.gold - g0; return r };
+  /* un humain fuirait un combat interminable : au-delà de 600 tours d'unités, on bat en retraite (et on l'enregistre) */
+  const _ap = aiPick; aiPick = function (u) { if (B && B.tn > 600) { if (!B.stale) { B.stale = 1; S.st.stale = (S.st.stale || 0) + 1; L('stale', { f: F && F.f, kind: B.kind, foes: B.E.filter(e => e.alive).map(e => [e.type, e.kind, e.mech, Math.round(100 * e.hp / e.mhp)]), allies: B.A.map(a => [a.n, a.alive, Math.round(100 * a.hp / a.mhp)]) }) } return { t: 'flee' } } return _ap.apply(this, arguments) };
   const _ts = turnStart; turnStart = function (u) { if (S.cur && u && u.ally) S.cur.allyT++; return _ts.apply(this, arguments) };
   const _ih = injHit; injHit = function (c, k, o) { S.st.inj++; if (S.fl) S.fl.inj.push(k); return _ih.apply(this, arguments) };
   const _id = injDie; injDie = function (c) { S.st.deaths++; if (S.fl) S.fl.deaths.push(c.name); return _id.apply(this, arguments) };
@@ -364,7 +366,7 @@ function PAGE(SEED, POL, MAXF) {
     await evtDone();
   }
   async function climb(f, noEnter) {
-    S.fl = { f, fights: [], inj: [], deaths: [], events: [], t0: S.act, lvA: lvAvg(), party: party().map(c => [c.name, c.lv, c.st, c.role]), res0: snapRes(), mats0: matTot(), chars0: G.chars.length, items0: G.items.length };
+    S.fl = { f, fights: [], inj: [], deaths: [], events: [], t0: S.act, lvA: lvAvg(), party: party().map(c => [c.name, c.lv, c.st, c.role]), res0: snapRes(), dead0: G.dead.length, mats0: matTot(), chars0: G.chars.length, items0: G.items.length };
     { const P = party(), hpM = 130 * fScale(f, 1.2, 1.1), atkM = 24 * fScale(f, 1.16, 1.08), defM = 10 + 3 * f; const v = P.map(c => stats(c)); S.fl.ttk = +(v.reduce((a, x) => a + hpM / (x.atk * 100 / (100 + defM)), 0) / Math.max(1, v.length)).toFixed(2); S.fl.surv = +(v.reduce((a, x) => a + x.hp / (atkM * 100 / (100 + x.def)), 0) / Math.max(1, v.length)).toFixed(1) }
     if (!noEnter) enterFloor(f); spend(45);
     let res = 'win', step = 0;
@@ -413,7 +415,7 @@ function PAGE(SEED, POL, MAXF) {
     if (mode != 'village') { try { await leaveFloor('quit') } catch (_) { enterVillage() } }
     closePanel(); spend(20);
     const fl = S.fl, wins = fl.fights.filter(x => x.res == 'win').length;
-    W.LOG.push({ t: 'floor', day: S.day, h: +(W.__off / 3600e3).toFixed(2), act: +(S.act / 3600).toFixed(2), f, res, dur: S.act - fl.t0, lvA: +fl.lvA.toFixed(1), party: fl.party, partyEnd: party().map(c => [c.name, c.lv, c.st]), fights: fl.fights.length, wins, ttk: fl.ttk, surv: fl.surv, rounds: fl.fights.length ? +(fl.fights.reduce((a, x) => a + x.rounds, 0) / fl.fights.length).toFixed(1) : 0, maxRounds: Math.max(0, ...fl.fights.map(x => x.rounds)), lost: fl.fights.reduce((a, x) => a + x.lost, 0), inj: fl.inj, deaths: fl.deaths, events: fl.events, gold: G.res.gold | 0, d: { gold: (G.res.gold | 0) - fl.res0.gold, wood: (G.res.wood | 0) - fl.res0.wood, stone: (G.res.stone | 0) - fl.res0.stone, food: (G.res.food | 0) - fl.res0.food, shard: (G.res.shard | 0) - fl.res0.shard, mats: matTot() - fl.mats0, chars: G.chars.length - fl.chars0, items: G.items.length - fl.items0 }, max: G.max, nchars: G.chars.length, rs: snapRes(), mats: matTot() });
+    W.LOG.push({ t: 'floor', day: S.day, h: +(W.__off / 3600e3).toFixed(2), act: +(S.act / 3600).toFixed(2), f, res, dur: S.act - fl.t0, lvA: +fl.lvA.toFixed(1), party: fl.party, partyEnd: party().map(c => [c.name, c.lv, c.st]), fights: fl.fights.length, wins, ttk: fl.ttk, surv: fl.surv, rounds: fl.fights.length ? +(fl.fights.reduce((a, x) => a + x.rounds, 0) / fl.fights.length).toFixed(1) : 0, maxRounds: Math.max(0, ...fl.fights.map(x => x.rounds)), lost: fl.fights.reduce((a, x) => a + x.lost, 0), inj: fl.inj, deaths: G.dead.slice(fl.dead0), events: fl.events, gold: G.res.gold | 0, d: { gold: (G.res.gold | 0) - fl.res0.gold, wood: (G.res.wood | 0) - fl.res0.wood, stone: (G.res.stone | 0) - fl.res0.stone, food: (G.res.food | 0) - fl.res0.food, shard: (G.res.shard | 0) - fl.res0.shard, mats: matTot() - fl.mats0, chars: G.chars.length - fl.chars0, items: G.items.length - fl.items0 }, max: G.max, nchars: G.chars.length, rs: snapRes(), mats: matTot() });
     S.fl = null;
     if (res == 'win') S.fails[f] = 0; else S.fails[f] = (S.fails[f] || 0) + 1;
     return res;

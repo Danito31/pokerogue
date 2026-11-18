@@ -41,10 +41,10 @@ Poids du rang N : `base[N] × (1 + étage/20)^(N−1)` avec base = 100 / 30 / 8 
 ### Tableau des sources
 | Source | Gains |
 |---|---|
-| Combat gagné | par monstre (4 au plus) 40 % (élite/champion 80 %) : gelée → poussière/tissu, loup/chacal → croc/cuir, squelette → minerai/poussière, golem → minerai/noyau, spectre/sporion → tissu/poussière, cristal → cristal/poussière ; +1 si élite, chance +1 croissante avec l'étage. Essence d'un élément du biome : 30 % (50 % élite/gardien), quantité 1 + ⌊étage/12⌋. 15 % : bois ouvragé (biome boisé) ou minerai. Élite : 20 % noyau. |
+| Combat gagné | par monstre (4 au plus) 40 % (élite/champion 80 %) : gelée → poussière/tissu, loup/chacal → croc/cuir, squelette → minerai/poussière, golem → minerai/noyau, spectre/sporion → tissu/poussière, cristal → cristal/poussière ; +1 si élite, chance +1 croissante avec l'étage. Essence d'un élément du biome : 30 % (50 % élite/gardien), quantité 1 + ⌊étage/12⌋. 15 % : bois ouvragé (biome boisé) ou minerai. Élite : 10 % noyau (20 % auparavant). |
 | Gardien d'étage normal | 35 % : un parchemin/pierre/tome du rang de l'étage |
-| Quête (étage ×5) | 1 parchemin + 1 pierre ou tome (rang de l'étage), 50 % noyau ; pacte : ×2 |
-| Boss (étage ×10) | 2 parchemins + 1 pierre + 1 tome (rang boss = étage +10), 2 noyaux ; pacte : ×2 |
+| Quête (étage ×5) | 1 parchemin + 1 pierre ou tome (rang de l'étage), 25 % noyau (50 % auparavant) ; pacte : ×2 |
+| Boss (étage ×10) | 2 parchemins + 1 pierre + 1 tome (rang boss = étage +10), 1 noyau (2 auparavant) ; pacte : ×2 |
 | Coffre | 55 % : 1–2 matériaux de base (+1 tous les 10 étages) ; 26 % : un ingrédient d'évolution |
 | Coffre verrouillé | 1 ingrédient d'évolution (étage +5) + 2 matériaux |
 | Tas de bois / pierre / herbes | 35 % bois ouvragé / 35 % 1–2 minerais / 20 % tissu |
@@ -62,8 +62,8 @@ Condition : **niveau maximal du rang** (`cap = 10 × ★` : 1★ 10 · 2★ 20 �
 | Éveil | Parchemins | Essence de son élément | Autres | Or |
 |---|---|---|---|---|
 | 1★ → 2★ | ★1 × 2 | 2 | – | 300 |
-| 2★ → 3★ | ★2 × 3 | 4 | cristal 1 | 900 |
-| 3★ → 4★ | ★3 × 4 | 6 | cristal 3 | 2 500 |
+| 2★ → 3★ | ★2 × 3 | 4 | cristal 1 | 1 200 (900 auparavant) |
+| 3★ → 4★ | ★3 × 4 | 6 | cristal 3 | 4 000 (2 500 auparavant) |
 | 4★ → 5★ | ★4 × 5 | 10 | noyau 2 | 6 000 |
 | 5★ → 6★ | ★5 × 6 | 15 | noyau 4, cristal 6 | 15 000 |
 | 6★ Constellation ✦1/✦2/✦3 | ★6 × 1/2/3 | 20 | noyau 5 | 25 000 / 50 000 / 75 000 |

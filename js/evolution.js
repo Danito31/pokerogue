@@ -47,15 +47,15 @@ const madd=(o,k,n)=>{o[k]=(o[k]||0)+n;return o};
 /* combat gagné : monstres → matériaux, biome → essences de ses éléments */
 function fightDrops(cfg,f,bi){const ch=PRk('chasseur'),o={},big=d=>d.kind=='elite'||d.kind=='mini'||d.kind=='boss',defs=(cfg.defs||[]).concat(...(cfg.waves||[]));
  shuffle(defs).slice(0,4).forEach(d=>{const L=MDROP[d.type];if(L&&Math.random()<Math.min(.95,(big(d)?.8:.4)+.05*ch))madd(o,pick(L),1+(big(d)?1:0)+(Math.random()<f/40?1:0))});
- if(defs.some(d=>d.kind=='elite')&&Math.random()<.2)madd(o,'mat_noyau',1);if(ch>=4&&defs.some(d=>d.kind=='elite'))madd(o,pick(['mat_croc','mat_cuir']),1);if(PE('chasseur')&&defs.some(d=>d.kind=='elite')&&Math.random()<.03)madd(o,evoDrop(f,'parchemin'),1);
+ if(defs.some(d=>d.kind=='elite')&&Math.random()<.1)madd(o,'mat_noyau',1);if(ch>=4&&defs.some(d=>d.kind=='elite'))madd(o,pick(['mat_croc','mat_cuir']),1);if(PE('chasseur')&&defs.some(d=>d.kind=='elite')&&Math.random()<.03)madd(o,evoDrop(f,'parchemin'),1);
  if(Math.random()<(cfg.kind=='norm'?.3:.5))madd(o,'mat_essence_'+pick(bi.el),1+Math.floor(f/12));
  if(Math.random()<.15)madd(o,bi.res=='wood'?'mat_bois':'mat_minerai',1);return o}
 /* gardien vaincu : quêtes et boss donnent toujours des ingrédients d'évolution */
-function guardDrops(f,kind,pact){const o={};if(kind=='boss'){madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'pierre',1),1);madd(o,evoDrop(f,'tome',1),1);madd(o,'mat_noyau',2)}
- else if(kind=='mini'){madd(o,evoDrop(f,'parchemin'),1);madd(o,evoDrop(f,pick(['pierre','tome'])),1);if(Math.random()<.5)madd(o,'mat_noyau',1)}
+function guardDrops(f,kind,pact){const o={};if(kind=='boss'){madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'pierre',1),1);madd(o,evoDrop(f,'tome',1),1);madd(o,'mat_noyau',1)}
+ else if(kind=='mini'){madd(o,evoDrop(f,'parchemin'),1);madd(o,evoDrop(f,pick(['pierre','tome'])),1);if(Math.random()<.25)madd(o,'mat_noyau',1)}
  else if(Math.random()<.35)madd(o,evoDrop(f),1);if(pact)for(const k in o)o[k]*=2;return o}
 /* ---------- évolution des personnages ---------- */
-const EVOC=[null,{p:2,e:2,g:300},{p:3,e:4,g:900,x:{mat_cristal:1}},{p:4,e:6,g:2500,x:{mat_cristal:3}},{p:5,e:10,g:6000,x:{mat_noyau:2}},{p:6,e:15,g:15000,x:{mat_noyau:4,mat_cristal:6}}];
+const EVOC=[null,{p:2,e:2,g:300},{p:3,e:4,g:1200,x:{mat_cristal:1}},{p:4,e:6,g:4000,x:{mat_cristal:3}},{p:5,e:10,g:6000,x:{mat_noyau:2}},{p:6,e:15,g:15000,x:{mat_noyau:4,mat_cristal:6}}];
 const SUBP=.35;
 function cEvoCost(c){const o={};if(c.st<6){const E=EVOC[c.st];o['mat_parchemin_'+c.st]=E.p;o['mat_essence_'+c.elem]=E.e;Object.assign(o,E.x||{});o.gold=E.g;return o}const t=c.tr||0;if(t>=3)return null;o.mat_parchemin_6=t+1;o['mat_essence_'+c.elem]=20;o.mat_noyau=5;o.gold=25000*(t+1);return o}
 const cEvoReady=c=>c.lv>=cap(c)&&!!cEvoCost(c)&&(c.st<6||awOf(c)>=3);
