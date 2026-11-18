@@ -53,7 +53,7 @@ Poids du rang N : `base[N] × (1 + étage/20)^(N−1)` avec base = 100 / 30 / 8 
 | Loi du gel | tous ces gains doublés (comme le reste du butin) |
 | Invocation « matériaux » | la part équipement reste 13,13 % ; les 26,26 % restants donnent 4–10 bois, 3–8 pierre, 1–3 matériaux de base, 50 % un matériau de plus, 30 % un parchemin/tome/pierre (★1 80 %, ★2 18 %, ★3 2 %). Totaux de la bible inchangés (39,39 % / 50 / 9 / 1 / 0,5 / 0,1 / 0,01). |
 | Démantèlement (Réserve) | or : 5 × ★² + 8 × renfort ; matériau principal de la famille × ★ ; matériau noble ⌊(★−1)/2⌋ dès 3★ ; poussière ★−1 dès 2★ ; pierre d'éveil ★(N−1) dès 3★ ; minerai = niveau de renfort ; pierre ★6 = transcendance |
-| Sacrifice (1★ ou 2★ non verrouillé, double confirmation conservée) | 1★ : 40 exp. + 3 fragments + 1 essence de son élément ; 2★ : 120 exp. + 8 fragments + 2 essences |
+| Sacrifice (tout personnage non verrouillé, hors héros et Jeanne ; double confirmation, **triple dès 3★**) | exp. = base(★) × (1 + niv./plafond) pour le membre d'équipe le moins avancé, base 100 / 300 / 580 / 920 / 1 310 / 1 760 (1★ → 6★) ; fragments 4 / 10 / 25 / 50 / 100 / 200 ; essences de son élément = ★ ; dès 3★ un parchemin d'évolution ★(N−2) ; or = 10 × ★² + 3 × niv. Équipement rendu à la réserve. Aperçu de la récompense affiché sous le bouton ; toast détaillé après coup. Le « Renvoyer » (3★+, sans récompense) reste disponible. Les 3★+ étant très rares à l'invocation (≤ 1 %), la boucle invoquer → sacrifier ne rapporte rien de plus que le coût en or. |
 
 ## 3. Éveil des personnages (Auberge → onglet « Autel d'éveil », fiche, équipe)
 
