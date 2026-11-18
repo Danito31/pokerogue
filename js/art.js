@@ -31,7 +31,9 @@ const TNC=[null,'#c03a3a','#2f9a5a','#2a2a48','#d0a030','#e070b0','#f2f2f6'],CAP
 const mixH=(a,b,k)=>{const A=h2r(a),B=h2r(b);return r2h(...A.map((v,i)=>Math.round(v+(B[i]-v)*k)))};
 function charPal(c,L){const rc=({guerrier:['#b9c4d8','#3558b8'],gardien:['#8791a8','#8a3a3a'],assassin:['#34304a','#c0392b'],archer:['#3f8f52','#7a5a36'],sorcier:['#6a48b8','#e0b040'],soigneur:['#f2ecdd','#3fb0a0'],soutien:['#2c3458','#c0392b']}[c.role]||['#b9c4d8','#3558b8']).slice(),tn=TNC[L.tn|0];if(tn){rc[0]=mixH(rc[0],tn,.6);rc[1]=mixH(rc[1],sh(tn,-.25),.7)}const metal=c.role=='guerrier'||c.role=='gardien',E=ELEMS[c.elem].c;
  return[null,L.skin,L.hair,L.eye,metal?rc[0]:hue(rc[0],L.hue),metal?hue(rc[1],L.hue*4):rc[1],E,'#c9d2e2','#5a3d2e','#ffffff','#241a30','#8a5a34','#e6edf7',c.st>=5?'#ffd75a':'#e0b040','#ff9a9a',sh(E,.4),sh(E,-.3),'#2a2438',CAPC[L.cape|0]||'#b02a3a',ACCC[L.acc|0]||L.hair]}
-function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,hs=L.style|0,fc=L.face|0,bd=L.body|0,sm=(c.race=='Nain'||c.race=='Gobelin'||bd==3)?2:0,o=b+sm,big=c.race=='Orc'||bd==2?1:bd==1?-1:0,at=fr.at||0,robe=R=='sorcier'||R=='soigneur',metal=R=='guerrier'||R=='gardien',x0=10-big,x1=19+big;
+/* races rares du tirage du héros (docs/intro.md §7) : teint et yeux imposés */
+const RSKIN={'Démon':['#8a3a52','#ff3a3a'],'Mort-vivant':['#9fb4a0','#c8ff6a']};
+function drawChar(c,fr){const L0=c.look||look(c),RS=RSKIN[c.race],L=RS?Object.assign({},L0,{skin:RS[0],eye:RS[1]}):L0,g=SG(30,28),R=c.role,b=fr.b||0,hs=L.style|0,fc=L.face|0,bd=L.body|0,sm=(c.race=='Nain'||c.race=='Gobelin'||bd==3)?2:0,o=b+sm,big=c.race=='Orc'||bd==2?1:bd==1?-1:0,at=fr.at||0,robe=R=='sorcier'||R=='soigneur',metal=R=='guerrier'||R=='gardien',x0=10-big,x1=19+big;
  if(c.st>=4&&!(L.cape>0&&L.cape<3))for(let y=16;y<=25;y++)g.row(y+b,8-big-(y>21?1:0),21+big+(y>21?1:0),CP,y>23?3:2);
  if(L.style==2)for(let y=8;y<=21;y++)g.row(y+o,7,22,HR,y>19?3:0);
  if(L.style==3)[[5,6],[4,7],[3,8],[3,9],[3,10],[3,11],[4,12],[4,13],[5,14],[5,15],[6,16]].forEach(([x,y],i)=>g.r(x,y+o,3,1,HR,i>7?3:i<2?1:0));
@@ -39,6 +41,13 @@ function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,h
  if(hs==7){[[21,4],[22,5],[23,6],[23,7],[24,8],[24,9],[24,10],[24,11],[23,12],[23,13]].forEach(([x,y],i)=>g.r(x,y+o,2,1,HR,i>7?3:i<2?1:0));g.p(22,5+o,AC,2)}
  if(hs==10){g.e(14.5,6+o,9.5,6.5,HR,0);g.tone(12,2+o,4,2,1)}
  const cpC=[0,'#b02a3a','#2a2048','#e0b040'][L.cape|0];if(cpC&&L.cape<3)for(let y=15;y<=25;y++)g.row(y+b,8-big-(y>21?1:0),21+big+(y>21?1:0),CO,y>23?3:y<17?1:2);
+ /* ailes (Ange, Fée, Démon), derrière le corps */
+ const wing=(W,col)=>W.forEach(([x,y,w],i)=>{g.r(x,y+o,w,1,col,i<2?1:i>W.length-3?3:2);g.r(30-x-w,y+o,w,1,col,i<2?1:i>W.length-3?3:2)});
+ if(c.race=='Ange')wing([[3,11,3],[2,12,5],[2,13,6],[2,14,7],[3,15,6],[3,16,6],[4,17,5],[5,18,4],[6,19,3],[7,20,2]],WH);
+ if(c.race=='Fée')wing([[4,9,3],[3,10,4],[3,11,5],[4,12,5],[6,13,3],[6,15,3],[5,16,4],[4,17,4],[5,18,3]],GL);
+ if(c.race=='Démon')wing([[2,9,1],[2,10,2],[3,11,3],[3,12,5],[4,13,5],[3,14,6],[5,15,4],[4,16,4],[6,17,2]],D2);
+ if(c.race=='Démon'){[[23,20],[24,19],[25,18],[25,17],[26,16]].forEach(([x,y])=>g.r(x,y+o,1,1,D2,2));g.r(26,14+o,2,2,D2,1);g.p(27,13+o,D2,1)}
+ if(c.race=='Dragonide'){[[22,21],[23,21],[24,20],[25,19],[26,18],[26,17]].forEach(([x,y],i)=>g.r(x,y+o,i<2?2:1,2,AC,i%2?3:2))}
  if(R=='archer'){g.r(5,13+o,3,8,LE);g.p(5,12+o,WH,2);g.p(7,12+o,WH,2);g.p(6,11+o,WH,2)}
  if(c.race=='Homme-bête')[[23,20],[24,19],[25,18],[25,17],[24,16]].forEach(([x,y])=>g.r(x,y+o,2,1,HR));
  const legC=metal?ME:R=='archer'?SE:R=='soutien'||R=='assassin'?D2:MA;
@@ -90,6 +99,11 @@ function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,h
  if(c.race=='Orc'){g.p(12,13+o,WH,2);g.p(17,13+o,WH,2);g.p(12,12+o,WH,2);g.p(17,12+o,WH,2)}
  if(c.race=='Homme-bête'){[[9,2],[10,1],[10,2],[11,2],[10,0]].forEach(([x,y])=>{g.p(x,y+o,HR);g.p(29-x,y+o,HR)});g.p(10,2+o,BS,2);g.p(19,2+o,BS,2)}
  if(c.race=='Nain'){for(let y=12;y<=16;y++)g.row(y+o,y<14?9:10+(y-14),y<14?20:19-(y-14),HR,y>14?3:0);g.row(13+o,13,16,SK,3)}
+ if(c.race=='Fée'){g.p(7,10+o,SK);g.p(6,9+o,SK);g.p(22,10+o,SK);g.p(23,9+o,SK);g.p(5,7+o,WH,1);g.p(24,6+o,GL,1)}
+ if(c.race=='Ange'){g.row(o,11,18,GD,1);g.p(10,1+o,GD,2);g.p(19,1+o,GD,2)}
+ if(c.race=='Démon'){[[10,2],[9,1],[9,0],[8,0]].forEach(([x,y],i)=>{g.p(x,y+o,DK,i?1:2);g.p(29-x,y+o,DK,i?1:2)});g.p(14,13+o,WH,2)}
+ if(c.race=='Dragonide'){[[10,2],[9,1],[9,2]].forEach(([x,y])=>{g.p(x,y+o,BL,1);g.p(29-x,y+o,BL,1)});[[9,11],[10,12],[20,11],[19,12],[8,10],[21,10]].forEach(([x,y])=>g.p(x,y+o,AC,2))}
+ if(c.race=='Mort-vivant'){g.row(13+o,12,17,DK,3);[13,15,17].forEach(x=>g.p(x,12+o,DK,3));g.r(17,5+o,4,1,WH,2);g.r(18,6+o,3,1,WH,3)}
  if(c.st>=6){g.row(0+o,12,17,GD,1);g.p(11,1+o,GD,1);g.p(18,1+o,GD,1)}
  /* armes */
  if(R=='guerrier'||(R=='gardien')){const n=R=='gardien'?5:8;if(at)for(let i=0;i<n;i++){const x=22+i,y=18+o-Math.floor(i*.7);g.p(x,y,BL,1);g.p(x,y+1,BL,3)}else for(let i=0;i<n;i++){const x=7-i,y=20+o+Math.floor(i*.8);g.p(x,y,BL,1);g.p(x,y+1,BL,3)}
@@ -102,7 +116,7 @@ function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,h
  else{for(let y=2+o;y<=27;y++)g.p(23,y,WD,y%3?2:3);for(let y=3;y<=9;y++)g.row(y+o,24,29-(y%2),AC,y==9?3:0);g.row(4+o,25,27,GD,2);g.p(26,6+o,WH,2);g.p(23,1+o,GD,1)}
  return bake(g,charPal(c,L))}
 const CS={};
-function cs(c){const L=c.look,k=c.id+':'+c.st+':'+c.role+':'+c.elem+(L?':'+[L.skin,L.hair,L.eye,L.style,L.face|0,L.body|0,L.acc|0,L.cape|0,L.tn|0].join(','):'');if(CS[k])return CS[k];const f=fr=>drawChar(c,fr),i0=f({b:0}),s={idle:[i0,f({b:1})],walk:[f({b:0,st:1}),f({b:1}),f({b:0,st:2}),f({b:1})],atk:f({at:1})};
+function cs(c){const L=c.look,k=c.id+':'+c.st+':'+c.role+':'+c.elem+':'+c.race+(L?':'+[L.skin,L.hair,L.eye,L.style,L.face|0,L.body|0,L.acc|0,L.cape|0,L.tn|0].join(','):'');if(CS[k])return CS[k];const f=fr=>drawChar(c,fr),i0=f({b:0}),s={idle:[i0,f({b:1})],walk:[f({b:0,st:1}),f({b:1}),f({b:0,st:2}),f({b:1})],atk:f({at:1})};
  if(ASSETS['sprite_'+c.name]){const im=new Image();im.src=ASSETS['sprite_'+c.name];im.onload=()=>{const k2=mkc(32,30);k2.getContext('2d').drawImage(im,0,0,32,30);s.idle=[k2,k2];s.walk=[k2,k2,k2,k2];s.atk=k2;s.white=tintC(k2,'#fff');s.glow=glowC(k2)}}
  s.white=tintC(i0,'#fff');s.glow=glowC(i0);s.url=scaleC(s.glow,3).toDataURL();const hd=mkc(20,18);hd.getContext('2d').drawImage(i0,6,1,20,18,0,0,20,18);s.head=scaleC(hd,2).toDataURL();return CS[k]=s}
 /* ---------- monstres (tournés vers la droite) ---------- */
