@@ -51,8 +51,8 @@ function fightDrops(cfg,f,bi){const ch=PRk('chasseur'),o={},big=d=>d.kind=='elit
  if(Math.random()<(cfg.kind=='norm'?.12:.28))madd(o,'mat_essence_'+pick(bi.el),1+Math.floor(f/20));
  if(Math.random()<.15)madd(o,bi.res=='wood'?'mat_bois':'mat_minerai',1);return o}
 /* gardien vaincu : quêtes et boss donnent toujours des ingrédients d'évolution */
-function guardDrops(f,kind,pact){const o={};if(kind=='boss'){madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'pierre',1),1);madd(o,evoDrop(f,'tome',1),1);madd(o,'mat_noyau',1)}
- else if(kind=='mini'){madd(o,evoDrop(f,'parchemin'),1);madd(o,evoDrop(f,pick(['pierre','tome'])),1);if(Math.random()<.12)madd(o,'mat_noyau',1)}
+function guardDrops(f,kind,pact){const o={};if(kind=='boss'){madd(o,evoDrop(f,'parchemin',1),1);if(Math.random()<.5)madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'pierre',1),1);madd(o,evoDrop(f,'tome',1),1);madd(o,'mat_noyau',1)}
+ else if(kind=='mini'){if(Math.random()<.7)madd(o,evoDrop(f,'parchemin'),1);madd(o,evoDrop(f,pick(['pierre','tome'])),1);if(Math.random()<.12)madd(o,'mat_noyau',1)}
  else if(Math.random()<.35)madd(o,evoDrop(f),1);if(pact)for(const k in o)o[k]*=2;return o}
 /* ---------- évolution des personnages ---------- */
 const EVOC=[null,{p:2,e:2,g:300},{p:3,e:4,g:1200,x:{mat_cristal:1}},{p:4,e:6,g:4000,x:{mat_cristal:3}},{p:5,e:10,g:6000,x:{mat_noyau:2}},{p:6,e:15,g:15000,x:{mat_noyau:4,mat_cristal:6}}];
