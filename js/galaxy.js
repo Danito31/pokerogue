@@ -30,8 +30,9 @@ function galSeeded(seed,fn){const R0=Math.random;Math.random=galRng(seed);try{re
 function cPow(c){try{const s=stats(c);return Math.round(s.hp/6+s.atk*2+s.def*1.5+s.spd)}catch(_){return 0}}
 const partyPow=()=>party().reduce((a,c)=>a+cPow(c),0);
 function galLv(){const L=G.chars.map(c=>c.lv|0).sort((a,b)=>b-a).slice(0,4);return Math.max(5,Math.round(L.reduce((a,v)=>a+v,0)/Math.max(1,L.length)))}
+const gxNoPost=c=>{if(c.job&&typeof c.job=='object')c.job.post=null;else c.job={id:null,pm:0,voc:null,post:null}};
 /* génère un personnage PNJ sans l'ajouter au codex du joueur */
-function galMk(st,o){const co=codexOwn;codexOwn=()=>{};try{const c=mk(st,o||{});c.party=0;c.lock=0;c.job=null;c.lvk=Math.round(rnd(.85,1.1)*100)/100;return c}finally{codexOwn=co}}
+function galMk(st,o){const co=codexOwn;codexOwn=()=>{};try{const c=mk(st,o||{});c.party=0;c.lock=0;gxNoPost(c);c.lvk=Math.round(rnd(.85,1.1)*100)/100;return c}finally{codexOwn=co}}
 const galAttk=p=>p.att+3*repOf(p.fac);
 const galAtt=p=>clamp(Math.round(galAttk(p)),-100,100);
 const attK=v=>v>=60?'allie':v>=30?'ami':v<=-30?'hostile':'neutre';
@@ -223,4 +224,4 @@ function galBoot(){galMigrate()}
 .gtr .mi{width:28px;height:28px;image-rendering:pixelated}.glog{max-height:420px;overflow:auto;border:2px solid #000;background:var(--panel2);padding:4px 8px}.glog>div{padding:3px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:13px}
 #menu .galb img{width:20px;height:20px;image-rendering:pixelated;vertical-align:-5px;margin-right:4px}#menu .galb.red{animation:galp 1s steps(2) infinite}@keyframes galp{50%{filter:brightness(1.4)}}
 .grep{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap}.grep>img{width:320px;max-width:100%;image-rendering:pixelated;border:2px solid #000}.grep .gr{flex:1;min-width:220px}.gods{display:flex;height:14px;border:2px solid #000;margin:4px 0}.gods i{display:block;height:100%}
-@media (max-width:560px){.ghead>img,.gtrip>img{width:56px;height:56px}.gbar>img{width:48px;height:36px}.glist,.gch{grid-template-columns:1fr}}`;document.head.appendChild(s)}
+@media (max-width:560px){.gbar{flex-wrap:wrap}.ghead>img,.gtrip>img{width:56px;height:56px}.gbar>img{width:48px;height:36px}.glist,.gch{grid-template-columns:1fr}}`;document.head.appendChild(s)}
