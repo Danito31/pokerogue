@@ -98,7 +98,7 @@ const BIOMES=[
  {k:'cendre',n:'Forge de cendres',g:['#4c3c3c','#564442','#423434'],sp:['#3a2c2c','#6a5450'],blk:['#e85a1a','#ff8a2a'],obs:[['rock','#3a2e2e'],['stal','#4a3838'],['crystal','#ff8a3a'],['dead','#2a2020']],deco:['#ff8a3a','#ffcf4a','#6a5450'],sky:['#5a2420','#3a1818','#201010'],dark:.42,part:'#ffb04a',mon:['golem','slime','spectre','squelette'],el:['feu','ombre','foudre'],res:'stone'},
  {k:'ruines',n:'Ruines oubliées',g:['#9a96a8','#a5a1b3','#8f8b9d'],sp:['#7f7b90','#bcb8c8'],blk:['#4a4660','#403c56'],obs:[['pillar','#b3aec4'],['pillarb','#b3aec4'],['rock','#7a768c'],['tree','#5f8f6a']],deco:['#6fdc6f','#c58bff','#7f7b90'],sky:['#dcd8f0','#b9b4d6','#8f8ab4'],dark:0,part:'#e0dcf5',mon:['squelette','spectre','champi','chacal'],el:['sacre','ombre','arcane'],res:'stone'},
  {k:'cristal',n:'Cavernes de cristal',g:['#4a3a7a','#54428a','#40326c'],sp:['#34285a','#6a58a8'],blk:['#1c1236','#160e2c'],obs:[['crystal','#ff7ad9'],['crystal','#7ad9ff'],['crystal','#c58bff'],['rock','#3a2c5e'],['stal','#3a2c5e']],deco:['#ff7ad9','#7ad9ff','#6a58a8'],sky:['#4a3a8a','#2a1c5a','#160e30'],dark:.5,part:'#ff9ae6',mon:['slime','spectre','golem','champi'],el:['arcane','glace','foudre'],res:'stone'}];
-/* Lois de la Tour : chaque bloc de 5 étages a un biome fixe et une loi d'exploration + combat. */
+/* Lois de la Tour : chaque bloc d'étages a un biome et une loi (parfois deux) tirés pour la partie (js/rules.js). */
 const LAWS={
  traque:{n:'Loi de la traque',s:'◉',tool:'cape',e:'Des patrouilles arpentent l’étage. Elles ne voient que ce qui bouge : restez immobile quand elles approchent. Une Cape furtive réduit leur vue de moitié.',c:'Repéré, vous subissez une embuscade (l’ennemi a l’initiative). Frappez le premier : avantage et +50 % d’expérience.'},
  sablier:{n:'Loi du sablier',s:'⧗',tool:'sablier',e:'Le temps est compté. Ramassez les sabliers (+25 s). Le temps écoulé, la tempête de sable ronge l’équipe et les monstres s’enragent.',c:'Chaque tour de combat consomme 2 s du sablier ; chaque victoire en rend 10.'},
@@ -109,7 +109,7 @@ const LAWS={
  duel:{n:'Loi du duel',s:'⚔',e:'Seuls les deux premiers membres de l’équipe entrent dans l’étage.',c:'Les ennemis se présentent un par un. L’énergie d’ultime monte 50 % plus vite ; expérience +50 %.'},
  orage:{n:'Loi de l’orage',s:'ϟ',e:'La foudre frappe au hasard : esquivez les cercles qui s’illuminent au sol.',c:'Le temps change tous les quatre tours : vent arrière (vous agissez plus tôt), vent contraire (l’ennemi aussi), orage (la Foudre agit aussitôt et frappe +30 %).'}};
 const LAWK=Object.keys(LAWS),RUNE=['☼','☾','★'],WXN={arriere:'Vent arrière',contraire:'Vent contraire',orage:'Orage'};
-const blockOf=f=>Math.floor((f-1)/5),lawOf=f=>LAWK[blockOf(f)%LAWK.length],biomeOf=f=>BIOMES[blockOf(f)%BIOMES.length],lawLv=f=>1+Math.floor(blockOf(f)/LAWK.length);
+/* blockOf, lawOf, law2Of, biomeOf, lawLv : tirés au hasard pour chaque partie (sauf étages 1–3) — voir js/rules.js */
 const fmtT=t=>{t=Math.max(0,Math.ceil(t));return Math.floor(t/60)+':'+String(t%60).padStart(2,'0')};
 const QUESTS={gardes:'Chaque sceau est gardé par un champion',vagues:'Survivre à trois vagues',proteger:'Protéger le cristal-phare pendant 8 tours',ordre:'Détruire les trois pylônes dans l’ordre (I, II, III)',choix:'Un pacte vous sera proposé avant le combat'};
 /* ================= TALENTS DU HÉROS (docs/intro.md) =================

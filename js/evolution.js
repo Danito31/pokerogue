@@ -42,7 +42,7 @@ const evoKey=(kind,t)=>kind=='tome'?'mat_tome_'+clamp(t,1,5):'mat_'+kind+'_'+cla
 const evoDrop=(f,kind,boss)=>evoKey(kind||pick(['parchemin','parchemin','pierre','tome']),tierAt(f,boss));
 const BASEM=['mat_minerai','mat_minerai','mat_cuir','mat_tissu','mat_bois','mat_croc','mat_poussiere'];
 const MDROP={slime:['mat_poussiere','mat_tissu'],loup:['mat_croc','mat_croc','mat_cuir'],chacal:['mat_croc','mat_cuir'],squelette:['mat_minerai','mat_poussiere'],golem:['mat_minerai','mat_minerai','mat_minerai','mat_noyau'],spectre:['mat_tissu','mat_poussiere'],champi:['mat_tissu','mat_poussiere'],cristal:['mat_cristal','mat_poussiere']};
-function addM(o){if(F&&F.law=='gel')for(const k in o)o[k]*=2;giveM(o);if(F){F.mloot=F.mloot||{};for(const k in o)F.mloot[k]=(F.mloot[k]||0)+o[k]}return mTxt(o)}
+function addM(o){if(F&&hasLaw('gel'))for(const k in o)o[k]*=2;giveM(o);if(F){F.mloot=F.mloot||{};for(const k in o)F.mloot[k]=(F.mloot[k]||0)+o[k]}return mTxt(o)}
 const madd=(o,k,n)=>{o[k]=(o[k]||0)+n;return o};
 /* combat gagné : monstres → matériaux, biome → essences de ses éléments */
 function fightDrops(cfg,f,bi){const ch=PRk('chasseur'),o={},big=d=>d.kind=='elite'||d.kind=='mini'||d.kind=='boss',defs=(cfg.defs||[]).concat(...(cfg.waves||[]));

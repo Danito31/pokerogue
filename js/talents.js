@@ -6,7 +6,7 @@
 const isH=c=>!!(c&&c.hero);
 const raceT=c=>isH(c)&&RACET[c.race]||null;
 const tOn=(u,k)=>!!(u&&u.c&&u.c.tal==k);
-const noGel=()=>!B||B.law!='gel';
+const noGel=()=>!B||!hasLaw('gel');
 /* ---------- statistiques ---------- */
 {const _st=stats;stats=function(c){const s=_st(c);if(!c)return s;const R=raceT(c),p=c.pers;
  if(R){s.hp*=1+(R.hp||0);s.atk*=1+(R.atk||0);s.def*=1+(R.def||0);s.spd+=R.spd||0;s.crit+=R.crit||0}

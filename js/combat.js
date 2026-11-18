@@ -13,7 +13,7 @@ function purge(a){for(const k in a.bf)if(a.bf[k].v<0||k=='vul'||k=='nheal')delet
 /* début du tour d'une unité : poisons, brûlures, soins sur la durée, malédictions dévorantes */
 function tickDot(u){if(u.dot&&u.dot.length){let d=0;u.dot.forEach(x=>{d+=x.v;x.t--});u.dot=u.dot.filter(x=>x.t>0);if(d>0){hurt(u,d,{});fl(u,'POISON','deb')}}
  if(!u.ally&&u.alive&&u.bf.vul&&anyF('occultiste',3)){hurt(u,u.mhp*(u.kind=='boss'||u.kind=='mini'?.01:.03),{})}
- if(u.ally&&u.alive&&u.hot&&u.hot.length){let h=0;u.hot.forEach(x=>{h+=x.v;x.t--});u.hot=u.hot.filter(x=>x.t>0);if(h>0&&B.law!='gel')heal(u,u.mhp*h)}}
+ if(u.ally&&u.alive&&u.hot&&u.hot.length){let h=0;u.hot.forEach(x=>{h+=x.v;x.t--});u.hot=u.hot.filter(x=>x.t>0);if(h>0&&!hasLaw('gel'))heal(u,u.mhp*h)}}
 const teamDR=()=>B.A.filter(a=>a.alive).reduce((s,a)=>s+(fm(a,'chevalier',2)?.1:0)+(fm(a,'rempart',2)?.15:0)+(fm(a,'paladin',3)?.2:0),0);
 const techP=u=>(u.c.lv>=25?1.15:1)*(u.c.lv>=55?1.3:1)*(kit(u.c).tid=='tech_'+u.sp&&u.aw>=1?1.25:1);
 async function burst(u,t,n,m,tb,o,stop){if(!t)return 0;let k=0;await hitAnim(u,t,()=>{},rgU(u));for(let i=0;i<n;i++){if(!t.alive)break;const d=deal(u,t,m,tb,Object.assign({},o));k++;if(stop&&stop(i,d))n++;if(i%2==1)await sleep(70)}return k}
@@ -92,6 +92,6 @@ async function doSub(u){const S=u.sub,v=u.voie,k=subP(u);setSP(-1);gainEn(u,30);
 function subAI(u){const S=u.sub;if(!S||!SUBCL[S].a||!skReady(u,'sub'))return 0;if(S=='exorciste')return allies().some(a=>Object.keys(a.bf).some(k=>a.bf[k].v<0)||(a.dot||[]).length||a.hp<a.mhp*.5)?5:2;if(S=='saboteur')return foes().some(e=>e.charging)?8:3.5;if(S=='alchi')return 2+foes().length;if(S=='pisteur'){const t=tgt();return t&&!t.bf.mark&&t.hp>t.mhp*.4?4.5:0}if(S=='conteur')return B.sp<=2?5:3;if(S=='tacticien')return allies().length>1?4:0;return 0}
 /* fin d'action d'un allié : Médic, familier, rythme des formes */
 async function afterAct(u){if(!u.alive||!B)return;if(u.hide>0)u.hide--;
- if(u.sub=='medic'){const a=lowAl();if(a&&a.hp<a.mhp&&B.law!='gel'){heal(a,a.mhp*(a.hp<a.mhp*.3?.05:.03)*subP(u),u);if(u.voie=='coeur')purge(a);if(u.voie=='lame')a.bf.atk={v:Math.max(.1,bfv(a,'atk')),t:1}}}
+ if(u.sub=='medic'){const a=lowAl();if(a&&a.hp<a.mhp&&!hasLaw('gel')){heal(a,a.mhp*(a.hp<a.mhp*.3?.05:.03)*subP(u),u);if(u.voie=='coeur')purge(a);if(u.voie=='lame')a.bf.atk={v:Math.max(.1,bfv(a,'atk')),t:1}}}
  if(u.pet&&real().length){for(let i=0;i<u.pet.n;i++){const hurtA=u.pet.heal&&allies().find(a=>a.hp<a.mhp*.5);if(hurtA){heal(hurtA,hurtA.mhp*.04,u);continue}const t=tgt()||pick(real());if(!t)break;fxOn('fx_slash',t,{a:.7});deal(u,t,u.pet.pw,5,{pet:1,el:u.pet.wk&&t.weak[0]||undefined});await sleep(120)}}
  if(fm(u,'tempete',3)&&B.skUsed){B.skUsed=0;let t=pick(real());for(let i=0;i<3&&t;i++){deal(u,t,.6,5);t=pick(real())}}}
