@@ -83,7 +83,7 @@ function clsUI(){const I=INTRO,c=I.c,mag=heroMag(c),T=TALENTS[c.tal];
  ${mag?'':`<p class="m" style="text-align:center">🔒 Ensorceleur et soigneur : ${MAGWHY.toLowerCase()}. Seul un talent de la roue l’accorde.</p>`}<p style="text-align:center;margin:12px 0 0"><button onclick="clsDone()">Valider → Entrer dans la Tour</button></p></div>`}
 function clsPick(r){const I=INTRO;if(MAGR.includes(r)&&!heroMag(I.c))return;I.cls=r;I.cpk=null;clsUI()}
 function clsPrev(I){const cv=$('#cprev');if(!cv)return;const fr=Math.floor(I.t*2)%2,k=I.cls+fr;if(I.cpk==k)return;I.cpk=k;const x=cv.getContext('2d');x.clearRect(0,0,32,30);x.drawImage(drawChar(Object.assign({},I.c,{role:I.cls}),{b:fr}),0,0)}
-function clsDone(){const I=INTRO,c=I.c,w=(CLS0.find(x=>x[0]==I.cls)||CLS0[0])[1];c.eq.arme=mkItem(w,1,{el:null});upRole(c);heroFinish()}
+function clsDone(){const I=INTRO,c=I.c,w=(CLS0.find(x=>x[0]==I.cls)||CLS0[0])[1];c.cls0=I.cls;c.eq.arme=mkItem(w,1,{el:null});upRole(c);heroFinish()}
 /* ---------- mort définitive du héros : avertissements ---------- */
 const heroIn=L=>(L||party()).some(c=>c.hero);
 function heroRisk(pct,inParty){const h=heroOf();if(!h||(inParty!==undefined&&!inParty))return'';return`<div class="hrk">☠ <b>Si ${h.name} (le héros) meurt, la partie est terminée.</b>${pct!=null?` Risque de mort : <b>${String(pct).replace('.',',')} %</b>.`:''}</div>`}
