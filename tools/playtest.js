@@ -118,6 +118,7 @@ function PAGE(SEED, POL, MAXF) {
   /* ---- postes de travail ---- */
   function posts() {
     postFix();
+    if (bl('mage')) G.chars.filter(c => c.mage && !c.party && !c.inj && !c.hero && !(c.job && c.job.post == 'mage')).forEach(c => { if (postedAt('mage').length < bSlots('mage')) tryf(() => postSet(c.id, 'mage'), 'postMage') });
     for (const k of G.plots.filter(p => p).map(p => p.k)) {
       const n = bSlots(k);
       for (let s = postedAt(k).length; s < n; s++) {
@@ -474,7 +475,7 @@ function PAGE(SEED, POL, MAXF) {
     },
     session: min => tryf0(() => session(min)),
     offline, spend, setDay(d) { S.day = d },
-    snap() { return { heroDeath: S.heroDeath || null, dbg: { mage: bl('mage'), call: G.mrs && G.mrs.call, can: canX(CALL_C), cap: [G.chars.length, capa()], mages: G.chars.filter(c => c.mage).length, ship: G.ship && [G.ship.stage, !!G.ship.q, G.ship.ready], ballon: G.ballon, mrsDone: G.mrs && Object.keys(G.mrs.done), run: G.mrs && G.mrs.run.length, chantier: bl('chantier') }, gsrc: S.gsrc,  off: W.__off, max: G.max, chars: G.chars.length, gold: G.res.gold, res: snapRes(), mats: snapMats(), party: party().map(c => [c.name, c.lv, c.st, c.role]), plots: G.plots.map(p => p ? p.k + p.lv : null), dead: G.dead.length, act: S.act, st: S.st, flow: S.flow, items: G.items.length } },
+    snap() { return { heroDeath: S.heroDeath || null, dbg: { mchars: G.chars.filter(c => c.mage).map(c => [c.name, c.st, c.mage, c.party, c.inj, c.job && c.job.post, postsOf(c)]), mslots: bSlots('mage'), mposted: postedAt('mage').length, mnv1: [MRS.nv_1.t, canX(MRS.nv_1.c), MRS.nv_1.c], mage: bl('mage'), call: G.mrs && G.mrs.call, can: canX(CALL_C), cap: [G.chars.length, capa()], mages: G.chars.filter(c => c.mage).length, ship: G.ship && [G.ship.stage, !!G.ship.q, G.ship.ready], ballon: G.ballon, mrsDone: G.mrs && Object.keys(G.mrs.done), run: G.mrs && G.mrs.run.length, chantier: bl('chantier') }, gsrc: S.gsrc,  off: W.__off, max: G.max, chars: G.chars.length, gold: G.res.gold, res: snapRes(), mats: snapMats(), party: party().map(c => [c.name, c.lv, c.st, c.role]), plots: G.plots.map(p => p ? p.k + p.lv : null), dead: G.dead.length, act: S.act, st: S.st, flow: S.flow, items: G.items.length } },
     dump() { return { log: W.LOG, errs: W.ERRS, snap: this.snap(), chars: G.chars.map(c => ({ n: c.name, st: c.st, lv: c.lv, role: c.role, job: c.job && c.job.id, rank: c.job && c.job.id ? jRank(c) : 0, post: c.job && c.job.post, party: c.party, pers: c.pers, tal: c.tal, inj: c.inj, wd: c.wd && c.wd.k })) } },
     flushLog() { const l = W.LOG; W.LOG = []; return l },
     S,
