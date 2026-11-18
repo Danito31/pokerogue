@@ -29,6 +29,7 @@ function enterFloor(f){const kind=f%10==0?'boss':f%5==0?'mini':'norm',bi=biomeOf
  const[ex,ey]=C(en);ents.push({t:'gate',x:ex,y:ey});
  const spot=()=>{for(let tg=0;tg<600;tg++){const tx=ri(4,N-5),ty=ri(4,N-5);if(w[ty*N+tx]&&D({x:tx,y:ty},st)>5&&ents.every(e=>Math.hypot(e.x-tx*16,e.y-ty*16)>30))return[tx*16+8,ty*16+10]}return null},put=(t,o={})=>{const p=spot();if(p)ents.push(Object.assign({t,x:p[0],y:p[1]},o))};
  for(let i=0;i<7;i++)put(pick([bi.res,bi.res,'herb',bi.res=='wood'?'stone':'wood']));put('vein');if(r()<.7)put('coffrev');if(law=='sablier')for(let i=0;i<3;i++)put('sablier');
+ evtPlace(ents,spot,{f,kind,law,bi});
  const[sx,sy]=C(st);
  if(law=='verrous')ents.push({t:'stele',x:sx+22,y:sy-10});
  if(law=='prisme'){const pe=[...new Set(party().map(c=>c.elem))],els=shuffle(EK).filter(e=>!pe.includes(e));const L3=[pick(pe.length?pe:EK),...els].slice(0,3);pr.length=Math.min(pr.length,3);while(pr.length<3)pr.push(null);pr.forEach((p,i)=>{if(!p){const q=spot();if(!q)return;p=q}ents.push({t:'prisme',el:L3[i],x:p[0],y:p[1]})})}
@@ -68,6 +69,7 @@ function lawUpd(dt){const p=F.p;
 function gotItem(it){G.items.push(it);F.items.push(iName(it)+' '+'★'.repeat(it.st));return`${iName(it)} ${'★'.repeat(it.st)}`}
 function addLoot(o){if(F&&F.law=='gel')for(const k in o)o[k]*=2;for(const k in o){const d=capped(k)?addCap(k,o[k]):(G.res[k]+=o[k],o[k]);F.loot[k]=(F.loot[k]||0)+d}hud();return Object.keys(o).map(k=>`+${o[k]} ${RES[k][0].toLowerCase()}`).join(', ')}
 function entAct(e){const f=F.f;
+ if(e.t=='evt')return evtAct(e);
  if(e.t=='lever')return{t:'Actionner le levier '+RUNE[e.rn],f:()=>{if(F.order[F.seals]==e.rn){e.used=1;F.seals++;spark(e.x,e.y-14,'#ffcf4a',16,60);toast(`Le levier ${RUNE[e.rn]} s’enclenche (${F.seals}/3)`+(F.seals==3?' — la porte de l’étage s’ouvre !':''))}else{F.seals=0;F.ents.forEach(x=>{if(x.t=='lever')x.used=0});spark(e.x,e.y-14,'#ff5a5a',16,60);toast('Mauvais ordre ! Les leviers se réarment. Relisez la stèle.')}hud()}};
  if(e.t=='stele')return{t:'Lire la stèle',f:()=>toast('La stèle indique : '+F.order.map(i=>RUNE[i]).join(' puis '),4500)};
  if(e.t=='firex')return{t:'Feu gelé',f:()=>toast('La glace étouffe les flammes : aucun repos possible ici.')};
@@ -130,6 +132,7 @@ function drawFloor(){const p=F.p,bi=F.bi,W=N*16;camTo(p.x,p.y-10,W,W);X.drawImag
   else if(e.t=='vein'){if(!e.used){dS(obSprite('crystal','#ff7ad9'),a,b+2);if(Math.floor(T*3+e.x)%4==0){X.fillStyle='#fff';X.fillRect(a+2,b-14,1,1)}}}
   else if(e.t=='coffrev'){dS(miscSprite(e.used?'chesto':'chest'),a,b);if(!e.used){X.fillStyle='#c9d2e2';X.fillRect(a-2,b-7,4,4);X.fillStyle='#241a30';X.fillRect(a-1,b-6,2,2)}}
   else if(e.t=='sablier'){if(!e.used)dItem('sablier',a,b-Math.round(Math.abs(Math.sin(T*3))*3))}
+  else if(e.t=='evt')evtDraw(e,a,b);
   else if(!e.used)dS(miscSprite(e.t),a,b)}})}
  for(const b of F.bolts){const a=Math.round(b.x-camX),c=Math.round(b.y-camY);if(b.t>0){X.fillStyle=Math.floor(T*12)%2?'#fff7a0':'#ffcf4a';const r=Math.round(6+8*(1-b.t/1.1));X.fillRect(a-r,c,r*2,1);X.fillRect(a-r,c-1,1,2);X.fillRect(a+r-1,c-1,1,2)}else{X.fillStyle='#fff';for(let y=0;y<c+10;y+=3)X.fillRect(a+Math.round(Math.sin(y*.7+b.x)*3),y,2,3);X.fillStyle='rgba(255,247,160,.5)';X.fillRect(a-12,c-6,24,10)}}
  for(const g of F.groups){if(!g.alive||g.x<camX-30||g.x>camX+LW+30||g.y<camY-30||g.y>camY+LH+40)continue;L.push({y:g.y,f:()=>{const d=g.defs[0],s=monSprite(d.type,d.elem,d.kind=='elite'?'elite':'norm'),bob=Math.round(Math.abs(Math.sin(T*4+g.ph))*2);shadow(g.x-camX,g.y-camY,8);dS(g.ch?s.glow:s.s,g.x-camX,g.y-camY-bob+(g.ch?1:0),g.d<0);if(g.ch){X.fillStyle='#ff5a5a';const a=Math.round(g.x-camX),b=Math.round(g.y-camY-s.s.height-8);X.fillRect(a-1,b,2,5);X.fillRect(a-1,b+6,2,2)}else if(g.al>0){X.fillStyle='#ffcf4a';const a=Math.round(g.x-camX),b=Math.round(g.y-camY-s.s.height-8);X.fillRect(a-2,b,4,1);X.fillRect(a+1,b+1,1,2);X.fillRect(a-1,b+3,2,1);X.fillRect(a-1,b+6,2,2)}if(d.kind=='elite'){X.fillStyle='#ffcf4a';const a=Math.round(g.x-camX),b=Math.round(g.y-camY-s.s.height-3-bob);X.fillRect(a-4,b,2,3);X.fillRect(a-1,b-1,2,4);X.fillRect(a+2,b,2,3)}}})}
