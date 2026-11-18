@@ -5,7 +5,7 @@ Les icones 16x16 (fam_*, cl_voie_*) et le cadenas sont dessinees en PIL (icons_p
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from iconlib import *
-import icons_sk1, icons_sk2, icons_cl, icons_misc  # noqa  (enregistrent les recettes dans REG)
+import icons_sk1, icons_sk2, icons_cl, icons_misc, icons_game  # noqa  (enregistrent les recettes dans REG)
 from icons_px import PXREG
 
 

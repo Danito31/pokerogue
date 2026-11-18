@@ -19,7 +19,11 @@ dans `new Image().src` ; fonctionne en `file://`).
 | Fichier | Rôle |
 |---|---|
 | `common.py` | scène, caméra orthographique, éclairage, matériaux « toon », rendu 2 passes, pixelisation + contour |
-| `buildings.py` | 11 bâtiments × 3 niveaux (carte 54×58 + illustration 160×120) + terrain vide |
+| `buildings.py` | 11 bâtiments (+6 dans `buildings2.py`) × 3 niveaux (carte 54×58 + illustration 160×120) + terrain vide |
+| `buildings2.py` | 6 bâtiments × 3 niveaux : taverne, mage, chantier (naval), remparts, ecurie, sanctuaire (mêmes `bld_`/`bldui_`) |
+| `galaxy.py` | `planete_1..10` (64×64), `planete_joueur` (80×80), `galaxie_fond` (320×180, PIL, tileable en x), `bateau_vol` (4×64×48), `ile_pillage`, `ile_defense` (160×120) |
+| `events.py` | 10 illustrations d'expédition 160×120 : `evt_marchand|blesse|coffre|creature|passage|faction|embuscade|autel|source|piege` |
+| `icons_game.py` | `inj_*` (5 blessures) et `rs_*` (8 catégories de recherche), 32×32, via `iconlib` |
 | `items.py` | 22 icônes d'équipement 24×24 |
 | `materials.py` | icônes de craft/évolution 24×24 (`mat_parchemin_1..6`, `mat_tome_1..5`, `mat_pierre_1..6`, matériaux, `mat_essence_<élément>`) + `ui_enclume`, `ui_evolution` 32×32 |
 | `ui.py` | icônes de ressources 16×16, étoiles, cadre 9-slice, boutons, ornements |

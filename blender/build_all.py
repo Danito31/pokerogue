@@ -10,11 +10,15 @@ PY = sys.executable
 sys.path.insert(0, HERE)
 
 BLD = ['auberge', 'ferme', 'camp', 'inf', 'forge', 'hdv', 'chasse', 'biblio', 'labo', 'entrepot', 'marche']
+BLD2 = ['taverne', 'mage', 'chantier', 'remparts', 'ecurie', 'sanctuaire']
+EVT = ['marchand', 'blesse', 'coffre', 'creature', 'passage', 'faction', 'embuscade', 'autel', 'source', 'piege']
 BLD_INFO = {  # nom affiche + couleur du batiment (identique a buildings.py / BLD du jeu)
     'auberge': ('Auberge', '#c0453a'), 'ferme': ('Ferme', '#5a9a3a'), 'camp': ("Camp d'entraînement", '#d08a2a'),
     'inf': ('Infirmerie', '#3fb0a0'), 'forge': ('Forge', '#5a5f78'), 'hdv': ('Hôtel de ville', '#4a6ab8'),
     'chasse': ('Installations de chasse', '#6a7a3a'), 'biblio': ('Bibliothèque', '#8a5ac8'),
-    'labo': ("Laboratoire d'alchimie", '#d0508a'), 'entrepot': ('Entrepôt', '#8a7050'), 'marche': ('Marché', '#d8b838')}
+    'labo': ("Laboratoire d'alchimie", '#d0508a'), 'entrepot': ('Entrepôt', '#8a7050'), 'marche': ('Marché', '#d8b838'),
+    'taverne': ('Taverne', '#c4682e'), 'mage': ('Tour de mage', '#5a3ad8'), 'chantier': ('Chantier naval', '#2f9ccf'),
+    'remparts': ('Remparts', '#9aa6b8'), 'ecurie': ('Écurie', '#9a5a2a'), 'sanctuaire': ('Sanctuaire', '#f4e9b0')}
 
 
 def jobs(icons_only=False):
@@ -23,6 +27,10 @@ def jobs(icons_only=False):
     J = [['buildings.py', 'plot']]
     for k in BLD:
         J.append(['buildings.py', k])
+    for k in BLD2:
+        J.append(['buildings2.py', k])
+    J += [['galaxy.py', 'planets', '1', '2', '3', '4', '5'], ['galaxy.py', '6', '7', '8', '9', '10', 'joueur'], ['galaxy.py', 'fond', 'bateau', 'iles']]
+    J += [['events.py'] + EVT[:4], ['events.py'] + EVT[4:7], ['events.py'] + EVT[7:]]
     J += [['items.py'], ['ui.py'], ['extras.py'], ['materials.py'], ['intro.py', 'panels'], ['intro.py', 'vortex', 'frame']]
     fx = ['slash', 'shield', 'stab', 'arrow', 'blast', 'heal', 'buff', 'el_feu', 'el_glace', 'el_foudre', 'el_nature',
           'el_sacre', 'el_ombre', 'el_arcane', 'ult_guerrier', 'ult_gardien', 'ult_assassin', 'ult_archer',
@@ -60,6 +68,16 @@ def pack():
         elif k.startswith('bld_') or k.startswith('bldui_'):
             bk, lv = k.split('_')[1], int(k.split('_')[2])
             e.update(kind='building_map' if k.startswith('bld_') else 'building_ui', building=bk, level=lv, col=BLD_INFO[bk][1], name=BLD_INFO[bk][0])
+        elif k.startswith('planete_'):
+            e['kind'] = 'planet'
+        elif k == 'galaxie_fond':
+            e.update(kind='bg', tile_x=True)
+        elif k == 'bateau_vol':
+            e.update(kind='sheet', frames=4, frame_w=64, frame_h=48, fps=8)
+        elif k in ('ile_pillage', 'ile_defense') or k.startswith('evt_'):
+            e['kind'] = 'event'
+        elif k.startswith('inj_') or k.startswith('rs_'):
+            e['kind'] = 'icon'
         elif k.startswith('item_'):
             e['kind'] = 'item'
         elif k.startswith('intro_') and k != 'intro_frame':
@@ -91,7 +109,7 @@ def pack():
     manifest = dict(version=1, buildings={k: dict(name=v[0], col=v[1]) for k, v in BLD_INFO.items()},
                     note="Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), "
                          "fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), "
-                         "icones de progression (kind skill|class|job|badge|ui) : sk_<id|ame_*|sub_*|tech_*|ult_*> (32x32), cl_<sous-classe|spe|spe_divin> (48x48), cl_voie_* et fam_* (16x16), fr_* et ms_<niv> (48x48), job_<id>[_evo] (32x32), ui_node_lock/mystery/next (12/32/40), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).", assets=man)
+                         "planete_1..10 (64x64) / planete_joueur (80x80) kind planet, galaxie_fond (320x180 bg, tileable en x), bateau_vol (sheet 4 images 64x48), ile_pillage / ile_defense / evt_<marchand|blesse|coffre|creature|passage|faction|embuscade|autel|source|piege> (160x120, kind event), inj_<legere|profonde|fracture|trauma|epuisement> et rs_<arcane|nature|elementaire|sacre|obscur|temporel|navigation|defense> (32x32, kind icon), icones de progression (kind skill|class|job|badge|ui) : sk_<id|ame_*|sub_*|tech_*|ult_*> (32x32), cl_<sous-classe|spe|spe_divin> (48x48), cl_voie_* et fam_* (16x16), fr_* et ms_<niv> (48x48), job_<id>[_evo] (32x32), ui_node_lock/mystery/next (12/32/40), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).", assets=man)
     json.dump(manifest, open(os.path.join(ASSETS, 'manifest.json'), 'w'), indent=1, ensure_ascii=False)
     # ---- planche de contact x3 (x2 pour les grandes images) sur le fond du jeu
     W = 2400
@@ -99,7 +117,7 @@ def pack():
     groups = [('sk_', 'Competences'), ('cl_voie', 'Pastilles de voie'), ('cl_', 'Emblemes de classe'), ('fr_', 'Cadres de forme'), ('ms_', 'Badges de palier'),
               ('job_', 'Metiers'), ('fam_', 'Familles'), ('ui_node', 'Arbre (UI)'),
               ('bld_', 'Batiments (carte)'), ('plot_', 'Terrain'), ('portail', 'Portail'), ('res_', 'Ressources'), ('ui_', 'UI'),
-              ('item_', 'Objets'), ('mat_', 'Materiaux / evolution'), ('fx_el', 'Elements'), ('fx_ult', 'Ultimes'), ('fx_', 'Effets de role'), ('bateau', 'Bateau'), ('intro_', 'Intro (BD)'), ('bldui_', 'Illustrations')]
+              ('item_', 'Objets'), ('mat_', 'Materiaux / evolution'), ('fx_el', 'Elements'), ('fx_ult', 'Ultimes'), ('fx_', 'Effets de role'), ('bateau', 'Bateau'), ('planete_', 'Planetes'), ('galaxie_', 'Fond de galaxie'), ('ile_', 'Iles (raid)'), ('evt_', 'Evenements'), ('inj_', 'Blessures'), ('rs_', 'Recherches'), ('intro_', 'Intro (BD)'), ('bldui_', 'Illustrations')]
     used = set()
     placed = []
     y = 8
