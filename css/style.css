@@ -277,3 +277,14 @@ i.pd{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(
 .fmod{display:inline-flex;gap:3px;align-items:center;padding:1px 6px;border:1px solid;border-radius:10px;font-size:11px;background:rgba(0,0,0,.3)}
 .fmod i{font-style:normal}.fmod.pos{background:rgba(40,120,60,.25)}
 .afx{font-size:11px;white-space:nowrap}
+/* ---------- légendes (js/legends2.js) ---------- */
+.lgt{display:block;font-style:normal;font-size:10px;font-weight:700;color:#ffd75a;letter-spacing:1px;text-shadow:1px 1px 0 #000}
+.lgb{margin:8px 0;padding:8px 10px;border:2px solid #e0b040;border-radius:6px;background:linear-gradient(135deg,rgba(224,176,64,.16),rgba(40,20,60,.35))}
+.lgb p{margin:4px 0}.lgn{color:#ffd75a}.lgq{font-style:italic;color:#f2e6c0}
+.lgi{display:flex;gap:8px;align-items:center;margin-top:6px}.lgi img{width:40px;height:40px;image-rendering:pixelated}
+.lgg{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin:6px 0 10px}
+.lgc{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 4px;border:2px solid #e0b040;border-radius:6px;background:rgba(224,176,64,.1);font-size:12px}
+.lgc img{width:72px;height:auto;image-rendering:pixelated}.lgc.lk{border-color:#4a4660;background:rgba(0,0,0,.25);opacity:.85}
+.lgf{margin:6px 0;padding:4px 8px;border-left:3px solid #e0b040}.lgf p{margin:2px 0}
+.lgsc{display:flex;gap:10px;align-items:flex-start}.lgsc .sp{width:96px;image-rendering:pixelated}
+.lgs{color:#ffd75a;text-shadow:1px 1px 0 #000;letter-spacing:1px}

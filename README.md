@@ -14,6 +14,7 @@ index.html          page (HTML du jeu) ; charge css/style.css puis les scripts
 css/style.css       toute la feuille de style
 assets/assets.js    images Blender embarquées (chargé AVANT les scripts du jeu)
 js/data.js          fusion ASSETS, données : éléments, rôles, races, BLD, objets, lois de la Tour, talents
+js/legends.js       Légendes 4★/5★/6★ uniques (figures historiques et mythiques) et leurs objets uniques : données (avant la sauvegarde)
 js/state.js         état G (nouvelle partie), objets, raretés
 js/personality.js   personnalités, sous-traits, réserve de compétences, relations de base
 js/progression.js   classes, sous-classes, spécialisations, niveaux, arbre, paliers, relations, codex
@@ -32,6 +33,7 @@ js/hero.js          héros : créateur gratuit, Miroir et cosmétiques (G.cosm),
 js/gacha.js         Tirage du destin (rouleaux personnalité/race à la création), Tour des modifications (relances), onglet Code (docs/codes.md)
 js/talents.js       effets de l'héritage racial du héros, des personnalités secrètes et des talents innés supplémentaires (enveloppes)
 js/rules.js         règles de la Tour propres à chaque partie (G.run : lois, biomes, modificateurs d'étage ; étages 1–3 fixes), échelle des monstres, affixes d'élite, IA ennemie, phases de boss, danger affiché, PV conservés entre étages (docs/equilibrage.md §10)
+js/legends2.js      Légendes : invocation, passives, ultimes, objets liés, sprites (traits de signature), fiche, codex, éveil de Jeanne d’Arc, Chroniques (docs/lore.md)
 js/main.js          démarrage (boot) : toujours en dernier
 ```
 

@@ -31,7 +31,7 @@ let LED=null;
 function ledBind(c,cb,shop){const L=c.look||(c.look=Object.assign({},look(c)));for(const k in LDEF)if(L[k]==null)L[k]=LDEF[k];LED={c,tab:LED&&(shop||!['acc','cape','tn'].includes(LED.tab))?LED.tab:'style',cb,shop:!!shop}}
 const ledTabs=()=>LTABS.filter(([k])=>LED.shop||lOpts(k).some(o=>o.p==0)&&lOpts(k).filter(o=>o.p==0).length>1);
 const ledList=k=>lOpts(k).filter(o=>LED.shop||o.p==0);
-function ledImg(L,head){const c=Object.assign({},LED.c,{look:L}),i0=drawChar(c,{b:0});if(!head)return scaleC(i0,2).toDataURL();const h=mkc(20,18);h.getContext('2d').drawImage(i0,6,1,20,18,0,0,20,18);return scaleC(h,3).toDataURL()}
+function ledImg(L,head){const c=Object.assign({},LED.c,{look:L}),i0=drawChar(c,{b:0});if(!head)return scaleC(i0,2).toDataURL();return scaleC(headC(i0,c),3).toDataURL()}
 function ledCur(){const k=LED.tab,A=ledList(k),L=LED.c.look,i=A.findIndex(o=>o.v==L[k]),o=A[i]||A[0];return`${LTABS.find(t=>t[0]==k)[1]} : <b>${o.n}</b> (${i+1}/${A.length})${LED.shop&&!cosOwn(k,o.v)?` · <b class="g">🔒 ${fmtN(o.p)} or</b>`:''}`}
 function ledTag(k,o){if(!LED.shop||o.p==0)return'';return cosOwn(k,o.v)?'<i class="lown">✔</i>':`<i class="lprc" style="--rc:${RARC[cosRar(o.p)]}">🔒 ${fmtN(o.p)}</i>`}
 function ledHTML(){const L=LED.c.look,t=LED.tab,A=ledList(t);let b;
