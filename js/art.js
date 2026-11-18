@@ -25,15 +25,20 @@ function scaleC(s,k){const c=mkc(s.width*k,s.height*k),x=c.getContext('2d');x.im
 /* ---------- personnages ---------- */
 function look(c){let s=c.seed||7;const r=n=>{s=(s*9301+49297)%233280;return Math.floor(s/233280*n)};const HAIR=['#2a2536','#e9d28a','#b8452f','#e8e6f2','#3f8f86','#f08fb4','#6a4630','#8a6ad0','#3a5fc0','#f0a03a'],SKIN=['#ffd9bd','#f6c8a4','#e0a880','#fbe6d6','#c98a62'],EYE=['#3aa0ff','#ff5d7a','#52d67a','#ffb43a','#a070ff','#40d0d0','#d04a4a'];
  let skin=SKIN[r(5)];if(c.race=='Gobelin')skin='#8fcf6a';if(c.race=='Orc')skin='#7fae6a';return{skin,hair:HAIR[r(10)],eye:EYE[r(7)],style:c.race=='Gobelin'?1:r(6),hue:r(40)-20}}
-const SK=1,HR=2,EY=3,MA=4,SE=5,AC=6,ME=7,LE=8,WH=9,DK=10,WD=11,BL=12,GD=13,BS=14,GL=15,CP=16,D2=17;
-function charPal(c,L){const rc={guerrier:['#b9c4d8','#3558b8'],gardien:['#8791a8','#8a3a3a'],assassin:['#34304a','#c0392b'],archer:['#3f8f52','#7a5a36'],sorcier:['#6a48b8','#e0b040'],soigneur:['#f2ecdd','#3fb0a0'],soutien:['#2c3458','#c0392b']}[c.role],metal=c.role=='guerrier'||c.role=='gardien',E=ELEMS[c.elem].c;
- return[null,L.skin,L.hair,L.eye,metal?rc[0]:hue(rc[0],L.hue),metal?hue(rc[1],L.hue*4):rc[1],E,'#c9d2e2','#5a3d2e','#ffffff','#241a30','#8a5a34','#e6edf7',c.st>=5?'#ffd75a':'#e0b040','#ff9a9a',sh(E,.4),sh(E,-.3),'#2a2438']}
+const SK=1,HR=2,EY=3,MA=4,SE=5,AC=6,ME=7,LE=8,WH=9,DK=10,WD=11,BL=12,GD=13,BS=14,GL=15,CP=16,D2=17,CO=18,C1=19;
+/* cosmétiques du héros : teintes de tenue (L.tn), couleurs de cape (L.cape) et d'accessoire (L.acc) */
+const TNC=[null,'#c03a3a','#2f9a5a','#2a2a48','#d0a030','#e070b0','#f2f2f6'],CAPC=[null,'#b02a3a','#2a2048','#e0b040'],ACCC=[null,'#d03a3a','#e0b040','#4fae4f','#3a5fc0','#3a2a40','#fff3a0',null];
+const mixH=(a,b,k)=>{const A=h2r(a),B=h2r(b);return r2h(...A.map((v,i)=>Math.round(v+(B[i]-v)*k)))};
+function charPal(c,L){const rc=({guerrier:['#b9c4d8','#3558b8'],gardien:['#8791a8','#8a3a3a'],assassin:['#34304a','#c0392b'],archer:['#3f8f52','#7a5a36'],sorcier:['#6a48b8','#e0b040'],soigneur:['#f2ecdd','#3fb0a0'],soutien:['#2c3458','#c0392b']}[c.role]||['#b9c4d8','#3558b8']).slice(),tn=TNC[L.tn|0];if(tn){rc[0]=mixH(rc[0],tn,.6);rc[1]=mixH(rc[1],sh(tn,-.25),.7)}const metal=c.role=='guerrier'||c.role=='gardien',E=ELEMS[c.elem].c;
+ return[null,L.skin,L.hair,L.eye,metal?rc[0]:hue(rc[0],L.hue),metal?hue(rc[1],L.hue*4):rc[1],E,'#c9d2e2','#5a3d2e','#ffffff','#241a30','#8a5a34','#e6edf7',c.st>=5?'#ffd75a':'#e0b040','#ff9a9a',sh(E,.4),sh(E,-.3),'#2a2438',CAPC[L.cape|0]||'#b02a3a',ACCC[L.acc|0]||L.hair]}
 function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,hs=L.style|0,fc=L.face|0,bd=L.body|0,sm=(c.race=='Nain'||c.race=='Gobelin'||bd==3)?2:0,o=b+sm,big=c.race=='Orc'||bd==2?1:bd==1?-1:0,at=fr.at||0,robe=R=='sorcier'||R=='soigneur',metal=R=='guerrier'||R=='gardien',x0=10-big,x1=19+big;
- if(c.st>=4)for(let y=16;y<=25;y++)g.row(y+b,8-big-(y>21?1:0),21+big+(y>21?1:0),CP,y>23?3:2);
+ if(c.st>=4&&!(L.cape>0&&L.cape<3))for(let y=16;y<=25;y++)g.row(y+b,8-big-(y>21?1:0),21+big+(y>21?1:0),CP,y>23?3:2);
  if(L.style==2)for(let y=8;y<=21;y++)g.row(y+o,7,22,HR,y>19?3:0);
  if(L.style==3)[[5,6],[4,7],[3,8],[3,9],[3,10],[3,11],[4,12],[4,13],[5,14],[5,15],[6,16]].forEach(([x,y],i)=>g.r(x,y+o,3,1,HR,i>7?3:i<2?1:0));
  if(L.style==5)for(let y=8;y<=19;y++){const d=y<12?0:1,e=y>17?1:0;g.r(5-d+e,y+o,3,1,HR,y>17?3:0);g.r(22+d-e,y+o,3,1,HR,y>17?3:0)}
  if(hs==7){[[21,4],[22,5],[23,6],[23,7],[24,8],[24,9],[24,10],[24,11],[23,12],[23,13]].forEach(([x,y],i)=>g.r(x,y+o,2,1,HR,i>7?3:i<2?1:0));g.p(22,5+o,AC,2)}
+ if(hs==10){g.e(14.5,6+o,9.5,6.5,HR,0);g.tone(12,2+o,4,2,1)}
+ const cpC=[0,'#b02a3a','#2a2048','#e0b040'][L.cape|0];if(cpC&&L.cape<3)for(let y=15;y<=25;y++)g.row(y+b,8-big-(y>21?1:0),21+big+(y>21?1:0),CO,y>23?3:y<17?1:2);
  if(R=='archer'){g.r(5,13+o,3,8,LE);g.p(5,12+o,WH,2);g.p(7,12+o,WH,2);g.p(6,11+o,WH,2)}
  if(c.race=='Homme-bête')[[23,20],[24,19],[25,18],[25,17],[24,16]].forEach(([x,y])=>g.r(x,y+o,2,1,HR));
  const legC=metal?ME:R=='archer'?SE:R=='soutien'||R=='assassin'?D2:MA;
@@ -51,11 +56,11 @@ function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,h
  if(c.st>=5){g.p(x0-1,16+o,GD,2);g.p(x1+1,16+o,GD,2)}
  const HS=[[11,18],[9,20],[8,21],[8,21],[8,21],[8,21],[8,21],[8,21],[8,21],[8,21],[9,20],[10,19]];
  HS.forEach(([a,z],i)=>g.row(3+i+o,a,z,SK,i==5?3:i>9?0:2));g.p(8,12+o,SK,3);g.p(21,12+o,SK,3);
- if(hs==8){for(let i=0;i<5;i++)g.row(3+i+o,12,17,HR,0);for(let y=0;y<3;y++)g.row(y+o,13,16,HR,y==0?1:0)}else for(let i=0;i<5;i++)g.row(3+i+o,HS[i][0],HS[i][1],HR,0);
- const side=hs==4?13:hs==2?12:hs==6?9:hs==8?7:11;for(let y=8;y<=side;y++){g.r(8,y+o,2,1,HR,y==side?3:0);g.r(20,y+o,2,1,HR,y==side?3:0)}
- [[10,11,12,13,17,18,19],[10,11,13,14,16,18,19],[10,11,12,13,14,15,16,17,18,19],[10,11,12,13,14,15],[10,11,12,13,14,15,16,17,18,19],[10,11,12,17,18,19],[10,11,18,19],[10,11,12,13,14,18,19],[13,14,15,16],[10,11,12,13,16,17,18,19]][hs]||[].forEach(x=>g.p(x,8+o,HR,2));
- [[10,12,19],[10,13,19],[10,11,18,19],[10,11,12],[10,19],[10,19],[],[10,11,19],[],[10,19]][hs]||[].forEach(x=>g.p(x,9+o,HR,3));
- if(hs==8){g.p(14,1+o,HR,1);g.p(14,4+o,HR,1);g.p(15,5+o,HR,1);g.row(7+o,12,17,HR,3)}else{g.row(4+o,12,16,HR,1);g.row(5+o,10,11,HR,1);g.p(18,5+o,HR,1);g.p(19,6+o,HR,1);g.row(7+o,9,11,HR,3);g.row(7+o,18,20,HR,3)}
+ if(hs==8){for(let i=0;i<5;i++)g.row(3+i+o,12,17,HR,0);for(let y=0;y<3;y++)g.row(y+o,13,16,HR,y==0?1:0)}else if(hs==11){for(let i=0;i<4;i++)for(let x=HS[i][0];x<=HS[i][1];x++)if((x+i)%2)g.p(x,3+i+o,HR,3)}else for(let i=0;i<5;i++)g.row(3+i+o,HS[i][0],HS[i][1],HR,0);
+ const side=hs==4?13:hs==2||hs==10?12:hs==6?9:hs==8||hs==11?7:11;for(let y=8;y<=side;y++){g.r(8,y+o,2,1,HR,y==side?3:0);g.r(20,y+o,2,1,HR,y==side?3:0)}
+ ([[10,11,12,13,17,18,19],[10,11,13,14,16,18,19],[10,11,12,13,14,15,16,17,18,19],[10,11,12,13,14,15],[10,11,12,13,14,15,16,17,18,19],[10,11,12,17,18,19],[10,11,18,19],[10,11,12,13,14,18,19],[13,14,15,16],[10,11,12,13,16,17,18,19],[10,11,12,13,16,17,18,19],[]][hs]||[]).forEach(x=>g.p(x,8+o,HR,2));
+ ([[10,12,19],[10,13,19],[10,11,18,19],[10,11,12],[10,19],[10,19],[],[10,11,19],[],[10,19],[10,19],[]][hs]||[]).forEach(x=>g.p(x,9+o,HR,3));
+ if(hs==11){}else if(hs==8){g.p(14,1+o,HR,1);g.p(14,4+o,HR,1);g.p(15,5+o,HR,1);g.row(7+o,12,17,HR,3)}else{g.row(4+o,12,16,HR,1);g.row(5+o,10,11,HR,1);g.p(18,5+o,HR,1);g.p(19,6+o,HR,1);g.row(7+o,9,11,HR,3);g.row(7+o,18,20,HR,3)}
  if(hs==9)[8,21].forEach(x=>{g.e(x,3+o,2.2,2.2,HR,0);g.p(x-1,2+o,HR,1);g.p(x+(x<12?2:-2),4+o,AC,2)})
  if(L.style==1)[[7,6],[22,5],[10,2],[14,2],[15,2],[19,2],[23,8],[6,9],[12,1]].forEach(([x,y])=>g.p(x,y+o,HR,0));
  if(L.style==4){g.p(7,12+o,HR);g.p(22,12+o,HR);g.p(7,13+o,HR,3);g.p(22,13+o,HR,3)}
@@ -67,6 +72,19 @@ function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,h
  else if(fc==3){[[20,9],[19,10],[19,11],[18,12],[17,13]].forEach(([x,y])=>g.p(x,y+o,BS,3));g.p(11,8+o,DK,2);g.p(17,8+o,DK,2)}
  else if(fc==4){g.row(12+o,13,16,HR,2);g.row(13+o,9,20,HR,2);g.row(14+o,10,19,HR,3);g.row(15+o,13,16,HR,3);[8,9,20,21].forEach(x=>g.p(x,12+o,HR,3));g.p(14,13+o,SK,3);g.p(15,13+o,SK,3)}
  else if(fc==5){[11,17].forEach(ex=>{g.r(ex,11+o,2,1,SK,2);g.p(ex,10+o,EY,2);g.p(ex+1,10+o,EY,3)});g.p(13,10+o,DK,2);g.p(16,10+o,DK,2);g.row(13+o,13,16,SK,3)}
+ else if(fc==6){g.p(10,10+o,DK,2);g.p(19,10+o,DK,2);g.p(10,9+o,DK,2);g.p(19,9+o,DK,2);g.p(14,13+o,BS,3);g.p(15,13+o,BS,3);g.p(10,12+o,BS,3);g.p(19,12+o,BS,3)}
+ else if(fc==7){g.row(11+o,9,10,AC,2);g.row(12+o,9,11,AC,3);g.row(11+o,19,20,AC,2);g.row(12+o,18,20,AC,3);g.row(13+o,14,15,AC,2)}
+ else if(fc==8){g.r(17,9+o,2,3,DK,2);g.p(19,10+o,DK,3);g.row(8+o,13,16,DK,3);g.p(12,8+o,DK,3);g.p(17,8+o,DK,3);g.p(18,8+o,DK,3);g.p(19,8+o,DK,3);g.p(20,9+o,DK,3)}
+ /* cosmétiques : accessoires (L.acc) et écharpe (L.cape==3) */
+ const ac=L.acc|0;
+ if(ac==1){g.row(7+o,8,21,C1,2);g.p(22,7+o,C1,2);g.p(23,8+o,C1,3);g.p(22,9+o,C1,3)}
+ else if(ac==2){g.p(7,12+o,GD,1);g.p(22,12+o,GD,1);g.p(7,13+o,GD,3);g.p(22,13+o,GD,3)}
+ else if(ac==3){g.row(4+o,8,21,C1,2);[9,12,15,18,21].forEach((x,i)=>g.p(x,3+o+(i==0||i==4?1:0),i%2?WH:BS,1))}
+ else if(ac==4){g.row(1+o,12,17,C1,1);g.row(2+o,10,19,C1,1);g.row(3+o,9,20,C1,2);g.row(4+o,8,21,C1,2);g.row(5+o,8,21,WH,2);g.r(14,o,2,1,WH,1);for(let x=10;x<=19;x+=3)g.p(x,3+o,C1,3)}
+ else if(ac==5){[[10,2],[9,1],[9,0]].forEach(([x,y],i)=>{g.p(x,y+o,C1,i?1:2);g.p(29-x,y+o,C1,i?1:2)})}
+ else if(ac==6){g.row(o,11,18,C1,1)}
+ else if(ac==7){[[9,2],[10,2],[9,1],[8,2]].forEach(([x,y])=>{g.p(x,y+o,HR);g.p(29-x,y+o,HR)});g.p(9,2+o,BS,2);g.p(20,2+o,BS,2)}
+ if(L.cape==3){g.row(15+o,10,19,CO,2);g.row(16+o,11,18,CO,3);g.r(17,17+o,2,3,CO,2);g.p(17,20+o,CO,3)}
  if(c.race=='Elfe'){g.p(7,10+o,SK);g.p(6,9+o,SK);g.p(22,10+o,SK);g.p(23,9+o,SK)}
  if(c.race=='Gobelin'){g.r(5,9+o,3,2,SK);g.r(22,9+o,3,2,SK);g.p(4,8+o,SK);g.p(25,8+o,SK)}
  if(c.race=='Orc'){g.p(12,13+o,WH,2);g.p(17,13+o,WH,2);g.p(12,12+o,WH,2);g.p(17,12+o,WH,2)}
@@ -84,7 +102,7 @@ function drawChar(c,fr){const L=c.look||look(c),g=SG(30,28),R=c.role,b=fr.b||0,h
  else{for(let y=2+o;y<=27;y++)g.p(23,y,WD,y%3?2:3);for(let y=3;y<=9;y++)g.row(y+o,24,29-(y%2),AC,y==9?3:0);g.row(4+o,25,27,GD,2);g.p(26,6+o,WH,2);g.p(23,1+o,GD,1)}
  return bake(g,charPal(c,L))}
 const CS={};
-function cs(c){const L=c.look,k=c.id+':'+c.st+':'+c.role+':'+c.elem+(L?':'+[L.skin,L.hair,L.eye,L.style,L.face|0,L.body|0].join(','):'');if(CS[k])return CS[k];const f=fr=>drawChar(c,fr),i0=f({b:0}),s={idle:[i0,f({b:1})],walk:[f({b:0,st:1}),f({b:1}),f({b:0,st:2}),f({b:1})],atk:f({at:1})};
+function cs(c){const L=c.look,k=c.id+':'+c.st+':'+c.role+':'+c.elem+(L?':'+[L.skin,L.hair,L.eye,L.style,L.face|0,L.body|0,L.acc|0,L.cape|0,L.tn|0].join(','):'');if(CS[k])return CS[k];const f=fr=>drawChar(c,fr),i0=f({b:0}),s={idle:[i0,f({b:1})],walk:[f({b:0,st:1}),f({b:1}),f({b:0,st:2}),f({b:1})],atk:f({at:1})};
  if(ASSETS['sprite_'+c.name]){const im=new Image();im.src=ASSETS['sprite_'+c.name];im.onload=()=>{const k2=mkc(32,30);k2.getContext('2d').drawImage(im,0,0,32,30);s.idle=[k2,k2];s.walk=[k2,k2,k2,k2];s.atk=k2;s.white=tintC(k2,'#fff');s.glow=glowC(k2)}}
  s.white=tintC(i0,'#fff');s.glow=glowC(i0);s.url=scaleC(s.glow,3).toDataURL();const hd=mkc(20,18);hd.getContext('2d').drawImage(i0,6,1,20,18,0,0,20,18);s.head=scaleC(hd,2).toDataURL();return CS[k]=s}
 /* ---------- monstres (tournés vers la droite) ---------- */
