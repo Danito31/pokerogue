@@ -95,19 +95,22 @@ Attribution au niv. 5 inchangée (§6.2 de `progression.md` : deux vocations pon
 
 | Métier | Poste (repli) |
 |---|---|
-| Cuisinier | Auberge |
-| Architecte | Hôtel de ville (sinon tout bâtiment) |
+| Cuisinier | Auberge ou Taverne (plats de la taverne renforcés) |
+| Architecte | Hôtel de ville ou Chantier naval (sinon tout bâtiment) |
 | Chasseur | Installations de chasse |
 | Cueilleur, Fermier | Ferme |
-| Éleveur | Chasse ou Ferme |
+| Éleveur | Chasse, Ferme ou Écurie (soins des montures) |
 | Entraîneur | Camp |
-| Forgeron | Forge |
+| Forgeron | Forge ou Chantier naval |
 | Mineur | Entrepôt (Forge) |
 | Alchimiste | Laboratoire (Infirmerie) |
 | Marchand | Marché (Auberge) |
 | Apothicaire | Infirmerie ou Laboratoire |
 | Cartographe | Hôtel de ville |
 | Bibliothécaire | Bibliothèque (Auberge) |
+| tout mage | Bibliothèque (chercheur) ou Tour de mage (recherches magiques) |
+| mage sacré, personnage d’élément Sacré | Sanctuaire (fidèle) |
+| tout personnage niv. 5+ | Remparts (garde) |
 
 ### Rangs et expérience
 Rangs (points cumulés / niveau requis) : Apprenti 0 / 5 · Novice 100 / 10 · Travailleur 300 / 20 · Confirmé 700 / 30 · Expert 1 500 / 40 · Maître 3 000 / 45 · Grand maître 6 000 / 50. Rang = min(rang par points, rang permis par le niveau).
@@ -145,3 +148,6 @@ Onglet Métier : 500 × ★ or, n’importe lequel des 14 métiers, retour au ra
 
 ## 5. Sauvegarde
 Clé `tdE6` conservée (version interne `G.ver = 7`). Avant migration, copie `tdE6_v6_bak`. `G.plots` complété à 11 cases (terrains existants inchangés) ; ajouts : `G.rs {done,q}`, `G.mkt`, `G.buff {phil}`, `c.job {post, t, acc}` ; les personnages niv. ≥ 5 sans métier ont un choix en attente (comme `migrateProg`). Stocks au-delà des nouvelles capacités : conservés.
+
+## 6. Six bâtiments supplémentaires
+Taverne, Écurie, Sanctuaire, Tour de mage, Remparts et Chantier naval (6 terrains de plus, Hôtel de ville niv. 1–3) : voir `docs/mages.md`. Effets des postes : cuisiniers à la taverne (plats ×(1 + 0,1 × R), +⌊R/2⌋ combats), éleveurs à l’écurie (soins), fidèles au sanctuaire (durée +15 %, prix −10 % chacun), gardes aux remparts (défense), architectes et forgerons au chantier (durée −8 % × R, max. 40 %), mages à la Tour (une recherche chacun).
