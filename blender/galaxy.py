@@ -290,7 +290,7 @@ def galaxie_fond():
         for o in range(octs):
             kx, ky = max(1, int(fx * 2 ** o)), fy * 2 ** o
             ph = r.uniform(0, 6.28, 4)
-            a = np.sin(2 * np.pi * kx * xx / W + ph[0] + 1.3 * np.sin(2 * np.pi * (kx + 1) * xx / W * 0.5 + yy * ky * 0.02 + ph[1]))
+            a = np.sin(2 * np.pi * kx * xx / W + ph[0] + 1.3 * np.sin(2 * np.pi * (kx + 1) * xx / W + yy * ky * 0.02 + ph[1]))
             b = np.sin(yy * ky * 0.045 + ph[2] + 2.0 * np.sin(2 * np.pi * kx * xx / W + ph[3]))
             out += amp * (a * b)
             amp *= 0.55

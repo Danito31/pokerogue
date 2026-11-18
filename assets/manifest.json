@@ -44,9 +44,33 @@
   "marche": {
    "name": "Marché",
    "col": "#d8b838"
+  },
+  "taverne": {
+   "name": "Taverne",
+   "col": "#c4682e"
+  },
+  "mage": {
+   "name": "Tour de mage",
+   "col": "#5a3ad8"
+  },
+  "chantier": {
+   "name": "Chantier naval",
+   "col": "#2f9ccf"
+  },
+  "remparts": {
+   "name": "Remparts",
+   "col": "#9aa6b8"
+  },
+  "ecurie": {
+   "name": "Écurie",
+   "col": "#9a5a2a"
+  },
+  "sanctuaire": {
+   "name": "Sanctuaire",
+   "col": "#f4e9b0"
   }
  },
- "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), icones de progression (kind skill|class|job|badge|ui) : sk_<id|ame_*|sub_*|tech_*|ult_*> (32x32), cl_<sous-classe|spe|spe_divin> (48x48), cl_voie_* et fam_* (16x16), fr_* et ms_<niv> (48x48), job_<id>[_evo] (32x32), ui_node_lock/mystery/next (12/32/40), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).",
+ "note": "Cles: bld_<k>_<lv> (54x58), bldui_<k>_<lv> (160x120), plot_empty, res_<k> (16x16), ui_*, item_<key> (24x24), mat_<key> (24x24 : parchemin_1-6, tome_1-5, pierre_1-6, minerai, lingot, mithril, cuir, tissu, bois, cristal, croc, noyau, poussiere, essence_<elem>), ui_enclume/ui_evolution (32x32), fx_<nom> (feuilles horizontales ; fx_vortex = 8 images 96x96), planete_1..10 (64x64) / planete_joueur (80x80) kind planet, galaxie_fond (320x180 bg, tileable en x), bateau_vol (sheet 4 images 64x48), ile_pillage / ile_defense / evt_<marchand|blesse|coffre|creature|passage|faction|embuscade|autel|source|piege> (160x120, kind event), inj_<legere|profonde|fracture|trauma|epuisement> et rs_<arcane|nature|elementaire|sacre|obscur|temporel|navigation|defense> (32x32, kind icon), icones de progression (kind skill|class|job|badge|ui) : sk_<id|ame_*|sub_*|tech_*|ult_*> (32x32), cl_<sous-classe|spe|spe_divin> (48x48), cl_voie_* et fam_* (16x16), fr_* et ms_<niv> (48x48), job_<id>[_evo] (32x32), ui_node_lock/mystery/next (12/32/40), portail, bateau, bateau_ui, intro_1..intro_6 (planches de BD 320x180), intro_frame (cadre 9-slice 48x48, slice 12).",
  "assets": {
   "bateau": {
    "file": "png/bateau.png",
@@ -59,6 +83,16 @@
    "w": 200,
    "h": 150,
    "kind": "misc"
+  },
+  "bateau_vol": {
+   "file": "png/bateau_vol.png",
+   "w": 256,
+   "h": 48,
+   "kind": "sheet",
+   "frames": 4,
+   "frame_w": 64,
+   "frame_h": 48,
+   "fps": 8
   },
   "bld_auberge_1": {
    "file": "png/bld_auberge_1.png",
@@ -150,6 +184,36 @@
    "col": "#d08a2a",
    "name": "Camp d'entraînement"
   },
+  "bld_chantier_1": {
+   "file": "png/bld_chantier_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "chantier",
+   "level": 1,
+   "col": "#2f9ccf",
+   "name": "Chantier naval"
+  },
+  "bld_chantier_2": {
+   "file": "png/bld_chantier_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "chantier",
+   "level": 2,
+   "col": "#2f9ccf",
+   "name": "Chantier naval"
+  },
+  "bld_chantier_3": {
+   "file": "png/bld_chantier_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "chantier",
+   "level": 3,
+   "col": "#2f9ccf",
+   "name": "Chantier naval"
+  },
   "bld_chasse_1": {
    "file": "png/bld_chasse_1.png",
    "w": 54,
@@ -179,6 +243,36 @@
    "level": 3,
    "col": "#6a7a3a",
    "name": "Installations de chasse"
+  },
+  "bld_ecurie_1": {
+   "file": "png/bld_ecurie_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "ecurie",
+   "level": 1,
+   "col": "#9a5a2a",
+   "name": "Écurie"
+  },
+  "bld_ecurie_2": {
+   "file": "png/bld_ecurie_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "ecurie",
+   "level": 2,
+   "col": "#9a5a2a",
+   "name": "Écurie"
+  },
+  "bld_ecurie_3": {
+   "file": "png/bld_ecurie_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "ecurie",
+   "level": 3,
+   "col": "#9a5a2a",
+   "name": "Écurie"
   },
   "bld_entrepot_1": {
    "file": "png/bld_entrepot_1.png",
@@ -360,6 +454,36 @@
    "col": "#d0508a",
    "name": "Laboratoire d'alchimie"
   },
+  "bld_mage_1": {
+   "file": "png/bld_mage_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "mage",
+   "level": 1,
+   "col": "#5a3ad8",
+   "name": "Tour de mage"
+  },
+  "bld_mage_2": {
+   "file": "png/bld_mage_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "mage",
+   "level": 2,
+   "col": "#5a3ad8",
+   "name": "Tour de mage"
+  },
+  "bld_mage_3": {
+   "file": "png/bld_mage_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "mage",
+   "level": 3,
+   "col": "#5a3ad8",
+   "name": "Tour de mage"
+  },
   "bld_marche_1": {
    "file": "png/bld_marche_1.png",
    "w": 54,
@@ -389,6 +513,96 @@
    "level": 3,
    "col": "#d8b838",
    "name": "Marché"
+  },
+  "bld_remparts_1": {
+   "file": "png/bld_remparts_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "remparts",
+   "level": 1,
+   "col": "#9aa6b8",
+   "name": "Remparts"
+  },
+  "bld_remparts_2": {
+   "file": "png/bld_remparts_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "remparts",
+   "level": 2,
+   "col": "#9aa6b8",
+   "name": "Remparts"
+  },
+  "bld_remparts_3": {
+   "file": "png/bld_remparts_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "remparts",
+   "level": 3,
+   "col": "#9aa6b8",
+   "name": "Remparts"
+  },
+  "bld_sanctuaire_1": {
+   "file": "png/bld_sanctuaire_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "sanctuaire",
+   "level": 1,
+   "col": "#f4e9b0",
+   "name": "Sanctuaire"
+  },
+  "bld_sanctuaire_2": {
+   "file": "png/bld_sanctuaire_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "sanctuaire",
+   "level": 2,
+   "col": "#f4e9b0",
+   "name": "Sanctuaire"
+  },
+  "bld_sanctuaire_3": {
+   "file": "png/bld_sanctuaire_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "sanctuaire",
+   "level": 3,
+   "col": "#f4e9b0",
+   "name": "Sanctuaire"
+  },
+  "bld_taverne_1": {
+   "file": "png/bld_taverne_1.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "taverne",
+   "level": 1,
+   "col": "#c4682e",
+   "name": "Taverne"
+  },
+  "bld_taverne_2": {
+   "file": "png/bld_taverne_2.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "taverne",
+   "level": 2,
+   "col": "#c4682e",
+   "name": "Taverne"
+  },
+  "bld_taverne_3": {
+   "file": "png/bld_taverne_3.png",
+   "w": 54,
+   "h": 58,
+   "kind": "building_map",
+   "building": "taverne",
+   "level": 3,
+   "col": "#c4682e",
+   "name": "Taverne"
   },
   "bldui_auberge_1": {
    "file": "png/bldui_auberge_1.png",
@@ -480,6 +694,36 @@
    "col": "#d08a2a",
    "name": "Camp d'entraînement"
   },
+  "bldui_chantier_1": {
+   "file": "png/bldui_chantier_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "chantier",
+   "level": 1,
+   "col": "#2f9ccf",
+   "name": "Chantier naval"
+  },
+  "bldui_chantier_2": {
+   "file": "png/bldui_chantier_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "chantier",
+   "level": 2,
+   "col": "#2f9ccf",
+   "name": "Chantier naval"
+  },
+  "bldui_chantier_3": {
+   "file": "png/bldui_chantier_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "chantier",
+   "level": 3,
+   "col": "#2f9ccf",
+   "name": "Chantier naval"
+  },
   "bldui_chasse_1": {
    "file": "png/bldui_chasse_1.png",
    "w": 160,
@@ -509,6 +753,36 @@
    "level": 3,
    "col": "#6a7a3a",
    "name": "Installations de chasse"
+  },
+  "bldui_ecurie_1": {
+   "file": "png/bldui_ecurie_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "ecurie",
+   "level": 1,
+   "col": "#9a5a2a",
+   "name": "Écurie"
+  },
+  "bldui_ecurie_2": {
+   "file": "png/bldui_ecurie_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "ecurie",
+   "level": 2,
+   "col": "#9a5a2a",
+   "name": "Écurie"
+  },
+  "bldui_ecurie_3": {
+   "file": "png/bldui_ecurie_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "ecurie",
+   "level": 3,
+   "col": "#9a5a2a",
+   "name": "Écurie"
   },
   "bldui_entrepot_1": {
    "file": "png/bldui_entrepot_1.png",
@@ -690,6 +964,36 @@
    "col": "#d0508a",
    "name": "Laboratoire d'alchimie"
   },
+  "bldui_mage_1": {
+   "file": "png/bldui_mage_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "mage",
+   "level": 1,
+   "col": "#5a3ad8",
+   "name": "Tour de mage"
+  },
+  "bldui_mage_2": {
+   "file": "png/bldui_mage_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "mage",
+   "level": 2,
+   "col": "#5a3ad8",
+   "name": "Tour de mage"
+  },
+  "bldui_mage_3": {
+   "file": "png/bldui_mage_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "mage",
+   "level": 3,
+   "col": "#5a3ad8",
+   "name": "Tour de mage"
+  },
   "bldui_marche_1": {
    "file": "png/bldui_marche_1.png",
    "w": 160,
@@ -719,6 +1023,96 @@
    "level": 3,
    "col": "#d8b838",
    "name": "Marché"
+  },
+  "bldui_remparts_1": {
+   "file": "png/bldui_remparts_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "remparts",
+   "level": 1,
+   "col": "#9aa6b8",
+   "name": "Remparts"
+  },
+  "bldui_remparts_2": {
+   "file": "png/bldui_remparts_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "remparts",
+   "level": 2,
+   "col": "#9aa6b8",
+   "name": "Remparts"
+  },
+  "bldui_remparts_3": {
+   "file": "png/bldui_remparts_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "remparts",
+   "level": 3,
+   "col": "#9aa6b8",
+   "name": "Remparts"
+  },
+  "bldui_sanctuaire_1": {
+   "file": "png/bldui_sanctuaire_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "sanctuaire",
+   "level": 1,
+   "col": "#f4e9b0",
+   "name": "Sanctuaire"
+  },
+  "bldui_sanctuaire_2": {
+   "file": "png/bldui_sanctuaire_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "sanctuaire",
+   "level": 2,
+   "col": "#f4e9b0",
+   "name": "Sanctuaire"
+  },
+  "bldui_sanctuaire_3": {
+   "file": "png/bldui_sanctuaire_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "sanctuaire",
+   "level": 3,
+   "col": "#f4e9b0",
+   "name": "Sanctuaire"
+  },
+  "bldui_taverne_1": {
+   "file": "png/bldui_taverne_1.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "taverne",
+   "level": 1,
+   "col": "#c4682e",
+   "name": "Taverne"
+  },
+  "bldui_taverne_2": {
+   "file": "png/bldui_taverne_2.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "taverne",
+   "level": 2,
+   "col": "#c4682e",
+   "name": "Taverne"
+  },
+  "bldui_taverne_3": {
+   "file": "png/bldui_taverne_3.png",
+   "w": 160,
+   "h": 120,
+   "kind": "building_ui",
+   "building": "taverne",
+   "level": 3,
+   "col": "#c4682e",
+   "name": "Taverne"
   },
   "cl_alchi": {
    "file": "png/cl_alchi.png",
@@ -1086,6 +1480,66 @@
    "h": 16,
    "kind": "badge"
   },
+  "evt_autel": {
+   "file": "png/evt_autel.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_blesse": {
+   "file": "png/evt_blesse.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_coffre": {
+   "file": "png/evt_coffre.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_creature": {
+   "file": "png/evt_creature.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_embuscade": {
+   "file": "png/evt_embuscade.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_faction": {
+   "file": "png/evt_faction.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_marchand": {
+   "file": "png/evt_marchand.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_passage": {
+   "file": "png/evt_passage.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_piege": {
+   "file": "png/evt_piege.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "evt_source": {
+   "file": "png/evt_source.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
   "fam_celerite": {
    "file": "png/fam_celerite.png",
    "w": 16,
@@ -1383,6 +1837,55 @@
    "frame_w": 96,
    "frame_h": 96,
    "fps": 14
+  },
+  "galaxie_fond": {
+   "file": "png/galaxie_fond.png",
+   "w": 320,
+   "h": 180,
+   "kind": "bg",
+   "tile_x": true
+  },
+  "ile_defense": {
+   "file": "png/ile_defense.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "ile_pillage": {
+   "file": "png/ile_pillage.png",
+   "w": 160,
+   "h": 120,
+   "kind": "event"
+  },
+  "inj_epuisement": {
+   "file": "png/inj_epuisement.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "inj_fracture": {
+   "file": "png/inj_fracture.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "inj_legere": {
+   "file": "png/inj_legere.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "inj_profonde": {
+   "file": "png/inj_profonde.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "inj_trauma": {
+   "file": "png/inj_trauma.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
   },
   "intro_1": {
    "file": "png/intro_1.png",
@@ -2021,6 +2524,72 @@
    "h": 48,
    "kind": "badge"
   },
+  "planete_1": {
+   "file": "png/planete_1.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_10": {
+   "file": "png/planete_10.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_2": {
+   "file": "png/planete_2.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_3": {
+   "file": "png/planete_3.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_4": {
+   "file": "png/planete_4.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_5": {
+   "file": "png/planete_5.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_6": {
+   "file": "png/planete_6.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_7": {
+   "file": "png/planete_7.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_8": {
+   "file": "png/planete_8.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_9": {
+   "file": "png/planete_9.png",
+   "w": 64,
+   "h": 64,
+   "kind": "planet"
+  },
+  "planete_joueur": {
+   "file": "png/planete_joueur.png",
+   "w": 80,
+   "h": 80,
+   "kind": "planet"
+  },
   "plot_empty": {
    "file": "png/plot_empty.png",
    "w": 54,
@@ -2062,6 +2631,54 @@
    "w": 16,
    "h": 16,
    "kind": "resource"
+  },
+  "rs_arcane": {
+   "file": "png/rs_arcane.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_defense": {
+   "file": "png/rs_defense.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_elementaire": {
+   "file": "png/rs_elementaire.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_nature": {
+   "file": "png/rs_nature.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_navigation": {
+   "file": "png/rs_navigation.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_obscur": {
+   "file": "png/rs_obscur.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_sacre": {
+   "file": "png/rs_sacre.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
+  },
+  "rs_temporel": {
+   "file": "png/rs_temporel.png",
+   "w": 32,
+   "h": 32,
+   "kind": "icon"
   },
   "sk_alchim": {
    "file": "png/sk_alchim.png",
