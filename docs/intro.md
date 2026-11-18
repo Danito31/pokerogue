@@ -8,9 +8,10 @@ Tout est dans `index.html` (blocs `TALENTS DU HÉROS` et `INTRO : BD ANIMÉE…`
 
 1. **BD animée** (nouvelle partie uniquement) : une planche de 6 cases (3×2 en paysage, 2×3 en format moyen, bande verticale façon webtoon en portrait). Chaque case apparaît avec un zoom rebondi et un flash, la caméra se pose dessus, l'image glisse lentement (Ken Burns) ; bulles tapées lettre par lettre. Toucher / clic / Espace / Entrée : termine la bulle, puis bulle suivante, puis case suivante. **Passer ▸▸** (ou Échap) va directement à la création du héros.
 2. **Planche complète** (2 s), puis **aspiration plein écran** : la planche tourne et rétrécit dans le vortex, les objets de la chambre et l'otaku (sprite étiré, en vrille) sont avalés, voix « Bienvenue dans la Tour des Étoiles, Joueur 1. », fondu au blanc.
-3. **Création du héros** : nom (suggestion au hasard, bouton « Au hasard »), 6 allures prédéfinies, couleurs de cheveux / peau / yeux, 6 coiffures, aperçu animé du sprite. Personnalité tirée comme pour les autres personnages (`initPers`), révélée par une carte qui se retourne ; **une seule relance**.
+3. **Création du héros** (gratuite, §4.1) : nom (suggestion au hasard, bouton « Au hasard »), 6 allures prédéfinies, onglets coiffure / couleur / visage / corps / peau / yeux, aperçu animé du sprite. Personnalité tirée comme pour les autres personnages (`initPers`), révélée par une carte qui se retourne ; **une seule relance**.
 4. **Roue des talents** (voir §3), révélation (écran d'évolution réutilisé : rayons, étoiles de rareté, description, réplique).
-5. **Arrivée au village** : le héros est capitaine (party 1, Jeanne passe 2e) ; Jeanne l'accueille dans une boîte de dialogue (portrait, texte tapé), puis l'objectif existant « bâtissez une Auberge » reprend le tutoriel.
+5. **Classe de départ** (§4.2) : arme 1★ au choix ; classes magiques seulement avec un talent à aptitude magique.
+6. **Arrivée au village** : le héros est capitaine (party 1, Jeanne passe 2e) ; Jeanne l'accueille dans une boîte de dialogue (portrait, texte tapé), puis l'objectif existant « bâtissez une Auberge » reprend le tutoriel.
 
 ## 2. Script
 
@@ -50,7 +51,7 @@ Trait inné unique du héros, distinct des compétences. Visible sur la fiche (�
 
 ## 4. Le héros
 
-- 1★, Humain, « joueur venu d'un autre monde », épée 1★ (Guerrier), `hero:1`, `lock:1`.
+- 1★, Humain, « joueur venu d'un autre monde », arme 1★ de la classe choisie (§4.2), `hero:1`, `lock:1`.
 - Ne peut être ni sacrifié ni déverrouillé, ni capturé par l'ennemi (raids de la galaxie).
 - **Mort définitive = fin de partie** (décision du créateur) : le héros subit les mêmes jets de mort que tout le monde — à terre en fin de combat (`deathPc`, ×2 s'il a été forcé à continuer), blessé porté pendant une déroute (`deathP/2`), péril d'événement, pillage, garde aux Remparts. `injDie(c, cause)` appelle alors `finPartie` (`js/hero.js`).
 - **Écran de fin** : une dernière case de BD (le sprite du héros clignote puis se dissout en pixels vers l'écran, « Joueur 1… déconnecté. »), le titre « FIN DE PARTIE » et le bilan (cause, niveau et talent, jours joués depuis `G.t0`, étage max `G.max`, compagnons survivants, tombés `G.dead`, or). Seul bouton : « Nouvelle partie » (rechargement → intro complète).
@@ -59,14 +60,35 @@ Trait inné unique du héros, distinct des compétences. Visible sur la fiche (�
 - Anciennes sauvegardes : `G.v_perma` — un message unique annonce la nouvelle règle ; `G.t0` est posé à ce moment-là.
 - Toujours en tête de l'équipe quand il y est (`reidx`) : c'est lui que l'on dirige au village, avec l'étiquette « ★ Nom ».
 
-### 4.1 Apparence (créateur et Miroir)
+### 4.1 Apparence (créateur gratuit, Miroir et cosmétiques)
 
-`c.look = {skin, hair, eye, style, face, body, hue}` (persisté). `drawChar` (`js/art.js`) lit `style` 0-9, `face` 0-5 et `body` 0-3 ; un personnage sans `face`/`body` garde exactement son rendu d'avant.
+`c.look = {skin, hair, eye, style 0-11, face 0-8, body 0-3, acc 0-7, cape 0-3, tn 0-6, hue}` (persisté). `drawChar` (`js/art.js`) lit ces champs ; un personnage qui ne les a pas garde exactement son rendu d'avant. Catalogue : `LOPT` (`js/hero.js`), prix 0 = jeu de base.
 
-- **Coiffures** (10) : Mèche, Hérissés, Longs, Tresse, Raie au milieu, Couettes, Court, Queue de cheval, Crête, Macarons. **Couleurs** : 12. **Visages** (6) : Classique, Lunettes, Taches de rousseur, Cicatrice, Barbe, Regard perçant. **Corps** (4) : Standard, Mince (torse −2 px), Costaud (+2 px, comme l'Orc), Petit (−2 px de jambes, comme le Nain). **Peau** : 6 teintes. **Yeux** : 8 couleurs.
-- **Créateur** (« Qui es-tu, joueur ? », juste après l'aspiration, avant la roue) : grand aperçu animé, nom, 6 allures toutes faites, onglets Cheveux / Couleur / Visage / Corps / Peau / Yeux avec vignettes, ◀ ▶ et « 🎲 Aléatoire ». Utilisable à 360 px de large.
-- **Miroir** (bouton de la fiche du héros) : même éditeur sur un brouillon, validation payante : **2 000 or**, puis ×1,5 à chaque passage (`G.mirN`) — un puits d'or.
+| Catégorie | Offert à la création | Cosmétiques à acheter (or) |
+|---|---|---|
+| Cheveux | Mèche, Hérissés, Longs, Tresse, Raie au milieu, Couettes, Court | Rasé 1 000 · Queue de cheval 1 500 · Macarons 3 000 · Crête 4 000 · Volumineux 6 000 |
+| Couleur | 10 teintes | Noir de jais 1 000 · Argent 3 000 · Rouge vif 3 000 · Cyan néon 8 000 · Or pur 20 000 |
+| Visage | Classique, Lunettes, Taches de rousseur, Barbe | Cicatrice 2 000 · Regard perçant 3 000 · Maquillage 3 000 · Cache-œil 6 000 · Peinture de guerre 8 000 |
+| Corps | Standard, Mince, Costaud, Petit | — |
+| Peau | 6 teintes | — |
+| Yeux | 8 teintes | Yeux d'or 3 000 · Magenta 3 000 · Blanc spectral 8 000 |
+| Accessoire | aucun | Bandeau 1 000 · Boucle d'oreille 2 000 · Bonnet 3 000 · Couronne de fleurs 4 000 · Oreilles de chat 8 000 · Cornes 12 000 · Auréole 30 000 |
+| Cape | aucune | Écharpe dorée 4 000 · Cape écarlate 6 000 · Cape nocturne 10 000 |
+| Tenue (teinte) | d'origine | Rouge 1 500 · Émeraude 1 500 · Nuit 3 000 · Rose 3 000 · Blanc 8 000 · Or 20 000 |
+
+Rareté affichée selon le prix : commun ≤ 2 000, rare ≤ 6 000, épique ≤ 12 000, légendaire au-delà.
+
+- **Créateur** (« Qui es-tu, joueur ? », juste après l'aspiration, avant la roue) : **gratuit**, uniquement le jeu de base. Grand aperçu animé, nom, 6 allures toutes faites (toutes gratuites), onglets Cheveux / Couleur / Visage / Corps / Peau / Yeux avec vignettes, ◀ ▶ et « 🎲 Aléatoire ». Utilisable à 360 px de large.
+- **Miroir** (bouton de la fiche du héros) : même éditeur sur un brouillon, avec tous les onglets (Accessoire, Cape, Tenue en plus). Passer d'une option possédée à une autre est **gratuit** ; une option 🔒 s'affiche avec son prix, se prévisualise, et le bouton devient « Acheter et appliquer (total) ». Achat définitif : `G.cosm` (liste `'cat:valeur'`). « Aléatoire » ne pioche que dans ce qui est possédé. Un puits d'or.
+- Migration (`G.v_cosm`) : l'apparence actuelle d'un héros existant est acquise (rien ne se perd).
 - Cache des sprites : la clé de `cs(c)` inclut l'apparence, donc tout changement redessine le personnage partout.
+
+### 4.2 Classe de départ et aptitude à la magie
+
+- Après la révélation du talent, bouton « Choisir ma classe » : écran **Ta classe de départ**. Choisir une classe = choisir l'arme 1★ de départ (la classe découle de l'arme : `roleOf`) : Guerrier (épée), Gardien (bouclier), Assassin (dagues), Archer (arc), Soutien (luth), Ensorceleur (bâton), Soigneur (sceptre). Pure personnalisation de niveau 1, aucun avantage de puissance ; la classe change ensuite avec l'équipement, comme pour tous.
+- **Aptitude à la magie** : seulement si le talent tiré à la roue porte `magie:1` (`TALENTS`, `js/data.js`) : *Apprentissage éclair* (rare), *Œil du joueur* (épique), *Sauvegarde rapide* (légendaire) — soit environ 1 tirage sur 3 avec la roue truquée (62 % × 1/4 + 30 % × 1/2 + 8 % × 1/2 ≈ 35 %). La révélation du talent et sa fiche l'indiquent.
+- Sans aptitude : Ensorceleur et Soigneur apparaissent grisés « 🔒 Nécessite une aptitude à la magie (talent) ». **Plus tard aussi** : le héros ne peut pas équiper bâton, grimoire ni sceptre (bouton grisé avec la raison dans l'écran d'équipement, `equip` refuse) et ne peut pas basculer en ensorceleur/soigneur par une armure ou un outil (`roleOf` enveloppé). Les autres personnages ne sont pas concernés.
+- Migration (`G.v_mag`) : un héros sans aptitude qui tenait une arme magique la range dans la réserve (message).
 
 ## 5. Sauvegarde et migration (clé `tdE5`)
 
