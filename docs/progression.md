@@ -1149,6 +1149,8 @@ DEF =  10 + 3 × étage
 dégâts = ATQ × mult × 100 / (100 + DEF)  (deal)
 ```
 
+> Depuis la troisième passe d'équilibrage, la courbe est portée par `foeBase` (`js/rules.js`) : au-delà de l'étage 3, ATQ ×1,06^(étage−3) et PV ×1,035^(étage−3) en plus de cette formule (voir docs/equilibrage.md §10).
+
 ### 11.2 Hypothèses du banc d'essai
 
 Personnage « DPS » de rôle guerrier (ATQ ×1,1), étoiles = ⌈niv./10⌉, équipement du même rang (ATQ ×(1,15 + 0,10★), PV ×(1 + 0,05★), DEF ×(1 + 0,04★)), g = 1, aucun passif. Monstre normal, type moyen. **TTK** = attaques de base pour tuer le monstre ; **survie** = coups de monstre pour tomber. Cibles : TTK 2–5 (une technique à 220 % tue en 1–2), survie 15–35 (une équipe de 4 avec un soigneur tient un combat de groupe).
