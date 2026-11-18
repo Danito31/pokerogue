@@ -28,11 +28,15 @@ js/combat.js        techniques, ultimes, sous-classes en combat
 js/intro.js         intro BD, création du héros, roue des talents, dialogue d'accueil
 js/galaxy.js        galaxie solo : planètes PNJ, fournisseur GP (remplaçable par un serveur), carte, voyages, commerce, exploration (docs/galaxie.md)
 js/raids.js         pillage, capture (extrêmement rare), Cachots, raids PNJ contre le village et défense
+js/hero.js          apparence du héros (créateur, Miroir) et mort définitive du héros = fin de partie (docs/intro.md §4)
 js/main.js          démarrage (boot) : toujours en dernier
 ```
 
 ### Lancer
 Ouvrir `index.html` directement dans le navigateur (fonctionne en `file://`).
+
+### Règle de jeu capitale
+**Le héros peut mourir définitivement. S'il meurt, c'est la fin de la partie** : la sauvegarde est archivée (`tdE6_fin`) et seule une nouvelle partie est possible. Le risque (en %) est affiché avant chaque combat, pillage, poste de garde et choix risqué.
 
 ### Règles
 - **Scripts classiques uniquement** (`<script src="js/xx.js"></script>`), pas de modules ES : ils échouent en `file://`.

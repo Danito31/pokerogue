@@ -51,8 +51,22 @@ Trait inné unique du héros, distinct des compétences. Visible sur la fiche (�
 ## 4. Le héros
 
 - 1★, Humain, « joueur venu d'un autre monde », épée 1★ (Guerrier), `hero:1`, `lock:1`.
-- Ne peut être ni sacrifié ni déverrouillé ; **ne meurt jamais définitivement** (à terre en fin de combat → seulement gravement blessé).
+- Ne peut être ni sacrifié ni déverrouillé, ni capturé par l'ennemi (raids de la galaxie).
+- **Mort définitive = fin de partie** (décision du créateur) : le héros subit les mêmes jets de mort que tout le monde — à terre en fin de combat (`deathPc`, ×2 s'il a été forcé à continuer), blessé porté pendant une déroute (`deathP/2`), péril d'événement, pillage, garde aux Remparts. `injDie(c, cause)` appelle alors `finPartie` (`js/hero.js`).
+- **Écran de fin** : une dernière case de BD (le sprite du héros clignote puis se dissout en pixels vers l'écran, « Joueur 1… déconnecté. »), le titre « FIN DE PARTIE » et le bilan (cause, niveau et talent, jours joués depuis `G.t0`, étage max `G.max`, compagnons survivants, tombés `G.dead`, or). Seul bouton : « Nouvelle partie » (rechargement → intro complète).
+- **Pas de résurrection** : à la mort, la partie est copiée dans `localStorage['tdE6_fin']` (`{date, sum, save}`), la clé `tdE6` est remplacée par `{"over":1}` (donc ni l'ancienne partie ni un vieux `tdE5` ne se rechargent), et le marqueur `tdE6_over` fait réapparaître l'écran de fin au rechargement ; `save()` devient inopérant.
+- **Risque visible** : encadré rouge « ☠ Si <nom> (le héros) meurt, la partie est terminée » avec le pourcentage dans l'avertissement de combat (portail, événements de combat), les périls d'événement (risque ÷ taille de l'équipe), le choix après une chute (Porter / Forcer — « Forcer » demande une confirmation pour le héros), la préparation d'un pillage et l'avertissement des gardes. La fiche du héros le rappelle. Jeanne le dit dans le dialogue d'accueil.
+- Anciennes sauvegardes : `G.v_perma` — un message unique annonce la nouvelle règle ; `G.t0` est posé à ce moment-là.
 - Toujours en tête de l'équipe quand il y est (`reidx`) : c'est lui que l'on dirige au village, avec l'étiquette « ★ Nom ».
+
+### 4.1 Apparence (créateur et Miroir)
+
+`c.look = {skin, hair, eye, style, face, body, hue}` (persisté). `drawChar` (`js/art.js`) lit `style` 0-9, `face` 0-5 et `body` 0-3 ; un personnage sans `face`/`body` garde exactement son rendu d'avant.
+
+- **Coiffures** (10) : Mèche, Hérissés, Longs, Tresse, Raie au milieu, Couettes, Court, Queue de cheval, Crête, Macarons. **Couleurs** : 12. **Visages** (6) : Classique, Lunettes, Taches de rousseur, Cicatrice, Barbe, Regard perçant. **Corps** (4) : Standard, Mince (torse −2 px), Costaud (+2 px, comme l'Orc), Petit (−2 px de jambes, comme le Nain). **Peau** : 6 teintes. **Yeux** : 8 couleurs.
+- **Créateur** (« Qui es-tu, joueur ? », juste après l'aspiration, avant la roue) : grand aperçu animé, nom, 6 allures toutes faites, onglets Cheveux / Couleur / Visage / Corps / Peau / Yeux avec vignettes, ◀ ▶ et « 🎲 Aléatoire ». Utilisable à 360 px de large.
+- **Miroir** (bouton de la fiche du héros) : même éditeur sur un brouillon, validation payante : **2 000 or**, puis ×1,5 à chaque passage (`G.mirN`) — un puits d'or.
+- Cache des sprites : la clé de `cs(c)` inclut l'apparence, donc tout changement redessine le personnage partout.
 
 ## 5. Sauvegarde et migration (clé `tdE5`)
 

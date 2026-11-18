@@ -18,7 +18,7 @@ Blessure « forcée » (continuer malgré tout) : malus ×1,4 et risque de mort 
 
 **Gravité à la chute** (`injFall`) : score = profondeur (étage/46 × 0,3) + dégâts excédentaires du coup fatal (jusqu'à 0,4) + type de combat (élite 0,1 / quête 0,15 / boss 0,25) + hasard (0–0,25) ; Stoïque / Résistant −0,1. Plus le score est haut, plus profonde et fracture sont probables.
 
-**Mort définitive inchangée** : à la chute, tirage `deathP()` (Infirmerie, Apothicaire, Médecine) ; le héros ne meurt jamais (blessure profonde à la place). Seul ajout : ×2 pour un blessé forcé.
+**Mort définitive** : à la chute, tirage `deathP()` (Infirmerie, Apothicaire, Médecine), ×2 pour un blessé forcé. Le héros y est soumis comme les autres : **s'il meurt, la partie est terminée** (docs/intro.md §4) ; le pourcentage est affiché en rouge dans chaque choix à risque.
 
 ### Soins
 - **Temps** : vitesse de rétablissement ×1 en expédition (+0,5 avec un Soigneur valide dans l'équipe) ; au village : +0,5 par niveau d'Infirmerie, +0,25 Médecine, +0,25 +0,05×rang d'Apothicaire en poste, +0,15 si un Soigneur se repose.
