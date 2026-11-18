@@ -519,7 +519,7 @@ function PAGE(SEED, POL, MAXF) {
     for (const sh of POL.sessions) {
       const start = sh * 3600, gap = start - prevEnd;
       if (gap > 0) await page.evaluate(([g, o]) => BOT.offline(g, o), [gap, openFrac]);
-      const r = await Promise.race([page.evaluate(m => BOT.session(m), POL.min), new Promise(r => setTimeout(() => r('timeout'), 240000))]);
+      const r = await Promise.race([page.evaluate(m => BOT.session(m), POL.min), new Promise(r => setTimeout(() => r('timeout'), 900000))]);
       if (r == 'timeout') { console.error('timeout jour', day); done = true; break }
       prevEnd = start + POL.min * 60;
       if (args.verbose) { const l = await page.evaluate(() => BOT.flushLog()); out.log.push(...l); l.filter(x => x.t == 'floor').forEach(x => console.error(`  j${day} étage ${x.f} ${x.res} combats ${x.fights} tours ${x.rounds} niv ${x.lvA} or ${x.gold} morts ${x.deaths.length} bless ${x.inj.length}`)) }

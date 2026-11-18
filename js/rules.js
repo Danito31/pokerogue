@@ -48,9 +48,9 @@ function modsOf(f){const R=runOf();if(!R||f<=RUN_FIX||(R.keep&&f<=R.keep))return
 const modOn=k=>!!F&&!!F.mods&&F.mods.includes(k);
 const modTag=k=>`<span class="fmod${FMODS[k].pos?' pos':''}" style="border-color:${FMODS[k].c}" title="${FMODS[k].d}"><i style="color:${FMODS[k].c}">${FMODS[k].s}</i>${FMODS[k].n}</span>`;
 /* ---------- échelle des monstres (remplace la formule de mkFoe) ----------
-   Étages 1–3 : ATQ ×0,9 (apprentissage). Au-delà : ATQ ×1,05 et PV ×1,045 par étage (composés, jusqu'à l'étage 45), DEF +1/étage en plus de l'ancienne courbe.
+   Étages 1–3 : ATQ ×0,9 (apprentissage). Au-delà : ATQ ×1,06 et PV ×1,035 par étage (composés, jusqu'à l'étage 45), DEF +1/étage en plus de l'ancienne courbe.
    Les pillages galactiques (F.law 'gxraid') gardent l'ancienne courbe : leurs chances affichées en dépendent. */
-function foeBase(f,raid){const old={hp:130*fScale(f,1.2,1.1),atk:24*fScale(f,1.16,1.08),def:10+3*f};if(raid)return old;const k=Math.max(0,f-RUN_FIX);return{hp:old.hp*Math.pow(1.045,Math.min(k,42)),atk:old.atk*(f<=RUN_FIX?.9:Math.pow(1.05,Math.min(k,42))),def:old.def+k}}
+function foeBase(f,raid){const old={hp:130*fScale(f,1.2,1.1),atk:24*fScale(f,1.16,1.08),def:10+3*f};if(raid)return old;const k=Math.max(0,f-RUN_FIX);return{hp:old.hp*Math.pow(1.035,Math.min(k,42)),atk:old.atk*(f<=RUN_FIX?.9:Math.pow(1.06,Math.min(k,42))),def:old.def+k}}
 /* ---------- affixes d'élite ---------- */
 const AFX={
  enrage:{n:'Enragé',s:'♨',c:'#ff5a3a',d:'ATQ +25 % ; sous 50 % de PV, encore +25 %.'},
@@ -99,7 +99,7 @@ const DANG=[['Sûr','#5fe07a'],['Modéré','#c8e05f'],['Dangereux','#ffcf4a'],['
 function floorDanger(f,ps){ps=ps||party();if(!ps.length)return{lv:4,s:0,t:DANG[4][0],c:DANG[4][1]};const L=lawsOf(f),M=modsOf(f),b=foeBase(f);let atk=b.atk*(M.includes('enrages')?1.2:1),def=b.def*(M.includes('blindes')?1.4:1);
  if(f%10==0){atk*=1.25}else if(f%5==0)atk*=1.12;if(L.includes('duel'))ps=ps.slice(0,2);
  const v=ps.map(c=>stats(c)),ttk=v.reduce((a,x)=>a+b.hp/(x.atk*(M.includes('aubaine')?1.1:1)*100/(100+def)),0)/v.length,surv=v.reduce((a,x)=>a+x.hp/(atk*100/(100+x.def)),0)/v.length;
- let s=surv/(ttk*8)*(ps.length/4)**.5;if(L.includes('gel')||M.includes('soins'))s*=.8;if(L.includes('duel'))s*=.85;const lv=s>=1.5?0:s>=.9?1:s>=.55?2:s>=.3?3:4;return{lv,s,t:DANG[lv][0],c:DANG[lv][1],ttk,surv}}
+ let s=surv/(ttk*8)*(ps.length/4)**.5;if(L.includes('gel')||M.includes('soins'))s*=.8;if(L.includes('duel'))s*=.85;const lv=s>=.5?0:s>=.2?1:s>=.09?2:s>=.04?3:4;return{lv,s,t:DANG[lv][0],c:DANG[lv][1],ttk,surv}}
 function dangerHTML(f){const d=floorDanger(f),h=party().some(c=>c.hero);return`<div class="dng" style="border-color:${d.c}"><b style="color:${d.c}">Danger : ${d.t}</b>${d.lv>=3?` — <b class="w">⚠ ${d.lv>=4?'mortel':'très dangereux'} pour votre équipe</b>${h?' : <b class="w">le héros risque la mort définitive (fin de partie)</b>.':'.'}`:d.lv==2?' — combats serrés, blessures probables.':' — à votre portée.'}</div>`}
 /* ---------- PV entre deux étages : l'équipe ne repart plus soignée gratuitement ----------
    G.hpk = {id: fraction de PV}, G.hpkT = horodatage. Récupération au village : 4 %/min (+2 %/min par niveau d'Infirmerie).
