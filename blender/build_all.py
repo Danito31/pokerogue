@@ -31,7 +31,7 @@ def jobs(icons_only=False):
         J.append(['buildings2.py', k])
     J += [['galaxy.py', 'planets', '1', '2', '3', '4', '5'], ['galaxy.py', '6', '7', '8', '9', '10', 'joueur'], ['galaxy.py', 'fond', 'bateau', 'iles']]
     J += [['events.py'] + EVT[:4], ['events.py'] + EVT[4:7], ['events.py'] + EVT[7:]]
-    J += [['items.py'], ['ui.py'], ['extras.py'], ['materials.py'], ['intro.py', 'panels'], ['intro.py', 'vortex', 'frame']]
+    J += [['mounts.py'], ['items.py'], ['ui.py'], ['extras.py'], ['materials.py'], ['intro.py', 'panels'], ['intro.py', 'vortex', 'frame']]
     fx = ['slash', 'shield', 'stab', 'arrow', 'blast', 'heal', 'buff', 'el_feu', 'el_glace', 'el_foudre', 'el_nature',
           'el_sacre', 'el_ombre', 'el_arcane', 'ult_guerrier', 'ult_gardien', 'ult_assassin', 'ult_archer',
           'ult_sorcier', 'ult_soigneur', 'ult_soutien']

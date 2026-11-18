@@ -1,5 +1,6 @@
 """icons_game.py - icones 32x32 : blessures d'expedition (inj_*) et categories de recherche du mage (rs_*)."""
 from icon_parts import *
+import mounts  # noqa  (enregistre mt_* dans REG)
 
 SKINB, CRM2 = '#f0d4a8', '#f8f4ea'
 BLOOD, BLOOD_D = '#d8352a', '#8a1a22'

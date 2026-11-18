@@ -2524,6 +2524,42 @@
    "h": 48,
    "kind": "badge"
   },
+  "mt_destrier": {
+   "file": "png/mt_destrier.png",
+   "w": 32,
+   "h": 32,
+   "kind": "misc"
+  },
+  "mt_griffon": {
+   "file": "png/mt_griffon.png",
+   "w": 32,
+   "h": 32,
+   "kind": "misc"
+  },
+  "mt_poney": {
+   "file": "png/mt_poney.png",
+   "w": 32,
+   "h": 32,
+   "kind": "misc"
+  },
+  "mts_destrier": {
+   "file": "png/mts_destrier.png",
+   "w": 54,
+   "h": 40,
+   "kind": "misc"
+  },
+  "mts_griffon": {
+   "file": "png/mts_griffon.png",
+   "w": 54,
+   "h": 40,
+   "kind": "misc"
+  },
+  "mts_poney": {
+   "file": "png/mts_poney.png",
+   "w": 54,
+   "h": 40,
+   "kind": "misc"
+  },
   "planete_1": {
    "file": "png/planete_1.png",
    "w": 64,
