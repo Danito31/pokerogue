@@ -165,3 +165,42 @@ Après :
 | Rapport de raid perdu | tous les matériaux | résumé (`cargoSum`) + détail repliable | `js/raids.js` | bug |
 
 Docs mises à jour : `docs/evolution.md` (coûts d'or, noyaux), `docs/mages.md` (Appel aux mages). Sauvegardes : aucune structure modifiée, aucune migration.
+
+## 9. Seconde passe : puits d'or, marché rationné, début de partie durci
+
+Constat de la première passe : l'or ne servait plus à rien après le jour 5 (3–7 M inutilisés) et le marché d'ingrédients ★1–2 + la fusion rendaient les paliers 2★–4★ 2 à 7× trop rapides.
+
+### Changements (avant → après)
+
+| Réglage | Avant | Après | Fichier |
+|---|---|---|---|
+| Monuments (Hôtel de ville niv. 2+) | n'existent pas | Greniers royaux (capacités +10 %/niv.), Étendard (PV/ATQ/DEF équipe +1,5 %/niv.), Bourse des étoiles (+3 achats hebdomadaires/niv.) ; 5 niveaux ; coût = base × 3^niveau (15 k / 25 k / 20 k de base : ≈ 3,6 M, 6 M, 4,8 M pour achever chacun) | `js/monuments.js` |
+| Marché : parchemins, pierres, tomes | prix de base (150·3^(★−1)), illimités | ×3, +1 par achat de la semaine, limite 5 par ingrédient et par semaine (+3 par niveau de Bourse) | `js/monuments.js` |
+| Fusion d'ingrédients, or | 100 × N | 150 × N² | `js/evolution.js` |
+| Essence de biome (combat) | 30 % / 50 % | 20 % / 40 % | `js/evolution.js` |
+| Butin de golem | noyau 1 chance sur 3 | 1 sur 4 | `js/evolution.js` |
+| Renvoi d'un personnage 3★+ | impossible (sacrifice 1–2★ seulement) | bouton « Renvoyer » (confirmation, équipement rendu à la réserve ; héros et Jeanne exclus) | `js/monuments.js`, `js/village.js` |
+
+Interface : captures `eco_monuments.png` (panneau de l'Hôtel de ville) et `eco_team.png` (bouton Renvoyer) dans le dossier de travail ; aucune structure de sauvegarde modifiée (`G.mon` et `G.mkt.wk` sont créés à la demande, absents = niveau 0 / aucun achat).
+
+### Résultats (graines 21, 28, 23, 24 ; 100 jours)
+
+| Mesure | Avant 1re passe | Après 1re passe | Après 2e passe |
+|---|---|---|---|
+| 1er 4★ (équilibre) | jour 3 | jour 7–9 | jour 8–10 |
+| 1er 4★ (prudent) | jour 7 | jour 22 | jour 15 |
+| Équipe entière 5★ (équilibre) | jour 28–35 | jour 25–32 | jour 35–43 |
+| Équipe entière 6★ | jour 74–97 | jour 85 | jour 82 (une partie sur deux) |
+| Étage max au jour 100 (équilibre) | 42 | 37–42 | 37–42 |
+| Or final (équilibre) | 3,1–4,6 M | 3,0 M | **24–377 k** |
+| Or par passage, étages 21–25 | 2 330 | 1 600 | 1 370 |
+| Blessures / 100 passages | 6–8 | 6–7 | 6–9 |
+| Erreurs console / page | 0 | 0 | 0 |
+
+- Les monuments absorbent ≈ 2,4 M d'or par partie (9–13 niveaux achetés) : l'or redevient une contrainte jusqu'en fin de partie. Les paliers 3★/4★ arrivent environ une semaine plus tard ; le rythme tardif et l'étage atteint au jour 100 ne bougent pas (la Bourse rend le goulot ★ payable en or).
+- **Bateau atteignable en jeu normal** : le bot ne démarrait pas la recherche (le mage était affecté au Sanctuaire, ou les lingots/bois étaient consommés par la Forge). Corrigé côté bot ; graine 29 : bateau achevé, baptisé, 16 voyages, 15 explorations, 5 pillages, 0 erreur. Graine 28 : étape 4/5 à 70 jours.
+- **Mort du héros (nouvelle règle)** : le banc détecte `FIN` et arrête la partie proprement (`heroDeath` dans le journal). Joueurs normaux (équilibre, prudent, intensif) : **0 mort du héros** sur ≈ 14 parties de 80–100 jours. Imprudent : **2 sur 2** (étage 31 et 34, jour 3, après 7–9 h de jeu), en rushant avec des 3★ niv. 30.
+
+### Reste à surveiller
+- L'étage 32→33 (6★ requis) bloque 30–40 jours en jeu prudent/équilibré ; la vraie réserve de parchemins ★5 reste le tirage de butin.
+- Les noyaux, essences et cristaux restent au plafond (le butin de base est encore trop généreux) ; les Greniers royaux augmentent ces plafonds sans résoudre la surproduction.

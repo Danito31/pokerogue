@@ -47,6 +47,8 @@ Production par heure et par niveau : **viande 10, crocs 3, cuir 1,5**, × (1 + 0
 Recherche *Rayonnages* : +25 %. Non limités : or, éclats, parchemins, pierres d’éveil, tomes, fragments. Au-delà de la capacité, le gain est perdu (message « Entrepôt plein ») ; **rien n’est jamais retiré** : un stock d’ancienne sauvegarde au-dessus du plafond reste intact, seuls les nouveaux gains sont bloqués. Le HUD colore en orange une ressource pleine.
 
 ### Marché
+
+Équilibrage : les parchemins, pierres et tomes se paient ×3 (+1 par achat de la semaine) et sont limités à 5 par ingrédient et par semaine ; la Bourse des étoiles (monument de l'Hôtel de ville, voir `docs/equilibrage.md` §9) relève la limite de 3 par niveau.
 Offres : 3 + niveau (+1 *Négoce*, +1 si un Marchand de rang ≥ 3 est en poste, +1 offre rare du Prince marchand). Renouvellement toutes les **30 min** (horloge réelle) ou contre 60 or.
 
 | Niveau | Marchandises (lot × stock) |
