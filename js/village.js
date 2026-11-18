@@ -28,7 +28,7 @@ function inputV(){let x=(K.ArrowRight||K.KeyD?1:0)-(K.ArrowLeft||K.KeyA?1:0)+JX,
 /* panneaux */
 let PF=null,PCLOSE=true;
 function openPanel(f,closable=true){PF=f;PCLOSE=closable;panelOpen=true;$('#panel').hidden=false;rp();$('#pin').scrollTop=0}
-function rp(){if(!PF)return;const r=PF();$('#pin').innerHTML=`<h2><span>${r[0]}</span>${PCLOSE?'<button onclick="closePanel()">Fermer</button>':''}</h2><div class="bd">${r[1]}</div>`}
+function rp(){if(!PF)return;const r=PF();$('#pin').innerHTML=`<h2><span>${r[0]}</span>${PCLOSE?'<button onclick="closePanel()">Fermer</button>':''}</h2><div class="bd">${r[1]}</div>`;const hh=$('#pin h2');if(hh&&hh.offsetHeight)$('#pin').style.setProperty('--hh',hh.offsetHeight+'px')}
 function closePanel(){panelOpen=false;PF=null;$('#panel').hidden=true;hud();if(PRES){const r=PRES;PRES=null;r()}}
 let PRES=null;const waitPanel=(f,c=true)=>new Promise(r=>{PRES=r;openPanel(f,c)});
 const rIco=k=>{const a=aSrc('res_'+k);return a?`<img class="ri" src="${a}" alt="">`:`<i style="background:${RES[k][1]}"></i>`},
@@ -139,7 +139,7 @@ function openB(i){openPanel(()=>{const pl=G.plots[i];if(!pl)return['Terrain','<p
  return[b.n,h]})}
 function train(id,c0,xp){const c=G.chars.find(x=>x.id==id);if(G.res.food<c0)return;G.res.food-=c0;jWork('entraineur',3,'camp');if(gain(c,xp)){const t=newSkTxt();toast(c.name+' passe au niveau '+c.lv+' !'+(t?'<br>'+t:''),t?4200:2600)}save();rp()}
 function healC(id,c0){const c=G.chars.find(x=>x.id==id);if(G.res.food<c0)return;G.res.food-=c0;jWork('apothicaire',5,'inf');injCure(c);save();syncNPC();rp()}
-function forge(id){const c=G.chars.find(x=>x.id==id),it=c&&c.eq.arme;if(!it)return;const w=it.lv||0,o={stone:30*(w+1),gold:40*(w+1)};if(!can(o))return;pay(o);it.lv=w+1;save();rp()}
+function forge(id){const c=G.chars.find(x=>x.id==id),it=c&&c.eq.arme;if(!it)return;const w=it.lv||0,o={stone:30*(w+1),gold:40*(w+1)};if(w>=3*bl('forge')+fRf()||!can(o))return;pay(o);it.lv=w+1;save();rp()}
 let SM=[];
 /* table de la bible : matériaux 39,39 % (dont un tiers devient un objet d'équipement), 1★ 50 %, 2★ 9 %, 3★ 1 %, 4★ 0,5 %, 5★ 0,1 %, 6★ 0,01 % */
 function roll(){const g=hasTal('gacha')?1.5:1,x=Math.random()*100;let a=39.39;if(x<a)return 0;for(const[s,p]of[[1,50-1.61*(g-1)],[2,9],[3,g],[4,.5*g],[5,.1*g],[6,.01*g]]){a+=p;if(x<a)return s}return 1}
