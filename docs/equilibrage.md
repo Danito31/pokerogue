@@ -204,3 +204,79 @@ Interface : captures `eco_monuments.png` (panneau de l'Hôtel de ville) et `eco_
 ### Reste à surveiller
 - L'étage 32→33 (6★ requis) bloque 30–40 jours en jeu prudent/équilibré ; la vraie réserve de parchemins ★5 reste le tirage de butin.
 - Les noyaux, essences et cristaux restent au plafond (le butin de base est encore trop généreux) ; les Greniers royaux augmentent ces plafonds sans résoudre la surproduction.
+
+## 10. Troisième passe : Tour aléatoire par partie et difficulté relevée
+
+Demandes du créateur : « les niveaux et leurs règles sont aléatoires selon les parties, sauf les 3 premiers étages » et « il faut rajouter beaucoup de difficulté ». Code : `js/rules.js` (nouveau, chargé juste avant `main.js`), retouches dans `tower.js`, `battle.js`, `village.js`, `sheet.js`, `evolution.js`, `injuries.js`, `tools/playtest.js`.
+
+### 10.1 Règles tirées pour chaque partie (`G.run`)
+
+| Élément | Avant | Après |
+|---|---|---|
+| Étages 1–3 | bloc 1–5, Loi de la traque, Forêt | **identiques dans toutes les parties** : Forêt d'émeraude, « Étage du seuil » ☘ (aucune loi, aucun modificateur), groupes de 1–2 monstres, aucun élite, ATQ des monstres ×0,9 |
+| Blocs | 1–5, 6–10… ordre fixe des 8 lois et des 6 biomes | 1–3 (fixe), **4–5 (bloc court)**, puis 6–10, 11–15… ; boss tous les 10, quête tous les 5 (inchangé) |
+| Loi d'un bloc | `LAWK[bloc % 8]` | tirée au hasard (graine de la partie), jamais la loi ni le biome du bloc précédent ; bloc 4–5 sans duel ni gel |
+| Lois combinées | — | à partir du bloc commençant à l'étage 16 : 25 % (16–25), 42 % (26–35), 60 % (36+) de chances d'une **seconde loi** (pas duel + gel ensemble) ; les deux s'appliquent à l'exploration et au combat (`hasLaw(k)`) |
+| Modificateurs d'étage | — | 0 à 2 par étage après le 3e : Brouillard ≋, Ennemis enragés ♨ (ATQ +20 %), Horde ⁂ (+1 monstre/groupe), Élites renforcés ♛, Soins réduits ⊘ (−40 %, feux ÷2), Peaux de fer ⛨ (DEF +40 %) ; positifs (18 % des tirages) : Double butin ✦, Bénédiction ☀. Probabilité d'un modificateur ≈ 12 % + 2,2 %/étage (max 85 %), d'un second à partir de l'étage 18 |
+| Niveau de loi (`lawLv`) | +1 tous les 8 blocs | +1 tous les 30 étages |
+
+- `G.run = {v, seed, keep, b:[[loi, loi2, biome]…], m:{étage:[modificateurs]}}` : généré à la première lecture (nouvelle partie = nouvelle graine), mis en cache et sauvegardé ; même sauvegarde = mêmes règles après rechargement. La disposition des salles reste tirée à chaque entrée (comme avant).
+- **Anciennes sauvegardes** (pas de `G.run`, `G.max > 1`) : `keep` = fin du bloc de 5 de l'étage max atteint ; les étages 4…keep gardent leur ancienne loi et leur ancien biome, sans modificateur ; les étages 1–3 deviennent l'« Étage du seuil » ; le hasard commence au bloc suivant (vérifié : `G.max = 17` → étages 4–20 identiques à l'ancien code, 21+ tirés).
+- Affichage : bandeau d'entrée d'étage (lois, description, modificateurs, **danger**), ligne d'objectif (`☘`/`ϟ ❄ · ≋ Brouillard…`), bouton « Règles » (symboles), panneau Règles, bandeau de combat (`#blaw`), portail (symboles par étage, « +n » modificateurs, liseré coloré selon le danger), rumeurs et galaxie inchangées (lisent `lawOf`/`biomeOf`).
+
+### 10.2 Difficulté
+
+| Réglage | Avant | Après |
+|---|---|---|
+| Monstres (`foeBase`) | PV 130·1,20^(é−1), ATQ 24·1,16^(é−1), DEF 10+3é | en plus, après l'étage 3 : **ATQ ×1,06^(é−3)**, **PV ×1,035^(é−3)** (composés jusqu'à l'étage 45), DEF +1/étage ; étages 1–3 ATQ ×0,9 ; pillages galactiques : ancienne courbe (leurs chances affichées en dépendent) |
+| Élites | quête « gardes » et VIP seulement | chaque groupe : 6 % + 1,2 %/étage (max 50 %, ×1,8 sous « Élites renforcés ») |
+| Affixes d'élite | — | Enragé ♨, Blindé ⛨, Vampirique ♥, Invocateur ⁂, Explosif ✸, Rapide », Réfléchissant ◇, Régénérant ✚ ; élite : 1 (+1 dès l'étage 20, +1 dès 35) ; quête/boss : 1 dès 15, 2 dès 30 ; pastilles colorées au-dessus des PV, noms dans la fiche de cible |
+| IA ennemie | cible au hasard (gardiens ×2) | dès l'étage 4 : cible les blessés et la ligne arrière (30 % → 85 % des coups selon l'étage) ; compétences par espèce (Hurlement du loup, Spores curatives, Cri glaçant qui vide l'énergie d'ultime, Carapace, Frappe brutale, Acide −25 % DEF, Curée) |
+| Boss | mécaniques `MECH` | **phases** (boss : 66 % et 33 % des PV ; quête dès l'étage 15 : 50 %) : furie, serviteurs, bouclier ; **Cataclysme annoncé** un tour à l'avance (boss tous les 4 tours, 3 en phase 2+), interrompu par une rupture de ténacité, réduit de moitié par la Défense |
+| PV entre deux étages | équipe soignée gratuitement à chaque entrée | PV conservés (`G.hpk`) ; récupération au village 4 %/min (+2 %/min par niveau d'Infirmerie) ou **repos complet payant** (vivres + or, portail) ; étages 1–3 toujours PV pleins |
+| Feu de camp | 60 % | 40 % (20 % sous « Soins réduits ») |
+| Or par combat / coffre | (10 + 3,5é) / 30 + 5é | (8 + 3é) / 25 + 4é ; éclat d'élite 1 → 50 % |
+| Noyaux, essences, cristaux | élite 10 %, quête 25 %, golem 1/4, essence 20/40 % ×(1+é/12), veine +1 dès 15 | élite 5 %, quête 12 %, golem 1/6, essence 12/28 % ×(1+é/20), veine +1 dès 25 |
+| Parchemins de gardien | boss 2, quête 1 | boss 1 + 50 %, quête 70 % |
+| Mort à la chute | `deathP` | inchangé pour les compagnons ; **héros ÷4 si l'équipe gagne le combat** (le risque entier en cas de défaite reste affiché) |
+| Danger affiché | — | `floorDanger(f)` : rapport survie/TTK de l'équipe face à l'étage (lois et modificateurs compris), étalonné sur le banc : Sûr ≥ 0,5 · Modéré ≥ 0,2 · Dangereux ≥ 0,09 · Très dangereux ≥ 0,04 · Mortel ; au-delà de « Dangereux » : « ⚠ très dangereux / mortel pour votre équipe », et si le héros en fait partie « le héros risque la mort définitive » |
+
+Pas de sélecteur de difficulté (optionnel) : la difficulté par défaut est relevée.
+
+### 10.3 Cibles
+
+- Joueur équilibré : quelques morts de compagnons par 100 étages, blessures courantes, mort du héros rare mais réelle s'il force au-delà de son niveau (le danger est affiché avant d'entrer).
+- Étage 30 vers le jour 60–80 plutôt que 30 ; or rare.
+- Repère de puissance (docs/progression.md §1.3) : niv. 30 → étage 15, niv. 40 → 21, niv. 50 → 28, niv. 60 → 38.
+
+### 10.4 Mesures (même code de banc, graines identiques ; `before` = commit 28b39e1f)
+
+| Partie | Étage j5 / j10 / j20 / j30 / j45 / j60 | Fin | Passages | Défaites | Blessures | Morts | Héros mort | Or final | Ess./noyaux/crist. |
+|---|---|---|---|---|---|---|---|---|---|
+| equilibre 21 avant (60 j) | 19 / 22 / 25 / 28 / 32 / 37 | 37 | 957 | 0 | 75 | 0 | — | 409 k | 4 331 |
+| equilibre 21 après (80 j) | 19 / 19 / 25 / 32 / 32 / 37 | 37 (j80) | 921 | 2 | 17 | 1 | — | 319 k (j60), 126 k (j80) | 4 430 |
+| prudent 23 avant (60 j) | 11 / 17 / 17 / 23 / 23 / 26 | 26 | 369 | 0 | 1 | 0 | — | 23 k | 2 199 |
+| prudent 23 après (60 j)¹ | 11 / 17 / 17 / 20 / 30 / 30 | 30 | 338 | 0 | 22 | 0 | — | 3 k | 1 793 |
+| imprudent 25 avant | 33 au jour 1–3 | 33 | 35 | 3 | 11 | 3 | jour 3, étage 33 | — | — |
+| imprudent 25 après | 23 au jour 1–3 | 23 | 28 | 6 | 33 | 6 | jour 3, étage 23 | — | — |
+| intensif 24 après (+8 étages au-dessus du conseillé, « forcer ») | 21 au jour 2 | 21 | 51 | 5 | 78 | 28 | jour 5, étage 21 | — | — |
+
+¹ avant la dernière retouche (parchemins rationnés, risque des compagnons entier).
+
+Lecture :
+- **Les mêmes équipes tombent 10 étages plus tôt** : un groupe 3★ niv. 30 plafonne vers l'étage 17–20 (avant : 33), ce qui colle au repère §1.3 (niv. 30 → étage 15). Le danger mesuré par étage concorde avec l'issue : ≥ 0,1 victoires sûres, 0,03–0,06 pertes répétées, ≤ 0,02 déroutes et morts.
+- **Le jeu forcé tue désormais** : imprudent meurt 10 étages plus bas ; intensif (qui ne recule que de 3 étages) entre en spirale de mort au jour 2–5 en ignorant un danger « Mortel » affiché, alors qu'il ne perdait personne en 100 jours.
+- **Le bot équilibré/prudent ne progresse pas plus lentement** : il est bridé par les éveils (★) et recule dès qu'il échoue (`farmAfter`), donc il ne combat presque jamais au-delà de son niveau (≈ 100 % de victoires, 1 mort en 921 passages). La cible « étage 30 vers le jour 60–80 » n'est **pas atteinte** sur ce banc (étage 30–32 vers les jours 30–45) ; le levier restant est l'économie d'éveil (parchemins ★4–★5), entamée ici (parchemins de gardien rationnés) mais non mesurée sur 80 jours.
+- Or : −20 à −70 % en fin de partie équilibrée ; les repos payants et les monuments absorbent le reste. Noyaux/essences/cristaux : production réduite (taux), mais les stocks restent hauts sur 60–80 jours.
+- Blessures moins nombreuses chez le bot équilibré (17 contre 75) : il se repose à 80 % de PV avant chaque étage et recule plus tôt.
+- Avertissements console pendant le banc : `rescueFlow is not defined` (code de secours en cours d'écriture par un autre chantier, `js/tower.js`), sans lien avec cette passe ; aucune erreur de page.
+
+### 10.5 Bot
+
+`tools/playtest.js` : lit `hasLaw` (leviers sous Loi des verrous en loi secondaire), journalise lois, modificateurs et danger de chaque passage, se repose (payant) sous 80 % de PV ou attend au village, et `foeBase` pour TTK/survie ; délai de séance porté à 15 min (combats plus longs).
+
+### 10.6 Non fait / à surveiller
+- Sélecteur de difficulté (Normal / Difficile / Cauchemar) : non fait.
+- Potions : non limitées davantage (déjà en doses).
+- Aucune protection contre la spirale de mort (§7.4) : avec la nouvelle difficulté elle devient le premier danger d'un joueur qui force ; le danger affiché est le seul garde-fou.
+- Les tempêtes, la foudre et les patrouilles ne sont toujours pas simulées par le bot ; les combinaisons de lois sont seulement vérifiées au chargement et sur captures.
