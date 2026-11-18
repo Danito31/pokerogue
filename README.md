@@ -26,6 +26,8 @@ js/tower.js         étages de la Tour, patrouilles, butin
 js/battle.js        combat au tour par tour, objets, lois, effets animés
 js/combat.js        techniques, ultimes, sous-classes en combat
 js/intro.js         intro BD, création du héros, roue des talents, dialogue d'accueil
+js/galaxy.js        galaxie solo : planètes PNJ, fournisseur GP (remplaçable par un serveur), carte, voyages, commerce, exploration (docs/galaxie.md)
+js/raids.js         pillage, capture (extrêmement rare), Cachots, raids PNJ contre le village et défense
 js/main.js          démarrage (boot) : toujours en dernier
 ```
 

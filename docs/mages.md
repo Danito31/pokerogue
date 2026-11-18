@@ -79,7 +79,7 @@ Défense = (base 100 / 250 / 500 + puissance des gardes) × (1 + 0,1 *Fortificat
 | 4 | Gréement et voilure magiques | 2 | Aérostatique | 2 500 or, 10 lingots, 6 cristaux, 3 essences de foudre | 1 h 30 |
 | 5 | Cœur arcanique | 3 | Navigation stellaire, Cœur arcanique | 4 000 or, 3 noyaux, 2 mithrils, 5 essences arcaniques | 3 h |
 
-Durée × (1 − min(0,4 ; 0,08 × R architectes + forgerons au chantier)) × 0,75 *Accélération*. Étape 5 faite + **pilote mage** (`G.ship.pilot`) → **Baptême** (`G.ship.ready = 1`). Le voyage entre planètes reste à faire.
+Durée × (1 − min(0,4 ; 0,08 × R architectes + forgerons au chantier)) × 0,75 *Accélération*. Étape 5 faite + **pilote mage** (`G.ship.pilot`) → **Baptême** (`G.ship.ready = 1`). Voyages, commerce, pillages et défense : voir `docs/galaxie.md`.
 
 Modules (§16.3), niveaux 1–3, après la Nacelle, niveau ≤ niveau du Chantier ; coût niv. n : 600 × n or + 4 × n d’un matériau propre (+ 2 × (n − 1) cristaux, + 1 noyau au niv. 3) :
 
