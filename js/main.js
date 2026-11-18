@@ -15,5 +15,6 @@ try{injBoot();evtBoot();save()}catch(e){console.warn('blessures',e)}
 try{fgBoot();save()}catch(e){console.warn('forge marteau',e)}
 try{galBoot();save()}catch(e){console.warn('galaxie',e)}
 try{heroBoot();save()}catch(e){console.warn('héros',e)}
+try{runOf();save()}catch(e){console.warn('règles de la Tour',e)}
 loadAssets().then(()=>{artCSS();for(const k in BS_)delete BS_[k];buildVillage();enterVillage();requestAnimationFrame(frame);if(G.intro===0)startIntro({create:1})});
 $('#intro').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,label,.hc,.whl'))return;introTap()});

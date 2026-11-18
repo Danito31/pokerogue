@@ -43,7 +43,7 @@ const FMODS={
 const FMNEG=Object.keys(FMODS).filter(k=>!FMODS[k].pos),FMPOS=Object.keys(FMODS).filter(k=>FMODS[k].pos);
 function modsOf(f){const R=runOf();if(!R||f<=RUN_FIX||(R.keep&&f<=R.keep))return[];if(R.m[f])return R.m[f];const r=rngOf(R.seed,10007+f*17),o=[];
  const p1=Math.min(.85,.12+.022*f),p2=f>=18?Math.min(.5,(f-15)*.016):0;
- if(r()<p1){o.push(r()<.22?rPick(r,FMPOS):rPick(r,FMNEG));if(r()<p2){const L=FMNEG.filter(k=>!o.includes(k));o.push(rPick(r,L))}}
+ if(r()<p1){o.push(r()<.18?rPick(r,FMPOS):rPick(r,FMNEG));if(r()<p2){const L=FMNEG.filter(k=>!o.includes(k));o.push(rPick(r,L))}}
  R.m[f]=o;return o}
 const modOn=k=>!!F&&!!F.mods&&F.mods.includes(k);
 const modTag=k=>`<span class="fmod${FMODS[k].pos?' pos':''}" style="border-color:${FMODS[k].c}" title="${FMODS[k].d}"><i style="color:${FMODS[k].c}">${FMODS[k].s}</i>${FMODS[k].n}</span>`;
@@ -114,4 +114,4 @@ function restNow(){const o=restCost();if(!o.gold&&!o.food)return;if(!can(o))retu
 function restHTML(){const h=teamHp();if(h>=.995)return'<p class="m">PV de l’équipe : pleins.</p>';const o=restCost();return`<p>PV de l’équipe : <b style="color:${h<.5?'var(--red)':'var(--gold)'}">${Math.round(h*100)} %</b> <span class="m">(récupération ${Math.round(hpRate()*100)} %/min au village — l’Infirmerie l’accélère)</span> <button class="alt" ${can(o)?'':'disabled'} onclick="restNow()">Repos complet (${o.food} vivres, ${o.gold} or)</button></p>`}
 /* ---------- affichage des règles ---------- */
 function rulesHTML(f,full){const L=lawsOf(f),M=modsOf(f),[b0,b1]=blockRange(blockOf(f));let h=L.map(k=>{const W=LAWS[k];return`<b>${W.s} ${W.n}</b>${full?`<p>${W.e}</p><p class="m">Combat : ${W.c}</p>`:''}`}).join(L.length>1?'<div class="g">+</div>':'');
- h+=`<div class="m">Étages ${b0}–${b1} · ${biomeOf(f).n}${L.length>1?' · <b class="w">deux lois combinées</b>':''}${f<=RUN_FIX?' · étages fixes d’apprentissage':''}</div>`;if(M.length)h+=`<div class="fmods">${M.map(modTag).join(' ')}</div>`;return h}
+ h+=`<div class="m">Étages ${b0}–${b1} · ${biomeOf(f).n}${L.length>1?' · <b class="w">deux lois combinées</b>':''}${f<=RUN_FIX?' · étages fixes d’apprentissage':''}</div>`;if(M.length)h+=full?M.map(k=>`<p class="m"><b style="color:${FMODS[k].c}">${FMODS[k].s} ${FMODS[k].n}</b> : ${FMODS[k].d}</p>`).join(''):`<div class="fmods">${M.map(modTag).join(' ')}</div>`;return h}

@@ -270,3 +270,10 @@ i.pd{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(
 .jhd{display:flex;gap:12px;align-items:center;background:var(--panel2);border:2px solid #000;padding:8px;margin:6px 0}.jhd .gr{flex:1;min-width:0}.jbig{width:64px;height:64px;image-rendering:pixelated;flex:none}.jbig.evo{filter:drop-shadow(0 0 6px #ffcf4a)}
 .jall{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
 @media (max-width:560px){.pst{flex-wrap:wrap}.pst .gr{flex:1 1 150px}.posts,.mko,.rsg{grid-template-columns:1fr}.cap .cn{width:96px}.cap b{width:76px}.cap .nx{display:none}.chs{gap:5px}.ht{font-size:11px}.ht td,.ht th{padding:2px 3px}}
+/* règles de la Tour par partie (js/rules.js) : danger, modificateurs d'étage, affixes d'élite */
+.dng{margin:6px 0;padding:4px 8px;border:2px solid;border-radius:4px;background:rgba(0,0,0,.25);font-size:12px;text-align:left}
+#lawb .dng b,#lawb .fmods b{display:inline;font-size:12px;margin:0}
+.fmods{margin:4px 0;display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.fmod{display:inline-flex;gap:3px;align-items:center;padding:1px 6px;border:1px solid;border-radius:10px;font-size:11px;background:rgba(0,0,0,.3)}
+.fmod i{font-style:normal}.fmod.pos{background:rgba(40,120,60,.25)}
+.afx{font-size:11px;white-space:nowrap}

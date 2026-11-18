@@ -373,7 +373,10 @@ function PAGE(SEED, POL, MAXF) {
   }
   async function climb(f, noEnter) {
     S.fl = { f, fights: [], inj: [], deaths: [], events: [], t0: S.act, lvA: lvAvg(), party: party().map(c => [c.name, c.lv, c.st, c.role]), res0: snapRes(), dead0: G.dead.length, mats0: matTot(), chars0: G.chars.length, items0: G.items.length };
-    { const P = party(), hpM = 130 * fScale(f, 1.2, 1.1), atkM = 24 * fScale(f, 1.16, 1.08), defM = 10 + 3 * f; const v = P.map(c => stats(c)); S.fl.ttk = +(v.reduce((a, x) => a + hpM / (x.atk * 100 / (100 + defM)), 0) / Math.max(1, v.length)).toFixed(2); S.fl.surv = +(v.reduce((a, x) => a + x.hp / (atkM * 100 / (100 + x.def)), 0) / Math.max(1, v.length)).toFixed(1) }
+    { const P = party(), FB = typeof foeBase == 'function' ? foeBase(f) : { hp: 130 * fScale(f, 1.2, 1.1), atk: 24 * fScale(f, 1.16, 1.08), def: 10 + 3 * f }, hpM = FB.hp, atkM = FB.atk, defM = FB.def; const v = P.map(c => stats(c)); S.fl.ttk = +(v.reduce((a, x) => a + hpM / (x.atk * 100 / (100 + defM)), 0) / Math.max(1, v.length)).toFixed(2); S.fl.surv = +(v.reduce((a, x) => a + x.hp / (atkM * 100 / (100 + x.def)), 0) / Math.max(1, v.length)).toFixed(1) }
+    /* PV conservés entre les étages (js/rules.js) : repos payant si l'équipe est entamée, sinon attente au village */
+    S.fl.dng = typeof floorDanger == 'function' ? +floorDanger(f).s.toFixed(2) : null;
+    if (!noEnter && typeof teamHp == 'function' && f > 3) { let w = 0; while (teamHp() < .8 && w++ < 6) { const o = restCost(); if (can(o) && G.res.gold > o.gold + 200) { restNow(); S.st.rests2 = (S.st.rests2 || 0) + 1; S.st.restGold = (S.st.restGold || 0) + o.gold; break } spend(300) } }
     if (!noEnter) enterFloor(f); spend(45);
     let res = 'win', step = 0;
     const fires = () => F.ents.filter(e => e.t == 'fire' && !e.used);
@@ -402,7 +405,7 @@ function PAGE(SEED, POL, MAXF) {
           const a = entAct(ent); if (a) a.f(); ent.used = 1; spend(12); continue;
         }
         if (F.seals < 3) {
-          if (F.law == 'verrous') { const lv = F.ents.find(e => e.t == 'lever' && e.rn == F.order[F.seals] && !e.used); if (lv) { F.p.x = lv.x; F.p.y = lv.y; entAct(lv).f(); spend(10); continue } }
+          if (typeof hasLaw == 'function' ? hasLaw('verrous') : F.law == 'verrous') { const lv = F.ents.find(e => e.t == 'lever' && e.rn == F.order[F.seals] && !e.used); if (lv) { F.p.x = lv.x; F.p.y = lv.y; entAct(lv).f(); spend(10); continue } }
           const sl = F.ents.find(e => e.t == 'seal' && !e.used); if (sl) { F.p.x = sl.x; F.p.y = sl.y; entAct(sl).f(); spend(10); continue }
           res = 'stuck'; break;
         }
@@ -422,7 +425,7 @@ function PAGE(SEED, POL, MAXF) {
     if (mode != 'village') { try { await leaveFloor('quit') } catch (_) { enterVillage() } }
     closePanel(); spend(20);
     const fl = S.fl, wins = fl.fights.filter(x => x.res == 'win').length;
-    W.LOG.push({ t: 'floor', day: S.day, h: +(W.__off / 3600e3).toFixed(2), act: +(S.act / 3600).toFixed(2), f, res, dur: S.act - fl.t0, lvA: +fl.lvA.toFixed(1), party: fl.party, partyEnd: party().map(c => [c.name, c.lv, c.st]), fights: fl.fights.length, wins, ttk: fl.ttk, surv: fl.surv, rounds: fl.fights.length ? +(fl.fights.reduce((a, x) => a + x.rounds, 0) / fl.fights.length).toFixed(1) : 0, maxRounds: Math.max(0, ...fl.fights.map(x => x.rounds)), lost: fl.fights.reduce((a, x) => a + x.lost, 0), inj: fl.inj, deaths: G.dead.slice(fl.dead0), events: fl.events, gold: G.res.gold | 0, d: { gold: (G.res.gold | 0) - fl.res0.gold, wood: (G.res.wood | 0) - fl.res0.wood, stone: (G.res.stone | 0) - fl.res0.stone, food: (G.res.food | 0) - fl.res0.food, shard: (G.res.shard | 0) - fl.res0.shard, mats: matTot() - fl.mats0, chars: G.chars.length - fl.chars0, items: G.items.length - fl.items0 }, max: G.max, nchars: G.chars.length, rs: snapRes(), mats: matTot() });
+    W.LOG.push({ t: 'floor', day: S.day, h: +(W.__off / 3600e3).toFixed(2), act: +(S.act / 3600).toFixed(2), f, res, laws: typeof lawsOf == 'function' ? lawsOf(f) : [F && F.law], mods: typeof modsOf == 'function' ? modsOf(f) : [], dng: fl.dng, dur: S.act - fl.t0, lvA: +fl.lvA.toFixed(1), party: fl.party, partyEnd: party().map(c => [c.name, c.lv, c.st]), fights: fl.fights.length, wins, ttk: fl.ttk, surv: fl.surv, rounds: fl.fights.length ? +(fl.fights.reduce((a, x) => a + x.rounds, 0) / fl.fights.length).toFixed(1) : 0, maxRounds: Math.max(0, ...fl.fights.map(x => x.rounds)), lost: fl.fights.reduce((a, x) => a + x.lost, 0), inj: fl.inj, deaths: G.dead.slice(fl.dead0), events: fl.events, gold: G.res.gold | 0, d: { gold: (G.res.gold | 0) - fl.res0.gold, wood: (G.res.wood | 0) - fl.res0.wood, stone: (G.res.stone | 0) - fl.res0.stone, food: (G.res.food | 0) - fl.res0.food, shard: (G.res.shard | 0) - fl.res0.shard, mats: matTot() - fl.mats0, chars: G.chars.length - fl.chars0, items: G.items.length - fl.items0 }, max: G.max, nchars: G.chars.length, rs: snapRes(), mats: matTot() });
     S.fl = null;
     if (res == 'win') S.fails[f] = 0; else S.fails[f] = (S.fails[f] || 0) + 1;
     return res;
