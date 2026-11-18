@@ -1,5 +1,5 @@
 """
-common.py - socle commun du pipeline d'assets 3D -> pixel art de "La Tour des Etoiles".
+common.py - socle commun du pipeline d'assets 3D -> pixel art de "Dungeon Setlers".
 
 Principe :
   1. on construit un modele 3D procedural avec bpy (primitives + modificateurs),

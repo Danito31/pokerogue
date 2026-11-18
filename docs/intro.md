@@ -19,9 +19,9 @@ Tout est dans `index.html` (blocs `TALENTS DU HÉROS` et `INTRO : BD ANIMÉE…`
 |---|---|---|
 | 1 | `intro_1` ville de nuit, une fenêtre allumée | *Récitatif* : « Banlieue, 3 h 12 du matin. » · « La ville dort. Enfin… presque toute la ville. » |
 | 2 | `intro_2` chambre d'otaku vue de dos | Otaku : « Allez… juste UN dernier tirage. » · « 0,6 % de taux de drop. Ils se moquent de moi. » |
-| 3 | `intro_3` écran-titre du jeu (titre « La Tour des Étoiles » et bouton clignotant « Commencer ? » en HTML par-dessus) | « « La Tour des Étoiles » ? Jamais entendu parler… » · « Pas de pub, pas d'éditeur, gratuit. Louche. Parfait. » |
+| 3 | `intro_3` écran-titre du jeu (titre « Dungeon Setlers » et bouton clignotant « Commencer ? » en HTML par-dessus) | « « Dungeon Setlers » ? Jamais entendu parler… » · « Pas de pub, pas d'éditeur, gratuit. Louche. Parfait. » |
 | 4 | `intro_4` visage éclairé par l'écran, main sur la souris | *CLIC* (flash) · Voix de l'écran : « Joueur… tu as été choisi. » · « … Hein ? » |
-| 5 | `intro_5` vortex qui jaillit de l'écran | *VWOOOOOM* (flash, secousses) · « AAAAH ! Mes figurines ! » · Voix : « La Tour t'attend. » |
+| 5 | `intro_5` vortex qui jaillit de l'écran | *VWOOOOOM* (flash, secousses) · « AAAAH ! WTF ?! » · Voix : « La Tour t'attend. » |
 | 6 | `intro_6` chambre vide, chaise qui tourne | *Récitatif* : « Le lendemain, on ne retrouva qu'une chaise qui tournait encore. » · « Et sur l'écran : « Joueur 1 connecté. » » |
 
 Roue : « Allez, la roue… viens à moi ! » → (la roue semble s'arrêter) « … Commune. Évidemment. Toujours ma chance. » → « Hein ? Elle… bouge encore ?! » → « … Attends, c'est RARE ?! » / « ÉPIQUE ?! Sérieusement ?! » / « LÉ-GEN-DAIRE ?! … Comme par hasard. » — Voix : « Comme par hasard, oui. »

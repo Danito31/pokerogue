@@ -1,4 +1,4 @@
-# La Tour des Étoiles
+# Dungeon Setlers
 
 Jeu web (page `index.html` + `css/` + `js/`) : village à construire, invocations de héros, ascension d'une tour étage par étage, combats au tour par tour.
 

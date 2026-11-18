@@ -1,4 +1,4 @@
-# Pipeline d'assets 3D → pixel art — « La Tour des Étoiles »
+# Pipeline d'assets 3D → pixel art — « Dungeon Setlers »
 
 Tout est généré par script avec **Blender 5.3 (module Python `bpy`, sans interface ni GPU)**, puis converti en pixel art
 (Pillow + numpy). Rien n'est dessiné à la main : on peut tout régénérer, ou ouvrir un modèle dans Blender, le retoucher

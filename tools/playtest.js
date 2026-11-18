@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 'use strict';
-/* Banc d'essai automatique de « La Tour des Étoiles » (Node + Playwright, chromium headless).
+/* Banc d'essai automatique de « Dungeon Setlers » (Node + Playwright, chromium headless).
    Joue une partie complète via les fonctions du jeu (page.evaluate), avec une horloge virtuelle (Date.now simulé)
    et un Math.random à graine : une partie est reproductible.
    Usage : NODE_PATH=$(npm root -g) node tools/playtest.js --seed 1 --policy equilibre --days 60 --floor 50 --out /chemin/log.json

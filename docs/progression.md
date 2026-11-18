@@ -1,6 +1,6 @@
 # Progression des personnages — niveaux, classes, arbres, métiers
 
-Document de conception pour **La Tour des Étoiles**.
+Document de conception pour **Dungeon Setlers**.
 Sources : demande du créateur (paliers 5/10/20/30/35/40/45/50/60, limite de niveau par étoile, arbre personnel visible, icône par compétence), bible globale (§5 rôles, §6 personnalités, §7 compétences, §8 métiers, §9 mages), `docs/personnalites.md` (§7 système en place), `docs/evolution.md` (éveil par parchemins), code actuel de `index.html` (`ROLES`, `ITYPES`, `roleOf`, `kit`, `SKILLS`, `famW`, `drawSkill`, `cap`, `need`, `gain`, `stats`, `doEvo`, `mkFoe`, `KM`).
 
 Ce document décrit un système **implémentable dans le code actuel** : chaque règle donne ses chiffres, ses identifiants et le point d'accroche dans `index.html` (§13).
