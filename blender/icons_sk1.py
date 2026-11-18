@@ -929,3 +929,20 @@ def _():
     fill(ngon(-.3, .22, .08, n=8), DARK, nolayer=True, bv=0, th=.01)
     fill(stroke(arcpath(0, -.05, .32, 200, 340, 8), .08), DARK, nolayer=True, bv=0, th=.01)
     sparks([(.7, .72), (-.7, -.6)], WHITE, .16)
+
+@I('sk_ame_souverain')
+def _():
+    # couronne + deux epees croisees (derriere)
+    sword(0, -.05, .85, rot=-40, col='#dfe6f2')
+    sword(0, -.05, .85, rot=40, col='#dfe6f2')
+    crown(0, .12, .62, GOLD, gem='#ff5a5a')
+    sparks([(.72, .78), (-.72, .78)], WHITE, .14)
+
+
+@I('sk_ame_prodige')
+def _():
+    # livre ouvert + signe infini
+    book(0, -.35, .95, '#3a56b8')
+    path = [(.5 * math.cos(math.radians(a)) / (1 + math.sin(math.radians(a)) ** 2) * 1.5, .5 * math.sin(math.radians(a)) * math.cos(math.radians(a)) / (1 + math.sin(math.radians(a)) ** 2) * 1.5 + .62) for a in range(0, 361, 12)]
+    fill(stroke(path, .2), '#ffe27a', True, step=.01)
+    sparks([(0, .98), (.85, .3)], WHITE, .14)

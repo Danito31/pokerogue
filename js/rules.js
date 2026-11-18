@@ -48,9 +48,9 @@ function modsOf(f){const R=runOf();if(!R||f<=RUN_FIX||(R.keep&&f<=R.keep))return
 const modOn=k=>!!F&&!!F.mods&&F.mods.includes(k);
 const modTag=k=>`<span class="fmod${FMODS[k].pos?' pos':''}" style="border-color:${FMODS[k].c}" title="${FMODS[k].d}"><i style="color:${FMODS[k].c}">${FMODS[k].s}</i>${FMODS[k].n}</span>`;
 /* ---------- échelle des monstres (remplace la formule de mkFoe) ----------
-   Étages 1–3 : ATQ ×0,9 (apprentissage). Au-delà : ATQ ×1,05 par étage (composé, jusqu'à l'étage 45), PV +0,5 %/étage, DEF +1/étage en plus de l'ancienne courbe.
+   Étages 1–3 : ATQ ×0,9 (apprentissage). Au-delà : ATQ ×1,05 et PV ×1,045 par étage (composés, jusqu'à l'étage 45), DEF +1/étage en plus de l'ancienne courbe.
    Les pillages galactiques (F.law 'gxraid') gardent l'ancienne courbe : leurs chances affichées en dépendent. */
-function foeBase(f,raid){const old={hp:130*fScale(f,1.2,1.1),atk:24*fScale(f,1.16,1.08),def:10+3*f};if(raid)return old;const k=Math.max(0,f-RUN_FIX);return{hp:old.hp*(1+.005*k),atk:old.atk*(f<=RUN_FIX?.9:Math.pow(1.05,Math.min(k,42))),def:old.def+k}}
+function foeBase(f,raid){const old={hp:130*fScale(f,1.2,1.1),atk:24*fScale(f,1.16,1.08),def:10+3*f};if(raid)return old;const k=Math.max(0,f-RUN_FIX);return{hp:old.hp*Math.pow(1.045,Math.min(k,42)),atk:old.atk*(f<=RUN_FIX?.9:Math.pow(1.05,Math.min(k,42))),def:old.def+k}}
 /* ---------- affixes d'élite ---------- */
 const AFX={
  enrage:{n:'Enragé',s:'♨',c:'#ff5a3a',d:'ATQ +25 % ; sous 50 % de PV, encore +25 %.'},
@@ -67,7 +67,7 @@ function afxRoll(d,f,mods){if(d.afx)return d.afx;let n=0;if(f>RUN_FIX){if(d.kind
 function afxApply(u){(u.afx||[]).forEach(k=>{if(k=='enrage')u.atk*=1.25;if(k=='blinde'){u.def*=1.8;u.mt=u.tough=Math.ceil(u.tough*1.5)}if(k=='rapide')u.spd=Math.round(u.spd*1.4)})}
 const afxTags=u=>(u.afx||[]).map(k=>`<span class="afx" style="color:${AFX[k].c}" title="${AFX[k].d}">${AFX[k].s} ${AFX[k].n}</span>`).join(' ');
 /* chance qu'un groupe soit mené par un élite */
-const eliteP=f=>f<=RUN_FIX?0:Math.min(.4,.04+.01*f)*(modsOf(f).includes('elites')?1.8:1);
+const eliteP=f=>f<=RUN_FIX?0:Math.min(.5,.06+.012*f)*(modsOf(f).includes('elites')?1.8:1);
 /* ---------- IA ennemie ---------- */
 const BACKR=['soigneur','sorcier','archer','soutien'];
 /* choix de cible : les blessés et la ligne arrière attirent les coups ; plus l'étage est haut, plus l'ennemi est méthodique (étages 1–3 : au hasard) */

@@ -221,7 +221,7 @@ const LICO={
 /* ---------- fiche : bloc « Légende » ---------- */
 function legPrev(id){const D=LEG[id];return{id:'lg_'+id,name:D.n,st:D.st,race:D.race,role:D.it.role||ROLE_W&&Object.keys(ROLE_W).find(r=>ROLE_W[r]==(D.wpn||'epee'))||'guerrier',elem:D.elem,look:Object.assign({hue:0,body:0},D.look),leg:id,lv:1,seed:1}}
 function legBlock(c){const D=legOf(c);if(!D)return'';const it=SLK.map(k=>c.eq[k]).find(x=>x&&ITYPES[x.t].leg==c.leg);
- return`<div class="lgb"><div><b class="lgn">✦ Légende</b> · <i>${D.t}</i> · <span class="m">${D.w}</span>${c.legE?` · <span class="trk">écho ${c.legE}/5</span>`:''}</div><p class="m">${D.bio}</p><p class="lgq">« ${D.q} »</p>
+ return`<div class="lgb"><div><b class="lgn">✦ Légende</b> · <i>${D.t}</i> · <span class="m">${D.w}</span>${c.legE?` · <span class="trk">écho ${c.legE}/5</span>`:''}<div class="m"><img class="lgp" src="${typeof persIco=='function'?persIco(c.pers):pIco('sk_ame_'+(PKEY[c.pers]||'x'),'#ffd75a',c.pers)}" alt=""> Personnalité fixe : <b>${c.pers}</b> (${(c.subs||[]).join(', ')})</div></div><p class="m">${D.bio}</p><p class="lgq">« ${D.q} »</p>
  <div class="m"><b class="g">Passive · ${D.sp[0]}</b> : ${D.sp[1]}</div><div class="m"><b class="g">Ultime · ${D.ul[0]}</b> : ${D.ul[1]} <span class="tg">dès le niveau 1</span></div>
  <div class="lgi"><img src="${it?itemSrc(it):scaleC(itemSprite('lg_'+c.leg),3).toDataURL()}" alt=""><div><b>${D.it.n}</b> ${lgSt(it?it.st:D.st)} <span class="tg">unique · lié</span><div class="m">${D.it.d}${it?'':' <b class="w">(absent)</b>'}</div></div></div></div>`}
 {const _sh=sheetHead;sheetHead=function(c){return _sh.apply(this,arguments)+legBlock(c)}}
