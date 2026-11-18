@@ -2770,6 +2770,18 @@
    "h": 32,
    "kind": "skill"
   },
+  "sk_ame_prodige": {
+   "file": "png/sk_ame_prodige.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
+  "sk_ame_souverain": {
+   "file": "png/sk_ame_souverain.png",
+   "w": 32,
+   "h": 32,
+   "kind": "skill"
+  },
   "sk_ame_stoique": {
    "file": "png/sk_ame_stoique.png",
    "w": 32,

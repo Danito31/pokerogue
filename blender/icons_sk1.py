@@ -933,16 +933,16 @@ def _():
 @I('sk_ame_souverain')
 def _():
     # couronne + deux epees croisees (derriere)
-    sword(0, -.05, .85, rot=-40, col='#dfe6f2')
-    sword(0, -.05, .85, rot=40, col='#dfe6f2')
-    crown(0, .12, .62, GOLD, gem='#ff5a5a')
+    sword(0, -.1, 1.0, rot=-48, col='#dfe6f2')
+    sword(0, -.1, 1.0, rot=48, col='#dfe6f2')
+    crown(0, .28, .5, GOLD, gem='#ff5a5a')
     sparks([(.72, .78), (-.72, .78)], WHITE, .14)
 
 
 @I('sk_ame_prodige')
 def _():
     # livre ouvert + signe infini
-    book(0, -.35, .95, '#3a56b8')
-    path = [(.5 * math.cos(math.radians(a)) / (1 + math.sin(math.radians(a)) ** 2) * 1.5, .5 * math.sin(math.radians(a)) * math.cos(math.radians(a)) / (1 + math.sin(math.radians(a)) ** 2) * 1.5 + .62) for a in range(0, 361, 12)]
+    book(0, -.5, .85, '#3a56b8')
+    path = [(.5 * math.cos(math.radians(a)) / (1 + math.sin(math.radians(a)) ** 2) * 1.25, .5 * math.sin(math.radians(a)) * math.cos(math.radians(a)) / (1 + math.sin(math.radians(a)) ** 2) * 2.0 + .5) for a in range(90, 451, 10)]
     fill(stroke(path, .2), '#ffe27a', True, step=.01)
-    sparks([(0, .98), (.85, .3)], WHITE, .14)
+    sparks([(.8, .85), (-.8, .2)], WHITE, .14)
