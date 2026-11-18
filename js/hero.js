@@ -1,40 +1,84 @@
 'use strict';
-/* ================= HÉROS : APPARENCE (créateur de l'intro + Miroir) ET MORT DÉFINITIVE (fin de partie) =================
-   Apparence : c.look = {skin, hair, eye, style 0-9, face 0-5, body 0-3, hue}. drawChar (art.js) lit face/body ; sans ces champs, rien ne change.
+/* ================= HÉROS : APPARENCE (créateur + Miroir + cosmétiques), CLASSE DE DÉPART, APTITUDE À LA MAGIE, MORT DÉFINITIVE =================
+   Apparence : c.look = {skin, hair, eye, style 0-11, face 0-8, body 0-3, acc 0-7, cape 0-3, tn 0-6, hue}. drawChar (art.js) lit ces champs ;
+   un personnage sans eux garde exactement son rendu.
+   Création (intro) : gratuite, avec le jeu de base (options à prix 0). Ensuite, au Miroir : passer d'une option possédée à une autre est gratuit,
+   acheter un nouveau cosmétique coûte de l'or (G.cosm = liste 'cat:valeur' possédés).
+   Classe de départ : choisie après la roue = arme 1★ de départ ; classes magiques seulement si le talent a magie:1 (TALENTS, data.js).
    Mort du héros (décision du créateur) : il suit les mêmes jets de mort que tout le monde. S'il meurt, la partie est terminée :
    la sauvegarde est archivée dans 'tdE6_fin', remplacée par un marqueur ('tdE6_over'), et seul « Nouvelle partie » reste possible.
    Chargé après raids.js, avant main.js. */
-const HSTY=['Mèche','Hérissés','Longs','Tresse','Raie au milieu','Couettes','Court','Queue de cheval','Crête','Macarons'];
-const HFAC=['Classique','Lunettes','Taches de rousseur','Cicatrice','Barbe','Regard perçant'];
-const HBOD=['Standard','Mince','Costaud','Petit'];
-const LTABS=[['style','Cheveux'],['hair','Couleur'],['face','Visage'],['body','Corps'],['skin','Peau'],['eye','Yeux']];
-/* ---------- éditeur d'apparence partagé (LED = {c, tab, cb}) ---------- */
+/* catalogue : [nom, prix] (prix 0 = jeu de base offert à la création) ; couleurs : [hex, nom, prix] */
+const LOPT={
+ style:[['Mèche',0],['Hérissés',0],['Longs',0],['Tresse',0],['Raie au milieu',0],['Couettes',0],['Court',0],['Queue de cheval',1500],['Crête',4000],['Macarons',3000],['Volumineux',6000],['Rasé',1000]],
+ hair:HAIRS.map((v,i)=>[v,'Teinte '+(i+1),0]).concat([['#101018','Noir de jais',1000],['#9aa0b0','Argent',3000],['#ff3a5a','Rouge vif',3000],['#40e0ff','Cyan néon',8000],['#ffd75a','Or pur',20000]]),
+ face:[['Classique',0],['Lunettes',0],['Taches de rousseur',0],['Cicatrice',2000],['Barbe',0],['Regard perçant',3000],['Maquillage',3000],['Peinture de guerre',8000],['Cache-œil',6000]],
+ body:[['Standard',0],['Mince',0],['Costaud',0],['Petit',0]],
+ skin:SKINS.map((v,i)=>[v,'Teinte '+(i+1),0]),
+ eye:EYES.map((v,i)=>[v,'Teinte '+(i+1),0]).concat([['#ffe066','Yeux d’or',3000],['#ff3ad0','Magenta',3000],['#f4f4ff','Blanc spectral',8000]]),
+ acc:[['Aucun',0],['Bandeau',1000],['Boucle d’oreille',2000],['Couronne de fleurs',4000],['Bonnet',3000],['Cornes',12000],['Auréole',30000],['Oreilles de chat',8000]],
+ cape:[['Aucune',0],['Cape écarlate',6000],['Cape nocturne',10000],['Écharpe dorée',4000]],
+ tn:[['D’origine',0],['Rouge',1500],['Émeraude',1500],['Nuit',3000],['Or',20000],['Rose',3000],['Blanc',8000]]};
+const LCOL={hair:1,skin:1,eye:1},LTABS=[['style','Cheveux'],['hair','Couleur'],['face','Visage'],['body','Corps'],['skin','Peau'],['eye','Yeux'],['acc','Accessoire'],['cape','Cape'],['tn','Tenue']];
+const LDEF={face:0,body:0,acc:0,cape:0,tn:0};
+/* options d'une catégorie : [{v, n, p}] */
+const lOpts=k=>LOPT[k].map((o,i)=>LCOL[k]?{v:o[0],n:o[1],p:o[2]}:{v:i,n:o[0],p:o[1]});
+const lPrice=(k,v)=>{const o=lOpts(k).find(o=>o.v==v);return o?o.p:0};
+const cosOwn=(k,v)=>lPrice(k,v)==0||!!(G&&G.cosm&&G.cosm.includes(k+':'+v));
+const cosRar=p=>p<=2000?1:p<=6000?2:p<=12000?3:4,cosRarN=p=>['','Commun','Rare','Épique','Légendaire'][cosRar(p)];
+/* ---------- éditeur d'apparence partagé (LED = {c, tab, cb, shop}) : shop=0 → création (jeu de base seul), shop=1 → Miroir ---------- */
 let LED=null;
-function ledBind(c,cb){const L=c.look||(c.look=Object.assign({},look(c)));if(L.face==null)L.face=0;if(L.body==null)L.body=0;LED={c,tab:LED?LED.tab:'style',cb}}
+function ledBind(c,cb,shop){const L=c.look||(c.look=Object.assign({},look(c)));for(const k in LDEF)if(L[k]==null)L[k]=LDEF[k];LED={c,tab:LED&&(shop||!['acc','cape','tn'].includes(LED.tab))?LED.tab:'style',cb,shop:!!shop}}
+const ledTabs=()=>LTABS.filter(([k])=>LED.shop||lOpts(k).some(o=>o.p==0)&&lOpts(k).filter(o=>o.p==0).length>1);
+const ledList=k=>lOpts(k).filter(o=>LED.shop||o.p==0);
 function ledImg(L,head){const c=Object.assign({},LED.c,{look:L}),i0=drawChar(c,{b:0});if(!head)return scaleC(i0,2).toDataURL();const h=mkc(20,18);h.getContext('2d').drawImage(i0,6,1,20,18,0,0,20,18);return scaleC(h,3).toDataURL()}
-const ledArr=k=>k=='style'?HSTY:k=='face'?HFAC:k=='body'?HBOD:k=='hair'?HAIRS:k=='skin'?SKINS:EYES;
-function ledCur(){const k=LED.tab,A=ledArr(k),L=LED.c.look,i=typeof A[0]=='string'&&A[0][0]=='#'?A.indexOf(L[k]):L[k]|0,n=LTABS.find(t=>t[0]==k)[1];return`${n} : <b>${k=='style'||k=='face'||k=='body'?A[i]:'teinte '+(i+1)}</b> (${i+1}/${A.length})`}
-function ledHTML(){const L=LED.c.look,t=LED.tab;let b;
- if(t=='style'||t=='face'||t=='body')b=`<div class="lgr">${ledArr(t).map((n,i)=>`<button class="lop${(L[t]|0)==i?' on':''}" onclick="ledSet('${t}',${i})" title="${n}"><img src="${ledImg(Object.assign({},L,{[t]:i}),t!='body')}" alt=""><span>${n}</span></button>`).join('')}</div>`;
- else b=`<div class="sw lsw">${ledArr(t).map(v=>`<button class="${L[t]==v?'on':''}" style="background:${v}" onclick="ledSet('${t}','${v}')" aria-label="${v}"></button>`).join('')}</div>`;
- return`<div class="ltb">${LTABS.map(([k,n])=>`<button class="${t==k?'on':'alt'}" onclick="ledTab('${k}')">${n}</button>`).join('')}</div>${b}<div class="lnav"><button class="alt" onclick="ledStep(-1)" aria-label="Précédent">◀</button><span class="m">${ledCur()}</span><button class="alt" onclick="ledStep(1)" aria-label="Suivant">▶</button><button class="alt" onclick="ledRnd()">🎲 Aléatoire</button></div>`}
+function ledCur(){const k=LED.tab,A=ledList(k),L=LED.c.look,i=A.findIndex(o=>o.v==L[k]),o=A[i]||A[0];return`${LTABS.find(t=>t[0]==k)[1]} : <b>${o.n}</b> (${i+1}/${A.length})${LED.shop&&!cosOwn(k,o.v)?` · <b class="g">🔒 ${fmtN(o.p)} or</b>`:''}`}
+function ledTag(k,o){if(!LED.shop||o.p==0)return'';return cosOwn(k,o.v)?'<i class="lown">✔</i>':`<i class="lprc" style="--rc:${RARC[cosRar(o.p)]}">🔒 ${fmtN(o.p)}</i>`}
+function ledHTML(){const L=LED.c.look,t=LED.tab,A=ledList(t);let b;
+ if(!LCOL[t])b=`<div class="lgr">${A.map(o=>`<button class="lop${(L[t]|0)==o.v?' on':''}${LED.shop&&!cosOwn(t,o.v)?' lk':''}" onclick="ledSet('${t}',${o.v})" title="${o.n}${o.p?' — '+cosRarN(o.p)+', '+fmtN(o.p)+' or':''}"><img src="${ledImg(Object.assign({},L,{[t]:o.v}),t!='body'&&t!='cape'&&t!='tn')}" alt=""><span>${o.n}</span>${ledTag(t,o)}</button>`).join('')}</div>`;
+ else b=`<div class="sw lsw">${A.map(o=>`<button class="${L[t]==o.v?'on':''}${LED.shop&&!cosOwn(t,o.v)?' lk':''}" style="background:${o.v}" onclick="ledSet('${t}','${o.v}')" title="${o.n}${o.p?' — '+fmtN(o.p)+' or':''}" aria-label="${o.n}">${LED.shop&&!cosOwn(t,o.v)?'🔒':''}</button>`).join('')}</div>`;
+ return`<div class="ltb">${ledTabs().map(([k,n])=>`<button class="${t==k?'on':'alt'}" onclick="ledTab('${k}')">${n}</button>`).join('')}</div>${b}<div class="lnav"><button class="alt" onclick="ledStep(-1)" aria-label="Précédent">◀</button><span class="m">${ledCur()}</span><button class="alt" onclick="ledStep(1)" aria-label="Suivant">▶</button><button class="alt" onclick="ledRnd()">🎲 Aléatoire</button></div>${LED.shop?'':'<p class="m" style="text-align:center;margin:2px 0 0">Création gratuite. D’autres coiffures, couleurs, accessoires, capes et tenues s’achèteront plus tard au <b>Miroir</b> (fiche du héros).</p>'}`}
 function ledDraw(){const e=$('#led');if(e&&LED)e.innerHTML=ledHTML();if(LED&&LED.cb)LED.cb()}
 function ledTab(k){LED.tab=k;ledDraw()}
 function ledSet(k,v){LED.c.look[k]=v;ledDraw()}
-function ledStep(d){const k=LED.tab,A=ledArr(k),L=LED.c.look;if(A[0][0]=='#'){L[k]=A[md(A.indexOf(L[k])+d,A.length)]}else L[k]=md((L[k]|0)+d,A.length);ledDraw()}
-function ledRnd(){const L=LED.c.look;Object.assign(L,{style:ri(0,HSTY.length-1),face:Math.random()<.4?0:ri(1,HFAC.length-1),body:Math.random()<.4?0:ri(1,HBOD.length-1),hair:pick(HAIRS),skin:pick(SKINS),eye:pick(EYES)});ledDraw()}
+function ledStep(d){const k=LED.tab,A=ledList(k),L=LED.c.look,i=A.findIndex(o=>o.v==L[k]);L[k]=A[md(i+d,A.length)].v;ledDraw()}
+/* aléatoire : parmi ce qui est offert (création) ou possédé (Miroir) — jamais d'achat surprise */
+function ledRnd(){const L=LED.c.look,P=k=>{const A=lOpts(k).filter(o=>LED.shop?cosOwn(k,o.v):o.p==0);return pick(A).v};LTABS.forEach(([k])=>{L[k]=P(k)});if(Math.random()<.5)L.face=0;ledDraw()}
 /* aperçu animé (respiration idle, cadre 32×30) */
 function ledPrev(id,t){const cv=$('#'+id);if(!cv||!LED)return;const x=cv.getContext('2d');x.clearRect(0,0,32,30);x.drawImage(drawChar(LED.c,{b:Math.floor(t*2)%2}),0,0)}
-/* ---------- Miroir (fiche du héros) : changer d'apparence contre de l'or ---------- */
-const mirPrice=()=>Math.round(2000*Math.pow(1.5,G.mirN||0)/100)*100;
-let MIR=null,MIRIV=0;
-function openMirror(){const h=heroOf();if(!h)return;MIR={c:Object.assign({},h,{look:Object.assign({face:0,body:0},h.look||look(h))})};ledBind(MIR.c,null);
- openPanel(()=>{const p=mirPrice(),same=JSON.stringify(MIR.c.look)==JSON.stringify(Object.assign({face:0,body:0},h.look||look(h)));return['Miroir',`<p><button class="alt" onclick="mirBack()">← Fiche de ${h.name}</button></p><p class="m">Un vieux miroir de la Tour, cerclé de runes : il remodèle l’apparence de celui qui s’y regarde. Chaque passage coûte plus cher que le précédent.</p>
- <div class="mir"><div class="hpv"><canvas id="mprev" width="32" height="30"></canvas></div><div class="gr"><b>${h.name}</b><div class="m">Prix : <b class="g">${fmtN(p)} or</b> (vous avez ${fmtN(Math.floor(G.res.gold))})${G.mirN?` · déjà ${G.mirN} passage${G.mirN>1?'s':''}`:''}</div><p style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><button ${same||G.res.gold<p?'disabled':''} onclick="mirOK()">${same?'Aucun changement':`Valider (${fmtN(p)} or)`}</button><button class="alt" onclick="openMirror()">Annuler les changements</button></p></div></div><div id="led">${ledHTML()}</div>`]});
- LED.cb=()=>{try{rp()}catch(_){}};clearInterval(MIRIV);const t0=performance.now();MIRIV=setInterval(()=>{if(!$('#mprev')){clearInterval(MIRIV);return}ledPrev('mprev',(performance.now()-t0)/1000)},120)}
+/* ---------- Miroir (fiche du héros) : options possédées gratuites, nouveaux cosmétiques payants ---------- */
 const fmtN=n=>Math.round(n).toLocaleString('fr-FR').replace(/ | /g,' ');
+let MIR=null,MIRIV=0;
+const mirBuy=()=>{const L=MIR.c.look,B=[];LTABS.forEach(([k])=>{if(!cosOwn(k,L[k]))B.push({k,v:L[k],p:lPrice(k,L[k]),n:lOpts(k).find(o=>o.v==L[k]).n})});return B};
+const mirPrice=()=>{const h=heroOf();if(!h||!G)return 1000;const c=lOpts('acc').concat(lOpts('cape')).filter(o=>o.p).map(o=>o.p);return Math.min(...c)};
+function openMirror(){const h=heroOf();if(!h)return;cosEnsure();MIR={c:Object.assign({},h,{look:Object.assign({},LDEF,h.look||look(h))})};ledBind(MIR.c,null,1);
+ openPanel(()=>{const B=mirBuy(),p=B.reduce((a,b)=>a+b.p,0),same=JSON.stringify(MIR.c.look)==JSON.stringify(Object.assign({},LDEF,h.look||look(h))),nOwn=(G.cosm||[]).length;
+  return['Miroir',`<p><button class="alt" onclick="mirBack()">← Fiche de ${h.name}</button></p><p class="m">Un vieux miroir de la Tour, cerclé de runes. Changer entre des options déjà possédées est <b>gratuit</b> ; un cosmétique marqué 🔒 s’achète une fois pour toutes (${nOwn} acheté${nOwn>1?'s':''}).</p>
+ <div class="mir"><div class="hpv"><canvas id="mprev" width="32" height="30"></canvas></div><div class="gr"><b>${h.name}</b>${B.length?`<div class="m">À acheter : ${B.map(b=>`<b style="color:${RARC[cosRar(b.p)]}">${b.n}</b> (${fmtN(b.p)})`).join(', ')}</div><div class="m">Total : <b class="g">${fmtN(p)} or</b> (vous avez ${fmtN(Math.floor(G.res.gold))})</div>`:`<div class="m">${same?'Votre apparence actuelle.':'Uniquement des options possédées : gratuit.'}</div>`}<p style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px"><button ${same||G.res.gold<p?'disabled':''} onclick="mirOK()">${same?'Aucun changement':B.length?`Acheter et appliquer (${fmtN(p)} or)`:'Appliquer (gratuit)'}</button><button class="alt" onclick="openMirror()">Annuler les changements</button></p>${B.length&&G.res.gold<p?'<div class="m w">Pas assez d’or.</div>':''}</div></div><div id="led">${ledHTML()}</div>`]});
+ LED.cb=()=>{try{rp()}catch(_){}};clearInterval(MIRIV);const t0=performance.now();MIRIV=setInterval(()=>{if(!$('#mprev')){clearInterval(MIRIV);return}ledPrev('mprev',(performance.now()-t0)/1000)},120)}
 function mirBack(){const h=heroOf();if(h)openSheet(h.id);else closePanel()}
-function mirOK(){const h=heroOf(),p=mirPrice();if(!h||!MIR||G.res.gold<p)return;G.res.gold-=p;G.mirN=(G.mirN||0)+1;h.look=Object.assign({},MIR.c.look);for(const k in CS)if(k.startsWith(h.id+':'))delete CS[k];save();hud();try{if(mode=='village')syncNPC()}catch(_){}toast(`${h.name} se découvre un nouveau visage dans le miroir. (−${fmtN(p)} or)`,3200);mirBack()}
+function mirOK(){const h=heroOf();if(!h||!MIR)return;const B=mirBuy(),p=B.reduce((a,b)=>a+b.p,0);if(G.res.gold<p)return;G.res.gold-=p;cosEnsure();B.forEach(b=>G.cosm.push(b.k+':'+b.v));h.look=Object.assign({},MIR.c.look);for(const k in CS)if(k.startsWith(h.id+':'))delete CS[k];save();hud();try{if(mode=='village')syncNPC()}catch(_){}toast(B.length?`Nouveau look pour ${h.name} : ${B.map(b=>b.n).join(', ')} (−${fmtN(p)} or).`:`${h.name} change d’apparence.`,3200);mirBack()}
+/* cosmétiques possédés ; migration : l'apparence actuelle du héros est acquise */
+function cosEnsure(){if(!G)return;if(!Array.isArray(G.cosm))G.cosm=[];const h=heroOf();if(h&&!G.v_cosm){const L=h.look||{};LTABS.forEach(([k])=>{if(L[k]!=null&&!cosOwn(k,L[k]))G.cosm.push(k+':'+L[k])});G.v_cosm=1}}
+/* ---------- aptitude à la magie : le héros sans talent magique ne manie ni bâton, ni grimoire, ni sceptre ---------- */
+const MAGW=['baton','grimoire','sceptre'],MAGR=['sorcier','soigneur'];
+const heroMag=c=>!!(c&&TALENTS[c.tal]&&TALENTS[c.tal].magie);
+const heroNoMag=c=>!!(c&&c.hero&&!heroMag(c));
+const MAGWHY='Nécessite une aptitude à la magie (talent)';
+{const _ro=roleOf;roleOf=function(c){const r=_ro(c);if(heroNoMag(c)&&MAGR.includes(r)){const w=c.eq&&c.eq.arme;return w&&!MAGW.includes(w.t)?ITYPES[w.t].role:'guerrier'}return r}}
+{const _eq=equip;equip=function(cid,iid){const c=G.chars.find(x=>x.id==cid),it=G.items.find(x=>x.id==iid);if(heroNoMag(c)&&it&&MAGW.includes(it.t)){toast(`${c.name} ne sait pas manier : ${iName(it)}. ${MAGWHY}.`,3200);return}return _eq(cid,iid)}}
+{const _ir=itemRow;itemRow=function(it,btn,c){if(heroNoMag(c)&&MAGW.includes(it.t)&&/onclick="equip\(/.test(btn||''))btn=`<button disabled title="${MAGWHY}">🔒 ${MAGWHY}</button>`;return _ir(it,btn,c)}}
+/* ---------- classe de départ (après la roue) : une arme 1★ qui fixe la classe, sans avantage de puissance ---------- */
+const CLS0=[['guerrier','epee'],['gardien','bouclier'],['assassin','dagues'],['archer','arc'],['soutien','luth'],['sorcier','baton'],['soigneur','sceptre']];
+function clsStart(){const I=INTRO;if(!I||I.done)return;const e=$('#evo');e.hidden=true;e.innerHTML='';e.classList.remove('top');I.c.tal=I.wh.tal;I.ph='cls';I.t=0;if(!I.cls)I.cls=(I.c.eq.arme&&ITYPES[I.c.eq.arme.t].role)||'guerrier';if(MAGR.includes(I.cls)&&!heroMag(I.c))I.cls='guerrier';clsUI()}
+function clsUI(){const I=INTRO,c=I.c,mag=heroMag(c),T=TALENTS[c.tal];
+ $('#iui').innerHTML=`<div class="hc px"><h2>Ta classe de départ</h2><p class="m" style="text-align:center;margin:0 0 8px">Une simple arme de niveau 1 pour te reconnaître : <b>aucun avantage de puissance</b>. Ta classe changera avec ton équipement.<br>Talent : <b style="color:${RARC[T.r]}">${T.n}</b> — ${mag?'<b style="color:#c58bff">✦ aptitude à la magie</b>':'pas d’aptitude à la magie'}.</p>
+ <div class="hct"><div class="hpv"><canvas id="cprev" width="32" height="30"></canvas></div><div class="hcf"><b class="g">${ROLES[I.cls].n}</b> <span class="m">· ${ITYPES[(CLS0.find(x=>x[0]==I.cls)||CLS0[0])[1]].n} 1★</span><div class="m">${ROLES[I.cls].sk[0]} : ${ROLES[I.cls].sk[1]}</div><div class="m">Ultime — ${ROLES[I.cls].ul[0]} : ${ROLES[I.cls].ul[1]}</div></div></div>
+ <div class="lgr" style="margin-top:8px">${CLS0.map(([r,w])=>{const lk=MAGR.includes(r)&&!mag;return`<button class="lop${I.cls==r?' on':''}${lk?' lk':''}" ${lk?`disabled title="${MAGWHY}"`:`onclick="clsPick('${r}')"`}><img src="${scaleC(drawChar(Object.assign({},c,{role:r}),{b:0}),2).toDataURL()}" alt=""><span>${ROLES[r].n}</span>${lk?'<i class="lprc" style="--rc:#c58bff">🔒 Magie</i>':''}</button>`}).join('')}</div>
+ ${mag?'':`<p class="m" style="text-align:center">🔒 Ensorceleur et soigneur : ${MAGWHY.toLowerCase()}. Seul un talent de la roue l’accorde.</p>`}<p style="text-align:center;margin:12px 0 0"><button onclick="clsDone()">Valider → Entrer dans la Tour</button></p></div>`}
+function clsPick(r){const I=INTRO;if(MAGR.includes(r)&&!heroMag(I.c))return;I.cls=r;I.cpk=null;clsUI()}
+function clsPrev(I){const cv=$('#cprev');if(!cv)return;const fr=Math.floor(I.t*2)%2,k=I.cls+fr;if(I.cpk==k)return;I.cpk=k;const x=cv.getContext('2d');x.clearRect(0,0,32,30);x.drawImage(drawChar(Object.assign({},I.c,{role:I.cls}),{b:fr}),0,0)}
+function clsDone(){const I=INTRO,c=I.c,w=(CLS0.find(x=>x[0]==I.cls)||CLS0[0])[1];c.eq.arme=mkItem(w,1,{el:null});upRole(c);heroFinish()}
 /* ---------- mort définitive du héros : avertissements ---------- */
 const heroIn=L=>(L||party()).some(c=>c.hero);
 function heroRisk(pct,inParty){const h=heroOf();if(!h||(inParty!==undefined&&!inParty))return'';return`<div class="hrk">☠ <b>Si ${h.name} (le héros) meurt, la partie est terminée.</b>${pct!=null?` Risque de mort : <b>${String(pct).replace('.',',')} %</b>.`:''}</div>`}
@@ -69,11 +113,11 @@ function finAnim(S){const cv=$('#fcv');if(!cv)return;const x=cv.getContext('2d')
   if(t>0.4)$('#fin').classList.add('s1');if(t>2.2)$('#fin').classList.add('s2');if(t>4.8)$('#fin').classList.add('s3')})()}
 /* démarrage : marqueur de fin présent → l'écran de fin revient au rechargement, rien n'est ressuscité */
 (function(){let S=null;try{S=JSON.parse(localStorage.getItem('tdE6_over')||'null')}catch(_){}if(!S)return;FIN=S;save=function(){};const _si=startIntro;startIntro=function(o){if(FIN)return;return _si(o)};setTimeout(()=>finShow(S),50)})();
-function heroBoot(){if(!G||FIN)return;if(!G.t0)G.t0=Date.now();if(!G.v_perma){G.v_perma=1;if(heroOf()&&G.intro)setTimeout(()=>toast('Nouvelle règle : <b>le héros peut mourir définitivement</b>. S’il meurt, c’est la fin de la partie. Les risques sont affichés avant chaque combat.',7000),2500)}}
+function heroBoot(){if(!G||FIN)return;if(!G.t0)G.t0=Date.now();cosEnsure();const h=heroOf();if(h&&!G.v_mag){G.v_mag=1;const w=h.eq&&h.eq.arme;if(heroNoMag(h)&&w&&MAGW.includes(w.t)){G.items.push(w);h.eq.arme=null;setTimeout(()=>toast(`${h.name} n’a pas d’aptitude à la magie : ${iName(w)} rangé dans la réserve.`,5000),9500)}upRole(h)}if(!G.v_perma){G.v_perma=1;if(heroOf()&&G.intro)setTimeout(()=>toast('Nouvelle règle : <b>le héros peut mourir définitivement</b>. S’il meurt, c’est la fin de la partie. Les risques sont affichés avant chaque combat.',7000),2500)}}
 (function(){const s=document.createElement('style');s.textContent=`
 .ltb{display:flex;flex-wrap:wrap;gap:4px;margin:8px 0 6px}.ltb button{font-size:13px;padding:5px 8px;flex:1 1 auto}
 .lgr{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:5px}.lop{display:flex;flex-direction:column;align-items:center;gap:2px;padding:3px 2px;background:var(--panel2);color:var(--text);font-size:11px;line-height:1.1;min-height:44px}.lop img,#pin .bd .lop>img{width:60px;height:auto;max-width:100%;image-rendering:pixelated}#pin .bd .lop{display:flex}.lop.on{background:var(--gold);color:#221c33}
-.lsw{margin:6px 0}.lsw button{width:34px;height:34px}.lnav{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0 2px}.lnav .m{min-width:150px;text-align:center}.lnav button{font-size:13px;padding:5px 10px}
+.lop{position:relative}.lop.lk{background:#1a1838}.lop.lk img{opacity:.7}.lop:disabled{filter:grayscale(1);opacity:.55;cursor:not-allowed}.lprc,.lown{position:absolute;top:1px;right:1px;font-style:normal;font-size:9px;line-height:1;padding:1px 3px;background:#000;color:var(--rc,#ffcf4a);border:1px solid var(--rc,#ffcf4a)}.lown{color:#5fe07a;border-color:#5fe07a}.lsw button.lk{font-size:11px;opacity:.85}.lsw{margin:6px 0}.lsw button{width:34px;height:34px}.lnav{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0 2px}.lnav .m{min-width:150px;text-align:center}.lnav button{font-size:13px;padding:5px 10px}
 #hprev{width:160px;height:150px}.hpv{width:176px;height:176px}
 .mir{display:flex;gap:12px;align-items:center;flex-wrap:wrap}#mprev{width:128px;height:120px;image-rendering:pixelated;margin-bottom:6px;animation:bob 1.6s ease-in-out infinite alternate}.mir .hpv{width:140px;height:140px}
 .hrk{border:3px solid #ff3a5a;background:#3a0c18;color:#ffd0d8;padding:6px 8px;margin:6px 0;font-size:13px;box-shadow:0 0 10px rgba(255,40,80,.35)}

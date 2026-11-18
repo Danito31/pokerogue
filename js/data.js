@@ -98,19 +98,20 @@ const fmtT=t=>{t=Math.max(0,Math.ceil(t));return Math.floor(t/60)+':'+String(t%6
 const QUESTS={gardes:'Chaque sceau est gardé par un champion',vagues:'Survivre à trois vagues',proteger:'Protéger le cristal-phare pendant 8 tours',ordre:'Détruire les trois pylônes dans l’ordre (I, II, III)',choix:'Un pacte vous sera proposé avant le combat'};
 /* ================= TALENTS DU HÉROS (docs/intro.md) =================
    c.tal : trait inné unique du héros (distinct des compétences), tiré à la roue des talents de l'intro.
-   La roue est truquée « comme par hasard » : le résultat est toujours rare ou mieux (rare 62 %, épique 30 %, légendaire 8 %). */
+   La roue est truquée « comme par hasard » : le résultat est toujours rare ou mieux (rare 62 %, épique 30 %, légendaire 8 %).
+   magie:1 = aptitude à la magie : seul un tel talent ouvre au héros les classes magiques (bâton, grimoire, sceptre). Environ 1 tirage sur 3. */
 const TALENTS={
  debutant:{n:'Chance du débutant',r:0,d:'Tant que le héros est sous le niveau 10 : critique +10 %.',ic:['..X.X..','.XXXXX.','XXXXXXX','.XXXXX.','..XXX..','...X...','..X....']},
  endurant:{n:'Endurance de gamer',r:0,d:'Des années de nuits blanches : PV du héros +10 %.',ic:['.......','XXXXX..','XXXXXXX','XXXXX.X','XXXXXXX','XXXXX..','.XXX...']},
  reflexes:{n:'Réflexes de joueur',r:1,d:'VIT +8, et le héros agit plus tôt au début de chaque combat.',ic:['X..X...','.X..X..','..X..X.','...X..X','..X..X.','.X..X..','X..X...']},
  poche:{n:'Inventaire infini',r:1,d:'Auberge : +3 places d’accueil. 20 % de chances de doubler les ingrédients gagnés en combat.',ic:['.XXXXX.','XXXXXXX','X..X..X','XXXXXXX','X.....X','X.....X','XXXXXXX']},
- eclair:{n:'Apprentissage éclair',r:2,d:'Expérience gagnée par le héros ×1,5.',ic:['...XXX.','..XXX..','.XXX...','XXXXXX.','...XXX.','..XX...','.X.....']},
+ eclair:{n:'Apprentissage éclair',r:2,magie:1,d:'Expérience gagnée par le héros ×1,5.',ic:['...XXX.','..XXX..','.XXX...','XXXXXX.','...XXX.','..XX...','.X.....']},
  charisme:{n:'Charisme de héros',r:2,d:'Les liens avec le héros se renforcent deux fois plus vite et se dégradent deux fois moins. Premières impressions +10.',ic:['.XX.XX.','XXXXXXX','XXXXXXX','XXXXXXX','.XXXXX.','..XXX..','...X...']},
  armes:{n:'Maître d’armes',r:2,d:'Maîtrise toutes les armes : bonus de l’arme équipée ×1,5 et critique +5 %.',ic:['X.....X','.X...X.','..X.X..','...X...','..X.X..','XX...XX','XX...XX']},
  souffle:{n:'Second souffle',r:2,d:'Une fois par combat, sous 30 % de PV : récupère 35 % de ses PV et 30 d’énergie.',ic:['..XXX..','..XXX..','XXXXXXX','XXXXXXX','XXXXXXX','..XXX..','..XXX..']},
- oeil:{n:'Œil du joueur',r:3,d:'Voit l’interface cachée : PV, ATQ, DEF, VIT, ténacité et ordre de passage exacts des ennemis, mécaniques détaillées, probabilités exactes de l’Auberge.',ic:['.......','..XXX..','.XX.XX.','XX.X.XX','.XX.XX.','..XXX..','.......']},
+ oeil:{n:'Œil du joueur',r:3,magie:1,d:'Voit l’interface cachée : PV, ATQ, DEF, VIT, ténacité et ordre de passage exacts des ennemis, mécaniques détaillées, probabilités exactes de l’Auberge.',ic:['.......','..XXX..','.XX.XX.','XX.X.XX','.XX.XX.','..XXX..','.......']},
  gacha:{n:'Gacha béni',r:3,d:'Invocations : chances de 3★ et plus ×1,5, et un 3★ garanti au plus tard à la 30e invocation sans 3★ (compteur de pitié).',ic:['...X...','...X...','XXXXXXX','.XXXXX.','..XXX..','.XX.XX.','X.....X']},
- sauvegarde:{n:'Sauvegarde rapide',r:4,d:'Une fois par expédition dans la Tour, un coup fatal « recharge la sauvegarde » : le héros revient à 40 % de ses PV.',ic:['XXXXXX.','X.XX.XX','X.XX..X','XXXXXXX','X.....X','X.....X','XXXXXXX']},
+ sauvegarde:{n:'Sauvegarde rapide',r:4,magie:1,d:'Une fois par expédition dans la Tour, un coup fatal « recharge la sauvegarde » : le héros revient à 40 % de ses PV.',ic:['XXXXXX.','X.XX.XX','X.XX..X','XXXXXXX','X.....X','X.....X','XXXXXXX']},
  protag:{n:'Aura de protagoniste',r:4,d:'PV, ATQ et DEF du héros +15 % ; toute l’équipe qu’il accompagne gagne ATQ +5 %.',ic:['X..X..X','XX.X.XX','XXXXXXX','XXXXXXX','X.X.X.X','XXXXXXX','.......']}};
 const TALK=Object.keys(TALENTS);
 /* tirage truqué de la roue : jamais commune ni peu commune */
@@ -123,6 +124,6 @@ function talBadge(k){const T=TALENTS[k],c=mkc(24,24),x=c.getContext('2d'),col=RA
  R(6,5,3,1,'rgba(255,255,255,.7)');R(5,6,1,3,'rgba(255,255,255,.7)');
  T.ic.forEach((row,j)=>[...row].forEach((ch,i)=>{if(ch=='X'){R(5+i*2+1,5+j*2+1,2,2,'rgba(0,0,0,.35)');R(5+i*2,5+j*2,2,2,T.r>=4?'#fff6c0':'#fff')}}));return c}
 const talTag=c=>c&&c.tal&&TALENTS[c.tal]?`<span class="tg" style="border-color:${RARC[TALENTS[c.tal].r]};color:${RARC[TALENTS[c.tal].r]}" title="${TALENTS[c.tal].d}">✦ ${TALENTS[c.tal].n}</span>`:'';
-function talH(c){const T=TALENTS[c.tal];if(!T)return'<p class="m">Aucun talent.</p>';return`<div class="skr" style="--rc:${RARC[T.r]}"><img src="${scaleC(talBadge(c.tal),2).toDataURL()}" alt="" style="width:40px;height:40px;image-rendering:pixelated"><div class="gr"><b style="color:${RARC[T.r]}">${T.n}</b> <span class="tg">talent inné</span> <span class="m">${RARN[T.r]}</span><div class="m">${T.d}</div></div></div>`}
+function talH(c){const T=TALENTS[c.tal];if(!T)return'<p class="m">Aucun talent.</p>';return`<div class="skr" style="--rc:${RARC[T.r]}"><img src="${scaleC(talBadge(c.tal),2).toDataURL()}" alt="" style="width:40px;height:40px;image-rendering:pixelated"><div class="gr"><b style="color:${RARC[T.r]}">${T.n}</b> <span class="tg">talent inné</span> <span class="m">${RARN[T.r]}</span><div class="m">${T.d}</div><div class="m">${T.magie?'<b style="color:#c58bff">✦ Aptitude à la magie</b> : bâtons, grimoires et sceptres autorisés.':'Sans aptitude à la magie : bâtons, grimoires et sceptres interdits au héros.'}</div></div></div>`}
 /* Inventaire infini : double parfois les ingrédients d’un combat */
 function pocheX(o){if(hasTal('poche')&&Math.random()<.2)for(const k in o)o[k]*=2;return o}

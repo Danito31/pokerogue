@@ -41,7 +41,7 @@ Poids du rang N : `base[N] × (1 + étage/20)^(N−1)` avec base = 100 / 30 / 8 
 ### Tableau des sources
 | Source | Gains |
 |---|---|
-| Combat gagné | par monstre (4 au plus) 40 % (élite/champion 80 %) : gelée → poussière/tissu, loup/chacal → croc/cuir, squelette → minerai/poussière, golem → minerai/noyau, spectre/sporion → tissu/poussière, cristal → cristal/poussière ; +1 si élite, chance +1 croissante avec l'étage. Essence d'un élément du biome : 30 % (50 % élite/gardien), quantité 1 + ⌊étage/12⌋. 15 % : bois ouvragé (biome boisé) ou minerai. Élite : 10 % noyau (20 % auparavant). |
+| Combat gagné | par monstre (4 au plus) 40 % (élite/champion 80 %) : gelée → poussière/tissu, loup/chacal → croc/cuir, squelette → minerai/poussière, golem → minerai/noyau (1 chance sur 4), spectre/sporion → tissu/poussière, cristal → cristal/poussière ; +1 si élite, chance +1 croissante avec l'étage. Essence d'un élément du biome : 20 % (40 % élite/gardien ; 30 / 50 % auparavant), quantité 1 + ⌊étage/12⌋. 15 % : bois ouvragé (biome boisé) ou minerai. Élite : 10 % noyau (20 % auparavant). |
 | Gardien d'étage normal | 35 % : un parchemin/pierre/tome du rang de l'étage |
 | Quête (étage ×5) | 1 parchemin + 1 pierre ou tome (rang de l'étage), 25 % noyau (50 % auparavant) ; pacte : ×2 |
 | Boss (étage ×10) | 2 parchemins + 1 pierre + 1 tome (rang boss = étage +10), 1 noyau (2 auparavant) ; pacte : ×2 |
@@ -72,7 +72,7 @@ Effets : +1★ (niveau max. +10), statistiques de base mises à l'échelle du no
 Interface : fiche d'éveil (condition, gains chiffrés, ingrédients rouges si manquants, confirmation en deux temps), puis révélation animée (rayons de la couleur de l'élément, flash, étoiles qui s'allument, nouvelle étoile qui tombe, gains, nœud d'étoile, réserve libérée et nœuds révélés).
 
 ### Fusion (Autel d'éveil ; pierres à la Forge)
-3 ingrédients ★N → 1 ★N+1 contre N éclats et 100 × N or (parchemins ★1→★6, tomes 1→5, pierres ★1→★6). 10 fragments → 1 parchemin ★1. Les éclats gardent ainsi un usage.
+3 ingrédients ★N → 1 ★N+1 contre N éclats et 150 × N² or (100 × N auparavant) (parchemins ★1→★6, tomes 1→5, pierres ★1→★6). 10 fragments → 1 parchemin ★1. Les éclats gardent ainsi un usage.
 
 ## 4. Compétences
 
