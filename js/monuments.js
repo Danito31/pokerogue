@@ -5,7 +5,7 @@
 const MON={
  greniers:{n:'Greniers royaux',d:'Capacités de stockage +10 % par niveau (ressources et matériaux).',b:15000},
  etendard:{n:'Étendard du village',d:'PV, ATQ et DEF de l’équipe +1,5 % par niveau.',b:25000},
- bourse:{n:'Bourse des étoiles',d:'Marché : +1 achat hebdomadaire par ingrédient d’éveil et par niveau.',b:20000}};
+ bourse:{n:'Bourse des étoiles',d:'Marché : +3 achats hebdomadaires par ingrédient d’éveil et par niveau (5 de base).',b:20000}};
 const MONK=Object.keys(MON),MONMAX=5;
 const monLv=k=>(G&&G.mon&&G.mon[k])|0,monCost=(k,l)=>Math.round(MON[k].b*Math.pow(3,l));
 function monBuy(k){if(!G.mon)G.mon={};const l=monLv(k);if(!MON[k]||l>=MONMAX||bl('hdv')<2)return;const g=monCost(k,l);if(G.res.gold<g)return;G.res.gold-=g;G.mon[k]=l+1;save();rp();toast(`${MON[k].n} : niveau ${l+1}`)}
@@ -14,7 +14,7 @@ function monBuy(k){if(!G.mon)G.mon={};const l=monLv(k);if(!MON[k]||l>=MONMAX||bl
 {const _c=capOf;capOf=function(k){const v=_c.apply(this,arguments);return v==Infinity?v:Math.round(v*(1+.1*monLv('greniers')))};
  const _s=stats;stats=function(c){const s=_s.apply(this,arguments);const l=monLv('etendard');if(l&&c&&c.party){const m=1+.015*l;s.hp=Math.round(s.hp*m);s.atk=Math.round(s.atk*m);s.def=Math.round(s.def*m)}return s}}
 /* Marché : ingrédients d'éveil plus chers et rationnés */
-const isEvM=k=>/^mat_(parchemin|pierre|tome)_/.test(k||''),wkOf=()=>{const w=Math.floor(Date.now()/6048e5);if(!G.mkt)return{n:{}};if(!G.mkt.wk||G.mkt.wk.w!=w)G.mkt.wk={w,n:{}};return G.mkt.wk},wkLim=()=>3+monLv('bourse');
+const isEvM=k=>/^mat_(parchemin|pierre|tome)_/.test(k||''),wkOf=()=>{const w=Math.floor(Date.now()/6048e5);if(!G.mkt)return{n:{}};if(!G.mkt.wk||G.mkt.wk.w!=w)G.mkt.wk={w,n:{}};return G.mkt.wk},wkLim=()=>5+3*monLv('bourse');
 {const _p=mkPrice;mkPrice=function(o){let p=_p.apply(this,arguments);if(o&&!o.it&&isEvM(o.k))p=Math.ceil(p*(3+(wkOf().n[o.k]||0)));return p};
  const _b=mkBuy;mkBuy=function(i){const o=G.mkt&&G.mkt.o[i];if(!o||!o.left)return _b.apply(this,arguments);if(!o.it&&isEvM(o.k)){const W=wkOf();if((W.n[o.k]||0)>=wkLim())return toast('Limite hebdomadaire atteinte pour cet ingrédient (la Bourse des étoiles l’augmente).')}
   const g0=G.res.gold,r=_b.apply(this,arguments);if(o&&!o.it&&isEvM(o.k)&&G.res.gold<g0){const W=wkOf();W.n[o.k]=(W.n[o.k]||0)+1}return r}}
