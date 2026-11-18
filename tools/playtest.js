@@ -121,7 +121,7 @@ function PAGE(SEED, POL, MAXF) {
     for (const k of G.plots.filter(p => p).map(p => p.k)) {
       const n = bSlots(k);
       for (let s = postedAt(k).length; s < n; s++) {
-        const el = G.chars.filter(c => !c.inj && !c.party && !c.hero && c.job && c.job.id && postsOf(c).includes(k) && !c.job.post).sort((a, b) => jEr(b) - jEr(a));
+        const el = G.chars.filter(c => !c.inj && !c.party && !c.hero && (c.mage || (c.job && c.job.id)) && postsOf(c).includes(k) && !(c.job && c.job.post)).sort((a, b) => jEr(b) - jEr(a));
         if (!el.length) break;
         tryf(() => postSet(el[0].id, k), 'postSet');
       }
@@ -233,6 +233,7 @@ function PAGE(SEED, POL, MAXF) {
     for (const c of T) { while (G.res.food >= c0 + res && n < 40 && c.lv < cap(c)) { train(c.id, c0, xg); n++; S.flow.train = (S.flow.train || 0) + 1 } if (G.res.food < c0 + res) break }
   }
   function misc() {
+    tryf(() => { if (typeof monBuy != 'function') return; for (const k of MONK.slice().sort((a, b) => monCost(a, monLv(a)) - monCost(b, monLv(b)))) { const l = monLv(k); if (l < MONMAX && bl('hdv') >= 2 && G.res.gold > monCost(k, l) + S.gold0 + 3000) { monBuy(k); S.flow.monument = (S.flow.monument || 0) + 1 } } }, 'monuments');
     tryf(() => { if (bl('taverne') && !(G.mg && G.mg.meal && G.mg.meal.n > 0)) { const ks = Object.keys(TAVM).filter(k => TAVM[k].lv <= bl('taverne') && !(TAVM[k].rs && !mrs(TAVM[k].rs)) && canX(tavCost(k))); if (ks.length) { tavEat(ks[ks.length - 1]); S.flow.meal = (S.flow.meal || 0) + 1 } } }, 'meal');
     tryf(() => { if (bl('ecurie')) { mgEnsure(); for (const k of Object.keys(MOUNTS).reverse()) { if (!G.mg.mounts[k] && MOUNTS[k].lv <= bl('ecurie') && !(MOUNTS[k].rs && !mrs(MOUNTS[k].rs)) && canX(MOUNTS[k].c) && G.res.gold > S.gold0 + MOUNTS[k].c.gold) { mtAdopt(k); S.flow.mount = (S.flow.mount || 0) + 1; break } } if (G.mg.care < 70) { mtFeed('brosse'); mtFeed('foin') } } }, 'mount');
     tryf(() => { if (bl('sanctuaire')) { pray(); for (const k of Object.keys(BLESS)) { const b = BLESS[k]; if (b.lv <= bl('sanctuaire') && !(b.rs && !mrs(b.rs)) && !blOn(k) && canX(blCost(k)) && G.res.gold > S.gold0 + 150) { blBuy(k); S.flow.bless = (S.flow.bless || 0) + 1 } } } }, 'bless');
@@ -346,6 +347,8 @@ function PAGE(SEED, POL, MAXF) {
     try { await galaxy() } catch (e) { W.ERRS.push({ tag: 'galaxy', msg: String(e.message), stack: String(e.stack).split('\n').slice(0, 4).join(' | '), day: S.day }) }
     tryf(setParty, 'setParty'); tryf(equipAll, 'equip');
   }
+  /* mort définitive du héros (js/hero.js : FIN non nul) = fin de la partie */
+  const heroDead = () => { if (typeof FIN != 'undefined' && FIN) { if (!S.heroDeath) { S.heroDeath = { day: S.day, f: S.fl ? S.fl.f : G.max, act: +(S.act / 3600).toFixed(2), why: FIN.why }; L('herodeath', S.heroDeath) } return true } return false };
   /* ---- tour ---- */
   const avgHp = () => { const p = party(); if (!p.length) return 0; return p.reduce((a, c) => a + (F.hp[c.id] == null ? 1 : F.hp[c.id] / stats(c).hp), 0) / p.length };
   const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
@@ -373,6 +376,7 @@ function PAGE(SEED, POL, MAXF) {
     const fires = () => F.ents.filter(e => e.t == 'fire' && !e.used);
     try {
       while (mode == 'floor' && step++ < 200) {
+        if (heroDead()) { res = 'herodeath'; break }
         if (!party().length) { res = 'wipe'; break }
         const h = avgHp();
         if (h < .6) { const fr = fires()[0]; if (fr) { F.p.x = fr.x; F.p.y = fr.y; entAct(fr).f(); spend(20); continue } }
@@ -437,8 +441,9 @@ function PAGE(SEED, POL, MAXF) {
     const end = S.act + minutes * 60;
     let guard = 0;
     while (S.act < end && guard++ < 60) {
+      if (heroDead()) return 'done';
       await village();
-      if (G.max > MAXF) return 'done';
+      if (G.max > MAXF || heroDead()) return 'done';
       if (!party().length || idealInj()) { S.st.rests = (S.st.rests || 0) + 1; break }
       const f = pickFloor();
       const r = await climb(f);
@@ -469,7 +474,7 @@ function PAGE(SEED, POL, MAXF) {
     },
     session: min => tryf0(() => session(min)),
     offline, spend, setDay(d) { S.day = d },
-    snap() { return { dbg: { mage: bl('mage'), call: G.mrs && G.mrs.call, can: canX(CALL_C), cap: [G.chars.length, capa()], mages: G.chars.filter(c => c.mage).length, ship: G.ship && [G.ship.stage, !!G.ship.q, G.ship.ready], ballon: G.ballon, mrsDone: G.mrs && Object.keys(G.mrs.done), run: G.mrs && G.mrs.run.length, chantier: bl('chantier') }, gsrc: S.gsrc,  off: W.__off, max: G.max, chars: G.chars.length, gold: G.res.gold, res: snapRes(), mats: snapMats(), party: party().map(c => [c.name, c.lv, c.st, c.role]), plots: G.plots.map(p => p ? p.k + p.lv : null), dead: G.dead.length, act: S.act, st: S.st, flow: S.flow, items: G.items.length } },
+    snap() { return { heroDeath: S.heroDeath || null, dbg: { mage: bl('mage'), call: G.mrs && G.mrs.call, can: canX(CALL_C), cap: [G.chars.length, capa()], mages: G.chars.filter(c => c.mage).length, ship: G.ship && [G.ship.stage, !!G.ship.q, G.ship.ready], ballon: G.ballon, mrsDone: G.mrs && Object.keys(G.mrs.done), run: G.mrs && G.mrs.run.length, chantier: bl('chantier') }, gsrc: S.gsrc,  off: W.__off, max: G.max, chars: G.chars.length, gold: G.res.gold, res: snapRes(), mats: snapMats(), party: party().map(c => [c.name, c.lv, c.st, c.role]), plots: G.plots.map(p => p ? p.k + p.lv : null), dead: G.dead.length, act: S.act, st: S.st, flow: S.flow, items: G.items.length } },
     dump() { return { log: W.LOG, errs: W.ERRS, snap: this.snap(), chars: G.chars.map(c => ({ n: c.name, st: c.st, lv: c.lv, role: c.role, job: c.job && c.job.id, rank: c.job && c.job.id ? jRank(c) : 0, post: c.job && c.job.post, party: c.party, pers: c.pers, tal: c.tal, inj: c.inj, wd: c.wd && c.wd.k })) } },
     flushLog() { const l = W.LOG; W.LOG = []; return l },
     S,
@@ -517,6 +522,7 @@ function PAGE(SEED, POL, MAXF) {
     if (!done) await page.evaluate(([g, o]) => BOT.offline(g, o), [86400 - prevEnd, openFrac]);
     if (args.cheatship && day == +args.cheatship) await page.evaluate(() => BOT.cheatShip());
     const snap = await page.evaluate(() => BOT.snap());
+    if (snap.heroDeath) { out.heroDeath = snap.heroDeath; done = true; console.error('MORT DU HÉROS jour ' + day + ' étage ' + snap.heroDeath.f); }
     out.days.push({ day, off: +(snap.off / 3600e3).toFixed(1), act: +(snap.act / 3600).toFixed(2), max: snap.max, chars: snap.chars, gold: snap.gold, res: snap.res, mats: snap.mats, plots: snap.plots, party: snap.party, dead: snap.dead });
     out.log.push(...await page.evaluate(() => BOT.flushLog()));
     if (snap.max > lastMax) { lastMax = snap.max; lastMaxDay = day }
