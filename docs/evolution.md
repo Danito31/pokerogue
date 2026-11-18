@@ -156,6 +156,34 @@ Familles (recettes) : métal → lingot / mithril ; bois → bois / cristal ; cu
 
 Plafond selon la Forge : niv. 1 → 3★, niv. 2 → 5★, niv. 3 → 6★ et transcendance. Effets : +1★ (stats de l'objet `× (1 + 0,45 × (★−1))`), niveau de renfort conservé, doses des potions augmentées, 25 % de chances de gagner un élément s'il n'en a pas ; transcendance : stats +8 % par rang. Fonctionne sur les objets en réserve comme sur ceux portés. Confirmation en deux temps, révélation animée.
 
+### Forger au marteau (onglet « Marteau », `js/forgegame.js`)
+Demande du créateur : fabriquer une arme (ou tout objet) par un mini-jeu, d'autant plus dur que la rareté est haute, possible mais très difficile, avec plusieurs essais ; en cas d'échec, un ticket de la rareté, échangeable à 10.
+
+- **Choix** : un type d'objet (toutes les recettes, niveau de Forge requis respecté) et une rareté visée 1★–6★. **Coût** = recette × `[1, 2, 3, 4, 6, 8]` (matériaux et or) ; 4★ : +1 noyau, 5★ : +2, 6★ : +3. Les catalyseurs et essences de l'onglet Fabriquer ne servent pas ici.
+- **Jeu** : un curseur balaie une jauge de chauffe ; on frappe (clic, toucher, Espace, bouton) quand il est dans la zone dorée. Zone centrale blanche = **Parfait** (2 points, 38 % de la zone), zone dorée = **Bien** (1), sinon **Raté** (0). Il faut `need` points en `n` coups. Le curseur accélère de 6 % à chaque coup ; à partir de 4★ la zone dérive en continu ; après chaque coup elle change de place. Un Forgeron de rang éveillé élargit la zone de 10 %. Étincelles, sons (WebAudio, silencieux si indisponible), secousse d'écran (désactivée avec `prefers-reduced-motion`, le jeu reste jouable).
+- **Essais** : 3 par paiement. Le paiement en cours est sauvegardé (`G.fgp`) : au rechargement, « Reprendre » rend les essais restants.
+
+| Rareté | v (balayages/s) | demi-zone | coups | points requis | dérive |
+|---|---|---|---|---|---|
+| 1★ Facile | 0,50 | 3,5 % | 3 | 3 / 6 | non |
+| 2★ Moyen | 0,58 | 4,5 % | 4 | 5 / 8 | non |
+| 3★ Difficile | 0,66 | 5,0 % | 5 | 7 / 10 | non |
+| 4★ Très difficile | 0,74 | 5,5 % | 6 | 9 / 12 | ±5 % |
+| 5★ Extrême | 0,82 | 5,0 % | 7 | 11 / 14 | ±10 % |
+| 6★ Légendaire | 0,90 | 5,5 % | 8 | 13 / 16 | ±14 % |
+
+- **Réussite** : `mkItem(type, rareté)` (mêmes règles de statistiques et d'élément que toute fabrication) ; révélation animée dès 4★.
+- **Échec des 3 essais** : +1 **ticket de forge** de la rareté (`G.ftk = {1..6}`). **10 tickets** d'une rareté s'échangent contre un objet de cette rareté tiré au hasard, uniformément parmi tous les types (armes, armures, outils).
+- **Taux mesurés** (joueur simulé : visée parfaite + bruit gaussien sur l'instant du coup, 4 000 essais par ligne, par essai ; avec 3 essais : 1 − (1 − p)³) :
+
+| Bruit | 1★ | 2★ | 3★ | 4★ | 5★ | 6★ |
+|---|---|---|---|---|---|---|
+| 35 ms (très bon) | 96 % | 91 % | 75 % | 58 % | 20 % | 9 % |
+| 50 ms (correct) | 82 % | 66 % | 43 % | 22 % | 4,6 % | 1,7 % |
+| 70 ms (détendu) | 58 % | 38 % | 17 % | 6 % | 0,9 % | 0,2 % |
+
+- **Sauvegarde** : drapeau `G.v_fg` (`fgBoot`, appelé depuis `js/main.js`) ; `G.ftk` créé à zéro si absent. Le moteur (`fgNew`, `fgStep`, `fgStrike`) est sans DOM, ce qui permet de mesurer les taux hors navigateur.
+
 ## 6. Équilibrage (intention)
 - Un 1★ ramené à 2★ demande ~2 parchemins ★1 (2–4 coffres/gardiens des premiers étages) : premier éveil en une soirée.
 - Jeanne (3★ → 4★) demande le niveau 30 (ancienne sauvegarde : niv. 36 → 30 + réserve de 4 260 exp. rendue à l'éveil) et 4 parchemins ★3, disponibles à partir de l'étage 3 mais surtout via quêtes/boss et la fusion (12 ★2 → 4 ★3) : objectif de moyen terme.

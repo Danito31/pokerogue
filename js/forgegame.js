@@ -75,7 +75,7 @@ function fgFrame(ts){const r=FGS.run;if(!r){FGS.loop=0;return}requestAnimationFr
  if(r.phase=='play'){fgStep(r.e,dt);if(r.e.state=='done')fgFin()}
  for(let i=FGS.parts.length-1;i>=0;i--){const p=FGS.parts[i];p.l-=dt;if(p.l<=0){FGS.parts.splice(i,1);continue}p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=260*dt}
  if(FGS.pop){FGS.pop.t+=dt;if(FGS.pop.t>.9)FGS.pop=null}if(FGS.shake>0)FGS.shake=Math.max(0,FGS.shake-dt*22);
- fgDraw(cv,FGS.run);const s=document.getElementById('fgs');if(s){const e=r.e,tx=r.phase=='play'&&e.state=='wait'?'Prêt…':`Essai ${FGTRY-r.left+1}/${FGTRY} · coup ${Math.min(e.i+1,e.P.n)}/${e.P.n} · points ${e.pts}/${e.P.need}`;if(tx!=FGS.lastS){FGS.lastS=tx;s.textContent=tx}}}
+ fgDraw(cv,FGS.run);const s=document.getElementById('fgs');if(s){const e=r.e,tx=r.phase=='play'&&e.state=='wait'?'Prêt…':`Essai ${Math.min(FGTRY,FGTRY-r.left+(r.phase=='play'?1:0))}/${FGTRY} · coup ${Math.min(e.i+1,e.P.n)}/${e.P.n} · points ${e.pts}/${e.P.need}`;if(tx!=FGS.lastS){FGS.lastS=tx;s.textContent=tx}}}
 function fgDraw(cv,r){const X=cv.getContext('2d'),e=r.e,P=e.P,W=320,H=176,T=performance.now()/1000,C=TIERC[r.st-1],R=(c,x,y,w,h)=>{X.fillStyle=c;X.fillRect(Math.round(x),Math.round(y),w,h)};X.imageSmoothingEnabled=false;
  X.save();const sh=FGS.shake;if(sh>0)X.translate(Math.round((Math.random()-.5)*sh),Math.round((Math.random()-.5)*sh));
  R('#1b1526',-6,-6,W+12,H+12);for(let y=0;y<H;y+=8)for(let x=(y/8%2)*12;x<W;x+=24)R('#231b32',x,y,22,6);
