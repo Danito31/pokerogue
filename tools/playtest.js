@@ -246,6 +246,7 @@ function PAGE(SEED, POL, MAXF) {
     const n = {};
     G.chars.filter(c => c.party || c.lv >= cap(c) - 5).forEach(c => { const o = cEvoCost(c); if (o) for (const k in o) if (isM(k)) n[k] = (n[k] || 0) + o[k] });
     G.chars.filter(c => c.party).forEach(c => SLK.forEach(k => { const it = c.eq[k]; if (it) { const o = iEvoCost(it); if (o) for (const x in o) if (isM(x)) n[x] = (n[x] || 0) + o[x] } }));
+    if (G.ship && G.ship.stage < SHIPS.length) { const c = SHIPS[G.ship.stage].c; for (const k in c) if (isM(k)) n[k] = (n[k] || 0) + c[k] }
     return n;
   }
   function fuseUp() {
