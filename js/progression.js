@@ -3,12 +3,12 @@
    Plafond 10×★, courbe d'exp. par bande, réserve d'exp., multiplicateurs de niveau (LVM), arbre personnel (23 nœuds, graine c.seed),
    sous-classes (niv. 10, choix), spécialisations révélées (niv. 20), ultimes (35), éveil (40, passerelles), apogée (50), divinité (60), constellations (✦).
    Champs : c.cls {sub,spec,aw,pend} · c.job {id,pm,voc,post} · c.tree {v,fix,ins,got,star} · c.xpBank · c.deck · G.codex */
-const VOIE={Altruiste:'coeur',Stoïque:'coeur',Gourmand:'coeur',Ambitieux:'lame',Impulsif:'lame',Égoïste:'lame',Calculateur:'esprit',Curieux:'esprit',Opportuniste:'esprit'};
+const VOIE={Altruiste:'coeur',Stoïque:'coeur',Gourmand:'coeur',Ambitieux:'lame',Impulsif:'lame',Égoïste:'lame',Calculateur:'esprit',Curieux:'esprit',Opportuniste:'esprit',Prodige:'esprit',Souverain:'coeur'};
 const VOIEN={coeur:['Cœur','#5fe07a'],lame:['Lame','#ff5a5a'],esprit:['Esprit','#6fd3ff']};
 const voieOf=c=>VOIE[c.pers]||'coeur';
 /* âmes (niv. 1) : effets déjà appliqués par la personnalité (stats, heal, deal) */
-const AMES={Altruiste:['Âme dévouée','Soins et boucliers +20 %'],Ambitieux:['Âme conquérante','ATQ +10 %'],Calculateur:['Âme lucide','Critique +12 %'],Impulsif:['Âme ardente','VIT +8, DEF −10 %'],Stoïque:['Âme de roc','PV et DEF +12 %'],Curieux:['Âme chercheuse','Rupture de ténacité +30 %'],Gourmand:['Âme gourmande','Récupère 5 % PV à chaque tour'],Égoïste:['Âme solitaire','Dégâts des compétences +15 % (s’isole)'],Opportuniste:['Âme filoute','Critique +6 %, or +10 %']};
-const PKEY={Altruiste:'altruiste',Ambitieux:'ambitieux',Calculateur:'calculateur',Impulsif:'impulsif',Stoïque:'stoique',Curieux:'curieux',Gourmand:'gourmand',Égoïste:'egoiste',Opportuniste:'opportuniste'};
+const AMES={Altruiste:['Âme dévouée','Soins et boucliers +20 %'],Ambitieux:['Âme conquérante','ATQ +10 %'],Calculateur:['Âme lucide','Critique +12 %'],Impulsif:['Âme ardente','VIT +8, DEF −10 %'],Stoïque:['Âme de roc','PV et DEF +12 %'],Curieux:['Âme chercheuse','Rupture de ténacité +30 %'],Gourmand:['Âme gourmande','Récupère 5 % PV à chaque tour'],Égoïste:['Âme solitaire','Dégâts des compétences +15 % (s’isole)'],Opportuniste:['Âme filoute','Critique +6 %, or +10 %'],Prodige:['Âme stellaire','ATQ +12 %, critique +8 %, VIT +6'],Souverain:['Âme souveraine','PV, DEF +10 %, ATQ +8 % ; équipe ATQ et DEF +6 %']};
+const PKEY={Altruiste:'altruiste',Ambitieux:'ambitieux',Calculateur:'calculateur',Impulsif:'impulsif',Stoïque:'stoique',Curieux:'curieux',Gourmand:'gourmand',Égoïste:'egoiste',Opportuniste:'opportuniste',Prodige:'prodige',Souverain:'souverain'};
 const AMEF=p=>{const o=PFW[p]||{};return Object.keys(o).sort((a,b)=>o[b]-o[a])[0]||'soutien'};
 /* techniques d'arme (niv. 1) */
 const WTECH={epee:'tech_entaille',hache:'tech_fendoir',bouclier:'tech_bouclier',dagues:'tech_estoc',arc:'tech_volee',baton:'tech_deflagration',grimoire:'tech_glyphe',sceptre:'tech_soin',luth:'tech_ralliement',_:'tech_poing'};
@@ -59,7 +59,7 @@ const SPK=Object.keys(SPECS);
 /* métiers (§6) : attribution au niv. 5 seulement — effets et postes viendront avec les nouveaux bâtiments */
 const JOBS={cuisinier:['Cuisinier','Auberge','Chef étoilé'],architecte:['Architecte','Hôtel de ville','Maître bâtisseur'],chasseur:['Chasseur','Installations de chasse','Traqueur légendaire'],cueilleur:['Cueilleur','Ferme','Herboriste sylvain'],entraineur:['Entraîneur','Camp','Maître d’armes'],fermier:['Fermier','Ferme','Seigneur des moissons'],forgeron:['Forgeron','Forge','Forgeron des étoiles'],eleveur:['Éleveur','Ferme','Maître des bêtes'],mineur:['Mineur','Entrepôt','Mineur des profondeurs'],alchimiste:['Alchimiste','Laboratoire d’alchimie','Grand alchimiste'],marchand:['Marchand','Marché','Prince marchand'],apothicaire:['Apothicaire','Infirmerie','Grand apothicaire'],cartographe:['Cartographe','Hôtel de ville','Arpenteur des étoiles'],bibliothecaire:['Bibliothécaire','Bibliothèque','Archiviste']};
 const JOBD={cuisinier:'Repas avant chaque départ : équipe ATQ/DEF +2 % par rang (5 premiers combats).',architecte:'Coûts de construction −4 % par rang.',chasseur:'Matériaux de monstre +5 % par rang.',cueilleur:'Poussière et herbes au fil du temps.',entraineur:'Séances du Camp moins chères, exp. +8 % par rang.',fermier:'Production de la Ferme +8 % par rang.',forgeron:'Catalyseur de rareté et affinage moins cher.',eleveur:'Cuir et tissu au fil du temps.',mineur:'Extraction de minerai moins chère.',alchimiste:'Fusions moins chères, élixirs renforcés.',marchand:'Or des combats +3 % par rang, étal à l’Auberge.',apothicaire:'Soins des blessés moins chers, risque de mort réduit.',cartographe:'Révèle une partie de la carte à l’entrée d’étage.',bibliothecaire:'Niveaux de compétence moins chers.'};
-const JOBW={Altruiste:{apothicaire:4,cuisinier:2,fermier:2,eleveur:2},Ambitieux:{marchand:3,forgeron:3,entraineur:3,architecte:2},Calculateur:{architecte:4,marchand:3,bibliothecaire:3,alchimiste:2},Impulsif:{chasseur:5,mineur:3,entraineur:2},Stoïque:{mineur:4,forgeron:4,fermier:2,entraineur:2},Curieux:{cartographe:4,bibliothecaire:3,alchimiste:3,cueilleur:2},Gourmand:{cuisinier:6,fermier:2,eleveur:2},Égoïste:{marchand:4,chasseur:3,alchimiste:2},Opportuniste:{marchand:5,cueilleur:2,cartographe:2},
+const JOBW={Altruiste:{apothicaire:4,cuisinier:2,fermier:2,eleveur:2},Ambitieux:{marchand:3,forgeron:3,entraineur:3,architecte:2},Calculateur:{architecte:4,marchand:3,bibliothecaire:3,alchimiste:2},Impulsif:{chasseur:5,mineur:3,entraineur:2},Stoïque:{mineur:4,forgeron:4,fermier:2,entraineur:2},Curieux:{cartographe:4,bibliothecaire:3,alchimiste:3,cueilleur:2},Gourmand:{cuisinier:6,fermier:2,eleveur:2},Égoïste:{marchand:4,chasseur:3,alchimiste:2},Opportuniste:{marchand:5,cueilleur:2,cartographe:2},Prodige:{bibliothecaire:4,alchimiste:3,forgeron:3},Souverain:{architecte:5,entraineur:3,marchand:2},
  _t:{Cuisinier:{cuisinier:4},Gourmet:{cuisinier:3},Chercheur:{bibliothecaire:3},Explorateur:{cartographe:3},Inventif:{alchimiste:2,forgeron:1},Avare:{marchand:3},Méthodique:{architecte:2},Patient:{fermier:2},Résistant:{mineur:2},Compatissant:{apothicaire:2},Débrouillard:{cueilleur:2},Téméraire:{chasseur:2}},
  _r:{Nain:{forgeron:2,mineur:2},Elfe:{cueilleur:2,apothicaire:2},Gobelin:{marchand:2,alchimiste:2},'Homme-bête':{chasseur:2,eleveur:2},Orc:{mineur:2,chasseur:2},Humain:{architecte:1,fermier:1}}};
 /* ---------- niveaux, expérience, réserve ---------- */
@@ -153,19 +153,22 @@ function codexVoie(c){if(PERS[c.pers]&&c.cls.sub)cdxAdd(cdx(c.pers).voie,c.cls.s
 function codexSig(c,id){const S=SKILLS[id];if(S&&S.sig)cdx(S.sig).sig=1}
 function codexRel(a,b,k){if(!PERS[a.pers]||!PERS[b.pers]||k=='neutre')return;cdx(a.pers).rel[b.pers]=k;cdx(b.pers).rel[a.pers]=k}
 /* ---------- relations (bible §14) ---------- */
-const PK=['Altruiste','Ambitieux','Calculateur','Impulsif','Stoïque','Curieux','Gourmand','Égoïste','Opportuniste'];
+const PK=['Altruiste','Ambitieux','Calculateur','Impulsif','Stoïque','Curieux','Gourmand','Égoïste','Opportuniste','Prodige','Souverain'];
 /* table de compatibilité (dérive par période passée ensemble ; symétrique) */
 const CT=[
-/*        Alt  Amb  Cal  Imp  Sto  Cur  Gou  Ego  Opp */
-/*Alt*/ [ .6, .3, .2, .2, .3, .5, .5,-1.2, .6],
-/*Amb*/ [ .3,-.2, .1,-.1, .1, .3, .2, -.6, .5],
-/*Cal*/ [ .2, .1, .1,-.4, .3, .3, .1, -.3, .4],
-/*Imp*/ [ .2,-.1,-.4,-.3, 0 , .3, .3, -.7, .5],
-/*Sto*/ [ .3, .1, .3, 0 , .2, .2, .2, -.2, .3],
-/*Cur*/ [ .5, .3, .3, .3, .2, .6, .6, -.3, .6],
-/*Gou*/ [ .5, .2, .1, .3, .2, .6, .8, -.5, .6],
-/*Ego*/ [-1.2,-.6,-.3,-.7,-.2,-.3,-.5,-.8, .1],
-/*Opp*/ [ .6, .5, .4, .5, .3, .6, .6, .1, .4]];
+/*        Alt  Amb  Cal  Imp  Sto  Cur  Gou  Ego  Opp  Pro  Sou */
+/*Alt*/ [ .6, .3, .2, .2, .3, .5, .5,-1.2, .6, .5, .7],
+/*Amb*/ [ .3,-.2, .1,-.1, .1, .3, .2, -.6, .5,-.5, .2],
+/*Cal*/ [ .2, .1, .1,-.4, .3, .3, .1, -.3, .4, .4, .3],
+/*Imp*/ [ .2,-.1,-.4,-.3, 0 , .3, .3, -.7, .5, .3, .1],
+/*Sto*/ [ .3, .1, .3, 0 , .2, .2, .2, -.2, .3, .2, .5],
+/*Cur*/ [ .5, .3, .3, .3, .2, .6, .6, -.3, .6, .7, .3],
+/*Gou*/ [ .5, .2, .1, .3, .2, .6, .8, -.5, .6, .3, .4],
+/*Ego*/ [-1.2,-.6,-.3,-.7,-.2,-.3,-.5,-.8, .1,-.6,-.9],
+/*Opp*/ [ .6, .5, .4, .5, .3, .6, .6, .1, .4, .5, .4],
+/*Pro*/ [ .5,-.5, .4, .3, .2, .7, .3, -.6, .5, .3, .4],
+/*Sou*/ [ .7, .2, .3, .1, .5, .3, .4, -.9, .4, .4,-.3]];
+/* Prodige : admiré, mais les ambitieux et les égoïstes le jalousent · Souverain : les cœurs dévoués le suivent, l'égoïste le défie, deux souverains se disputent la couronne */
 const soc=c=>(c.subs||[]).reduce((a,s)=>a+(TRAITS[s]?TRAITS[s][2]:0),0);
 function compat(a,b){const i=PK.indexOf(a.pers),j=PK.indexOf(b.pers);const base=i<0||j<0?0:CT[i][j],ch=((((a.seed||1)*31+(b.seed||1)*17)%100)/100-.5)*.3;return base+soc(a)+soc(b)+ch}
 const rk=(a,b)=>a.id<b.id?a.id+'_'+b.id:b.id+'_'+a.id;

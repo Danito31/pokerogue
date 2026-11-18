@@ -2,7 +2,7 @@
 /* ================= ÉTAT ================= */
 let G=null,F=null;
 const cap=c=>10*c.st,need=c=>{const L=c.lv,b=XPB.find(x=>L<x[0])||XPB[5];return Math.round(b[3]*(b[1]+b[2]*L))};
-function mk(st,o={}){const v=()=>rnd(.92,1.08),pers=pick(Object.keys(PERS)),c={id:G.nid++,name:pick(NOMS),st,race:raceFor(st),pers,role:'guerrier',elem:pick(EK),lv:1,xp:0,b:{hp:Math.round((220+90*st)*v()),atk:Math.round((26+11*st)*v()),def:Math.round((16+7*st)*v()),spd:ri(-4,4)},party:0,inj:0,lock:0,eq:{arme:null,armure:null,outil:null},seed:ri(1,99999)};
+function mk(st,o={}){const v=()=>rnd(.92,1.08),pers=persRoll(st),c={id:G.nid++,name:pick(NOMS),st,race:raceFor(st),pers,role:'guerrier',elem:pick(EK),lv:1,xp:0,b:{hp:Math.round((220+90*st)*v()),atk:Math.round((26+11*st)*v()),def:Math.round((16+7*st)*v()),spd:ri(-4,4)},party:0,inj:0,lock:0,eq:{arme:null,armure:null,outil:null},seed:ri(1,99999)};
  if(Math.random()<.01)c.mage=pick(DOM);const ist=()=>clamp(st-ri(0,1),1,6);
  if(c.mage)c.eq.arme=mkItem(pick(['baton','grimoire']),ist());else if(Math.random()<.8)c.eq.arme=rndItem(ist(),'arme');
  if(Math.random()<.25+.05*st)c.eq.armure=rndItem(ist(),'armure');if(Math.random()<.3)c.eq.outil=rndItem(Math.max(1,st-1),'outil');
