@@ -206,7 +206,7 @@ function PAGE(SEED, POL, MAXF) {
   }
   function crafting() {
     const L2 = bl('forge'); if (!L2) return;
-    for (const i of [0, 4, 6, 5, 3, 2]) { const R = REFS[i]; if (!R || (R.lv || 1) > L2) continue; if (R.i.stone && G.res.stone < 120) continue; if (R.i.wood && G.res.wood < (G.ballon && G.ship && G.ship.stage < SHIPS.length ? 1500 : 120)) continue; if (R.i.food && G.res.food < 120) continue; if (R.i.gold && G.res.gold < S.gold0 + 40) continue; const m0 = mN(R.o); refine(i, 5); if (mN(R.o) > m0) S.flow.refine = (S.flow.refine || 0) + 1 }
+    for (const i of [0, 4, 6, 5, 3, 2]) { const R = REFS[i]; if (!R || (R.lv || 1) > L2) continue; if (R.i.stone && G.res.stone < 120) continue; if (R.i.wood && G.res.wood < (G.ballon && G.ship && G.ship.stage < SHIPS.length ? 1500 : 120)) continue; if (R.i.food && G.res.food < 120) continue; if (R.i.gold && G.res.gold < S.gold0 + 40) continue; const m0 = mN(R.o); refine(i, i == 0 && G.ballon && G.ship && G.ship.stage < SHIPS.length ? 20 : 5); if (mN(R.o) > m0) S.flow.refine = (S.flow.refine || 0) + 1 }
     const P = G.chars.filter(c => c.party), roles = P.map(c => c.role);
     const have = t => G.items.some(it => it.t == t) || G.chars.some(c => c.eq.arme && c.eq.arme.t == t);
     const order = [];
@@ -218,7 +218,8 @@ function PAGE(SEED, POL, MAXF) {
     order.push('lourde', 'cuir', 'epee');
     P.forEach(c => { if (!c.eq.outil && !G.items.some(i => i.t == 'potion')) order.push('potion') });
     let n = 0;
-    for (const t of order) { if (n >= 4) break; const R = RECIPES[t]; if (!R || (R.lv || 1) > L2) continue; const o = crCost(t); if (!canX(o) || G.res.gold < S.gold0 + o.gold) continue; craft(t); n++; S.flow.craft = (S.flow.craft || 0) + 1 }
+    const holdLingot = G.ballon && G.ship && G.ship.stage < SHIPS.length && mN('mat_lingot') < 14;
+    for (const t of order) { if (n >= 4 || holdLingot) break; const R = RECIPES[t]; if (!R || (R.lv || 1) > L2) continue; const o = crCost(t); if (!canX(o) || G.res.gold < S.gold0 + o.gold) continue; craft(t); n++; S.flow.craft = (S.flow.craft || 0) + 1 }
     if (G.items.length > 40) { const junk = G.items.filter(it => it.st <= 1).slice(0, 10); junk.forEach(it => { rcy = it.id; recycle(it.id); S.flow.recycled = (S.flow.recycled || 0) + 1 }) }
   }
   function researches() {
