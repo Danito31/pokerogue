@@ -10,5 +10,6 @@ function frame(ts){requestAnimationFrame(frame);const dt=Math.min(.05,(ts-last)/
 setInterval(vTick,1000);
 window.addEventListener('error',e=>{const t=$('#toast');t.hidden=false;t.textContent='Erreur : '+e.message});
 try{migrateJobs();save()}catch(e){console.warn('métiers',e);try{fixJobs()}catch(_){}}
+try{injBoot();save()}catch(e){console.warn('blessures',e)}
 loadAssets().then(()=>{artCSS();for(const k in BS_)delete BS_[k];buildVillage();enterVillage();requestAnimationFrame(frame);if(G.intro===0)startIntro({create:1})});
 $('#intro').addEventListener('pointerdown',e=>{if(e.target.closest('button,input,label,.hc,.whl'))return;introTap()});

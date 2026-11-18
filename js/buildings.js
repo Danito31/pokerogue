@@ -132,7 +132,7 @@ function vTick(){const now=Date.now(),dt=Math.min(60,Math.max(0,(now-vtLast)/100
   if(J.id=='cueilleur')per(JF.cueT(r),()=>addCap('mat_poussiere',1));
   else if(J.id=='eleveur')per(JF.eleT(r),()=>{addCap('mat_cuir',1);if(r>=4)addCap('mat_tissu',1)});
   else if(J.id=='mineur')per(JF.minT(r),()=>addCap('mat_minerai',1));
-  else if(J.id=='apothicaire'&&J.post=='inf'){const inj=G.chars.filter(x=>x.inj);if(inj.length)per(jEvo(c)?Math.min(5,JF.apoT(r)):JF.apoT(r),()=>{const x=G.chars.find(x=>x.inj);if(x){x.inj=0;jXP(c,5);toast(`${c.name} a soigné <b>${x.name}</b> à l’Infirmerie.`);if(mode=='village')syncNPC()}});else J.acc=0}});
+  else if(J.id=='apothicaire'&&J.post=='inf'){const inj=G.chars.filter(x=>x.inj||x.wd);if(inj.length)per(jEvo(c)?Math.min(5,JF.apoT(r)):JF.apoT(r),()=>{const x=G.chars.find(x=>x.inj||x.wd);if(x){injCure(x);jXP(c,5);toast(`${c.name} a soigné <b>${x.name}</b> à l’Infirmerie.`);if(mode=='village')syncNPC()}});else J.acc=0}});
  rsTick(now);vtS+=dt;if(vtS>=10){vtS=0;save()}}
 let vtS=0;
 /* ---------- postes : affecter / retirer ---------- */
