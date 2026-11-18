@@ -48,9 +48,9 @@ function modsOf(f){const R=runOf();if(!R||f<=RUN_FIX||(R.keep&&f<=R.keep))return
 const modOn=k=>!!F&&!!F.mods&&F.mods.includes(k);
 const modTag=k=>`<span class="fmod${FMODS[k].pos?' pos':''}" style="border-color:${FMODS[k].c}" title="${FMODS[k].d}"><i style="color:${FMODS[k].c}">${FMODS[k].s}</i>${FMODS[k].n}</span>`;
 /* ---------- échelle des monstres (remplace la formule de mkFoe) ----------
-   Étages 1–3 : ATQ ×0,9 (apprentissage). Au-delà : ATQ +4 %/étage, PV +1,2 %/étage, DEF +1/étage en plus de l'ancienne courbe.
+   Étages 1–3 : ATQ ×0,9 (apprentissage). Au-delà : ATQ ×1,05 par étage (composé, jusqu'à l'étage 45), PV +0,5 %/étage, DEF +1/étage en plus de l'ancienne courbe.
    Les pillages galactiques (F.law 'gxraid') gardent l'ancienne courbe : leurs chances affichées en dépendent. */
-function foeBase(f,raid){const old={hp:130*fScale(f,1.2,1.1),atk:24*fScale(f,1.16,1.08),def:10+3*f};if(raid)return old;const k=Math.max(0,f-RUN_FIX);return{hp:old.hp*(1+.012*k),atk:old.atk*(f<=RUN_FIX?.9:1+.04*k),def:old.def+k}}
+function foeBase(f,raid){const old={hp:130*fScale(f,1.2,1.1),atk:24*fScale(f,1.16,1.08),def:10+3*f};if(raid)return old;const k=Math.max(0,f-RUN_FIX);return{hp:old.hp*(1+.005*k),atk:old.atk*(f<=RUN_FIX?.9:Math.pow(1.05,Math.min(k,42))),def:old.def+k}}
 /* ---------- affixes d'élite ---------- */
 const AFX={
  enrage:{n:'Enragé',s:'♨',c:'#ff5a3a',d:'ATQ +25 % ; sous 50 % de PV, encore +25 %.'},

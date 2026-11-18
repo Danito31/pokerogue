@@ -31,6 +31,7 @@ js/raids.js         pillage, capture (extrêmement rare), Cachots, raids PNJ con
 js/hero.js          héros : créateur gratuit, Miroir et cosmétiques (G.cosm), classe de départ et aptitude à la magie, mort définitive = fin de partie (docs/intro.md §4)
 js/gacha.js         Tirage du destin (rouleaux personnalité/race à la création), Tour des modifications (relances), onglet Code (docs/codes.md)
 js/talents.js       effets de l'héritage racial du héros, des personnalités secrètes et des talents innés supplémentaires (enveloppes)
+js/rules.js         règles de la Tour propres à chaque partie (G.run : lois, biomes, modificateurs d'étage ; étages 1–3 fixes), échelle des monstres, affixes d'élite, IA ennemie, phases de boss, danger affiché, PV conservés entre étages (docs/equilibrage.md §10)
 js/main.js          démarrage (boot) : toujours en dernier
 ```
 
