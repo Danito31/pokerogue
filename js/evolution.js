@@ -41,14 +41,14 @@ function tierAt(f,boss){const w=tierW(f,boss);let x=Math.random()*w.reduce((a,b)
 const evoKey=(kind,t)=>kind=='tome'?'mat_tome_'+clamp(t,1,5):'mat_'+kind+'_'+clamp(t,1,6);
 const evoDrop=(f,kind,boss)=>evoKey(kind||pick(['parchemin','parchemin','pierre','tome']),tierAt(f,boss));
 const BASEM=['mat_minerai','mat_minerai','mat_cuir','mat_tissu','mat_bois','mat_croc','mat_poussiere'];
-const MDROP={slime:['mat_poussiere','mat_tissu'],loup:['mat_croc','mat_croc','mat_cuir'],chacal:['mat_croc','mat_cuir'],squelette:['mat_minerai','mat_poussiere'],golem:['mat_minerai','mat_minerai','mat_noyau'],spectre:['mat_tissu','mat_poussiere'],champi:['mat_tissu','mat_poussiere'],cristal:['mat_cristal','mat_poussiere']};
+const MDROP={slime:['mat_poussiere','mat_tissu'],loup:['mat_croc','mat_croc','mat_cuir'],chacal:['mat_croc','mat_cuir'],squelette:['mat_minerai','mat_poussiere'],golem:['mat_minerai','mat_minerai','mat_minerai','mat_noyau'],spectre:['mat_tissu','mat_poussiere'],champi:['mat_tissu','mat_poussiere'],cristal:['mat_cristal','mat_poussiere']};
 function addM(o){if(F&&F.law=='gel')for(const k in o)o[k]*=2;giveM(o);if(F){F.mloot=F.mloot||{};for(const k in o)F.mloot[k]=(F.mloot[k]||0)+o[k]}return mTxt(o)}
 const madd=(o,k,n)=>{o[k]=(o[k]||0)+n;return o};
 /* combat gagné : monstres → matériaux, biome → essences de ses éléments */
 function fightDrops(cfg,f,bi){const ch=PRk('chasseur'),o={},big=d=>d.kind=='elite'||d.kind=='mini'||d.kind=='boss',defs=(cfg.defs||[]).concat(...(cfg.waves||[]));
  shuffle(defs).slice(0,4).forEach(d=>{const L=MDROP[d.type];if(L&&Math.random()<Math.min(.95,(big(d)?.8:.4)+.05*ch))madd(o,pick(L),1+(big(d)?1:0)+(Math.random()<f/40?1:0))});
  if(defs.some(d=>d.kind=='elite')&&Math.random()<.1)madd(o,'mat_noyau',1);if(ch>=4&&defs.some(d=>d.kind=='elite'))madd(o,pick(['mat_croc','mat_cuir']),1);if(PE('chasseur')&&defs.some(d=>d.kind=='elite')&&Math.random()<.03)madd(o,evoDrop(f,'parchemin'),1);
- if(Math.random()<(cfg.kind=='norm'?.3:.5))madd(o,'mat_essence_'+pick(bi.el),1+Math.floor(f/12));
+ if(Math.random()<(cfg.kind=='norm'?.2:.4))madd(o,'mat_essence_'+pick(bi.el),1+Math.floor(f/12));
  if(Math.random()<.15)madd(o,bi.res=='wood'?'mat_bois':'mat_minerai',1);return o}
 /* gardien vaincu : quêtes et boss donnent toujours des ingrédients d'évolution */
 function guardDrops(f,kind,pact){const o={};if(kind=='boss'){madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'parchemin',1),1);madd(o,evoDrop(f,'pierre',1),1);madd(o,evoDrop(f,'tome',1),1);madd(o,'mat_noyau',1)}
@@ -95,7 +95,7 @@ function craft(t){const L=bl('forge'),R=RECIPES[t];if(!L||!R||(R.lv||1)>L)return
 const REFS=[{n:'Fondre le minerai',i:{mat_minerai:3,gold:10},o:'mat_lingot'},{n:'Allier le mithril',i:{mat_lingot:3,mat_cristal:1,gold:60},o:'mat_mithril',lv:2},{n:'Ouvrager le bois',i:{wood:25},o:'mat_bois'},{n:'Extraire le minerai',i:{stone:30},o:'mat_minerai'},
  {n:'Tanner les crocs',i:{mat_croc:3},o:'mat_cuir'},{n:'Tisser',i:{food:25,gold:10},o:'mat_tissu'},{n:'Condenser la poussière',i:{mat_poussiere:4},o:'mat_cristal'},{n:'Broyer un noyau',i:{mat_noyau:1},o:'mat_poussiere',q:3}];
 function refine(i,n){const R=REFS[i];if(!R||(R.lv||1)>bl('forge'))return;let d=0;for(let j=0;j<n&&canX(refI(R));j++){payX(refI(R));giveM({[R.o]:R.q||1});d+=R.q||1}if(d){save();rp();toast(`${mIco(R.o)} +${d} ${MATS[R.o].n}`)}}
-const fuseCost=(kind,n)=>kind=='frag'?{mat_fragment:10}:{[evoKey(kind,n)]:3,shard:n,gold:Math.round(100*n*(1-JF.alcF(JR('alchimiste'))))};
+const fuseCost=(kind,n)=>kind=='frag'?{mat_fragment:10}:{[evoKey(kind,n)]:3,shard:n,gold:Math.round(150*n*n*(1-JF.alcF(JR('alchimiste'))))};
 function fuse(kind,n,times){const o=fuseCost(kind,n),out=kind=='frag'?'mat_parchemin_1':evoKey(kind,n+1);let d=0;for(let j=0;j<times&&canX(o);j++){payX(o);giveM({[out]:1});d++}if(d){save();rp();toast(`Fusion : ${mIco(out)} +${d} ${MATS[out].n}`)}}
 /* ---------- éveil des équipements ---------- */
 const IEVO=[null,{p:1,a:3,g:150},{p:2,a:5,g:400,s:1,x:{mat_poussiere:1}},{p:3,a:4,b:2,g:1000,s:2,x:{mat_poussiere:2}},{p:4,a:6,b:3,g:2500,s:4,x:{mat_noyau:1}},{p:5,a:8,b:4,g:6000,s:8,x:{mat_noyau:2}}];
